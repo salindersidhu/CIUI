@@ -1,0 +1,10 @@
+## Interface: 70300
+## Title: Improved Hotkey Text
+## Author: Sal
+## Version: 0.0.1
+## Notes: Provides options to customize the default apperance of the hotkey text on the action bars.
+
+core.lua
+options.lua
+
+Locales\enUS.lua
