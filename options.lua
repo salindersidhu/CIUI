@@ -15,7 +15,7 @@ local function initInterfaceOptions(frame)
 	titleVers:SetPoint("TOPLEFT", title:GetStringWidth() + 22, -22)
 	titleVers:SetText(format("%s %s", L["STR_VERSION"], GetAddOnMetadata("ImpHotkeyText", "Version")))
 	-- Description
-	local titleDesc = optsFrame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+	local titleDesc = optsFrame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
 	titleDesc:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
 	titleDesc:SetText(L["STR_OPTS_DESC"])
 	titleDesc:SetJustifyH("LEFT")
@@ -25,6 +25,45 @@ local function initInterfaceOptions(frame)
 	defaultButton:SetPoint("TOPRIGHT", titleDesc, "BOTTOMRIGHT", 0, -15)
 	defaultButton:SetText(L["STR_BUTTON_DEFAULT"])
 	defaultButton:SetWidth(100)
+
+	local modKeyDrop = CreateFrame("Frame", "drop", optsFrame, "UIDropDownMenuTemplate")
+	modKeyDrop:SetPoint("TOPLEFT", 0, -100)
+
+	local items = {
+		"ALT",
+		"CTRL",
+		"SHIFT",
+		"Home",
+		"Insert",
+		"Delete",
+		"Num Pad",
+		"Page Up",
+		"Page Down",
+		"Space Bar",
+		"Mouse Button",
+		"Mouse Middle",
+		"Mouse Wheel Up",
+		"Mouse Wheel Down",
+	}
+
+	local function initDropDown(self, level)
+		local info = UIDropDownMenu_CreateInfo()
+		for k,v in pairs(items) do
+			info = UIDropDownMenu_CreateInfo()
+			info.text = v
+			info.value = v
+			UIDropDownMenu_AddButton(info, level)
+		end
+	end
+
+	UIDropDownMenu_Initialize(modKeyDrop, initDropDown)
+
+	local chkCaps = CreateFrame("CheckButton", "chkCaps", optsFrame, "ChatConfigCheckButtonTemplate")
+	chkCaps:SetPoint("TOPLEFT", modKeyDrop, 18, -25)
+	_G[chkCaps:GetName().."Text"]:SetText(" Caps Keybind")
+	chkCaps:SetWidth(30)
+	chkCaps:SetHeight(30)
+	chkCaps:SetChecked(true)
 
 	-- Assign frame to interface options menu
 	InterfaceOptions_AddCategory(optsFrame)
