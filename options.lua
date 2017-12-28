@@ -70,7 +70,7 @@ local function initInterfaceOptions(frame)
 end
 
 local function eventHandler(self, event, arg1)
-	if event == "ADDON_LOADED" and arg1 == "ImpHotkeyText" then
+	if event == "ADDON_LOADED" and arg1 == "CleanExtUI" then
 		initInterfaceOptions(self)
 	end
 end

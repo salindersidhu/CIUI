@@ -1,2 +1,2 @@
-# ImpHotkeyText
-World of Warcraft addon that improves the appearance of hotkey text on the action bars
+# CleanExtUI
+World of Warcraft addon that improves the standard Blizzard user interface.
