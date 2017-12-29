@@ -1,4 +1,4 @@
-local L = ImpHotKeyText
+local L = CleanExtUI
 
 local function initInterfaceOptions(frame)
 	-- Create a frame for the interface options
@@ -13,7 +13,7 @@ local function initInterfaceOptions(frame)
 	-- Version
 	local titleVers = optsFrame:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
 	titleVers:SetPoint("TOPLEFT", title:GetStringWidth() + 22, -22)
-	titleVers:SetText(format("%s %s", L["STR_VERSION"], GetAddOnMetadata("ImpHotkeyText", "Version")))
+	titleVers:SetText(format("%s %s", L["STR_VERSION"], GetAddOnMetadata("CleanExtUI", "Version")))
 	-- Description
 	local titleDesc = optsFrame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
 	titleDesc:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
@@ -75,6 +75,6 @@ local function eventHandler(self, event, arg1)
 	end
 end
 
-local frame = CreateFrame("FRAME")
-frame:RegisterEvent("ADDON_LOADED")
-frame:SetScript("OnEvent", eventHandler)
+local frame = CreateFrame("FRAME");
+frame:RegisterEvent("ADDON_LOADED");
+frame:SetScript("OnEvent", eventHandler);

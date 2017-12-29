@@ -1,4 +1,4 @@
-ImpHotKeyText = {}
+CleanExtUI = {}
 
 local function updateHotkeyText(self, actionButtonType)
 	local hotkey = _G[self:GetName() .. 'HotKey']

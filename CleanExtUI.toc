@@ -6,5 +6,6 @@
 
 core.lua
 options.lua
+cleanExtUI_Chat.lua
 
 Locales\enUS.lua
