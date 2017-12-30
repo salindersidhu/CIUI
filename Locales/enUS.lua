@@ -1,12 +1,11 @@
-local L = CleanExtUI
+local L=CleanExtUI
 
 -- Skip if client locale is not English
-if not(GetLocale() == "enUS") then
+if not(GetLocale()=="enUS") then
   return
 end
 
 -- English (DEFAULT)
-L["STR_VERSION"] = "version"
-L["STR_BUTTON_DEFAULT"] = "Defaults"
-L["STR_TITLE"] = "Clean Extended UI"
-L["STR_OPTS_DESC"] = "This addon improves the standard Blizzard user interface."
+L["STR_VERSION"]="version"
+L["STR_TITLE"]="Clean Extended UI"
+L["STR_OPTS_DESC"]="This addon improves the standard Blizzard user interface."

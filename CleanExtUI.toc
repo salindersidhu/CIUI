@@ -5,7 +5,8 @@
 ## Notes: Improved version of the standard Blizzard UI.
 
 core.lua
-options.lua
+
 cleanExtUI_Chat.lua
+cleanExtUI_Options.lua
 
 Locales\enUS.lua
