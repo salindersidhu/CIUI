@@ -8,7 +8,7 @@ local function initInterfaceOptions(frame)
 	--[[
 		Title Block
 		Contains the titlem description of settings and default settings button.
-	]]
+	--]]
 	local title=optsFrame:CreateFontString(nil,"ARTWORK","GameFontNormalLarge");
 	title:SetPoint("TOPLEFT",16,-16);
 	title:SetText(L["STR_TITLE"]);
@@ -27,7 +27,7 @@ local function initInterfaceOptions(frame)
 	InterfaceOptions_AddCategory(optsFrame);
 end
 
-local function eventHandler(self, event, arg1)
+local function EventHandler(self, event, arg1)
 	if (event=="ADDON_LOADED" and arg1=="CleanExtUI") then
 		initInterfaceOptions(self);
 	end
@@ -35,4 +35,4 @@ end
 
 local frame=CreateFrame("Frame",nil,UIParent);
 frame:RegisterEvent("ADDON_LOADED");
-frame:SetScript("OnEvent", eventHandler);
+frame:SetScript("OnEvent", EventHandler);

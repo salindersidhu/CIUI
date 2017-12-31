@@ -63,11 +63,6 @@ local function UpdateChatUI()
 		end
         _G[chatWindowName.."EditBox"]:SetPoint("LEFT",_G["ChatFrame"..i],-5,0);
         _G[chatWindowName.."EditBox"]:SetPoint("RIGHT",_G["ChatFrame"..i],10,0);
-
-        -- Modify chat text
-		_G["ChatFrame"..i]:SetFont(FONT,14,"THINOUTLINE");
-		_G["ChatFrame"..i]:SetShadowOffset(1,-1);
-		_G["ChatFrame"..i]:SetShadowColor(0,0,0,0.6);
     end
 end
 
@@ -97,6 +92,7 @@ local function EventHandler(self, event, ...)
     end
 end
 
-local chatFrame = CreateFrame("Frame",nil,UIParent);
-chatFrame:RegisterEvent("ADDON_LOADED");
-chatFrame:SetScript("OnEvent", EventHandler);
+-- Create a frame to register and bind events
+local ChatFrame = CreateFrame("Frame",nil,UIParent);
+ChatFrame:RegisterEvent("ADDON_LOADED");
+ChatFrame:SetScript("OnEvent", EventHandler);
