@@ -25,7 +25,7 @@ local function UpdateChatUI()
         -- Obtain details on current chat window
         local chatWindowName=_G["ChatFrame"..i]:GetName();
         local name,size,r,g,b,alpha,shown,locked,docked,uninteractable=GetChatWindowInfo(i);
-    
+
         -- Remove screen clamp for current chat window
 		_G["ChatFrame"..i]:SetClampRectInsets(0,0,0,0);
 		_G["ChatFrame"..i]:SetMinResize(100,50);
@@ -37,7 +37,7 @@ local function UpdateChatUI()
         tabFont:SetFont(FONT,12,"THINOUTLINE");
         tabFont:SetShadowOffset(1,-1);
         tabFont:SetShadowColor(0,0,0,0.6);
-    
+
         -- Remove background on chat tabs
         _G[chatWindowName.."TabLeft"]:SetTexture(nil);
         _G[chatWindowName.."TabMiddle"]:SetTexture(nil);
@@ -46,7 +46,7 @@ local function UpdateChatUI()
         _G[chatWindowName.."TabSelectedMiddle"]:SetTexture(nil);
         _G[chatWindowName.."TabSelectedRight"]:SetTexture(nil);
         chatTab:SetAlpha(1.0);
-    
+
         -- Remove border around the edit box
         _G[chatWindowName.."EditBoxLeft"]:Hide();
         _G[chatWindowName.."EditBoxMid"]:Hide();
@@ -57,9 +57,9 @@ local function UpdateChatUI()
         _G[chatWindowName.."EditBox"]:ClearAllPoints();
         -- Fix positioning for Combat Log tab
 		if (chatWindowName=="ChatFrame2") then
-			_G[chatWindowName.."EditBox"]:SetPoint("BOTTOM",_G["ChatFrame"..i],"TOP",0,44);
+            _G[chatWindowName.."EditBox"]:SetPoint("BOTTOM",_G["ChatFrame"..i],"TOP",0,44);
 		else
-        	_G[chatWindowName.."EditBox"]:SetPoint("BOTTOM",_G["ChatFrame"..i],"TOP",0,22);
+            _G[chatWindowName.."EditBox"]:SetPoint("BOTTOM",_G["ChatFrame"..i],"TOP",0,22);
 		end
         _G[chatWindowName.."EditBox"]:SetPoint("LEFT",_G["ChatFrame"..i],-5,0);
         _G[chatWindowName.."EditBox"]:SetPoint("RIGHT",_G["ChatFrame"..i],10,0);
@@ -81,8 +81,8 @@ local function UpdateChatStrings()
     CHAT_OFFICER_GET="|Hchannel:OFFICER|h[O]|h %s: ";
     CHAT_PARTY_GUIDE_GET="|Hchannel:PARTY|h[PG]|h %s: ";
     CHAT_PARTY_LEADER_GET="|Hchannel:PARTY|h[PL]|h %s: ";
-	CHAT_INSTANCE_CHAT_GET="|Hchannel:Battleground|h[I]|h %s: ";
-	CHAT_INSTANCE_CHAT_LEADER_GET="|Hchannel:Battleground|h[IL]|h %s: ";
+    CHAT_INSTANCE_CHAT_GET="|Hchannel:Battleground|h[I]|h %s: ";
+    CHAT_INSTANCE_CHAT_LEADER_GET="|Hchannel:Battleground|h[IL]|h %s: ";
 end
 
 local function EventHandler(self, event, ...)
