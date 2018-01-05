@@ -1,30 +1,48 @@
 local L=CleanExtUI
 
-local function updateHotKeyText(self, actionButtonType)
-    -- Obtain HotKey frame and its text
-    local hotkey=_G[self:GetName()..'HotKey'];
-    local text=hotkey:GetText();
+local function updateHotKeyText(self, bType)
+    -- Obtain button text and hotkey
+    local name=self:GetName();
+    local hotkey=_G[name..'HotKey'];
 
-    -- Modify HotKey text (Capitalize and shorten specific key text)
-    text=string.gsub(text,'(s%-)','S');
-    text=string.gsub(text,'(a%-)','A');
-    text=string.gsub(text,'(c%-)','C');
-    text=string.gsub(text,'(Mouse Button )','M');
-    text=string.gsub(text,'(Mouse Wheel Up)','MU');
-    text=string.gsub(text,'(Mouse Wheel Down)','MD');
-    text=string.gsub(text,'(Middle Mouse)','M3');
-    text=string.gsub(text,'(Num Pad )','N');
-    text=string.gsub(text,'(Page Up)','PU');
-    text=string.gsub(text,'(Page Down)','PD');
-    text=string.gsub(text,'(Spacebar)','SpB');
-    text=string.gsub(text,'(Insert)','Ins');
-    text=string.gsub(text,'(Home)','Hm');
-    text=string.gsub(text,'(Delete)','Del');
+    -- Determine button type if current button type does not exist
+    if (not bType) then
+        if (name and not string.match(name, "Stance")) then
+            if (string.match(name, "PetAction")) then
+                bType="BONUSACTIONBUTTON";
+            else
+                bType="ACTIONBUTTON";
+            end
+        end
+    end
 
-    -- Do not modify range indicator
-    if (hotkey:GetText()==RANGE_INDICATOR) then
-        hotkey:SetText('');
-    else
+    -- Obtain current HotKey binding text if it exists
+    local text = bType and GetBindingText(GetBindingKey(bType..self:GetID())) or "";
+
+    -- Modify HotKey text if text exists
+    if (text and text ~= "") then
+        -- Remove hypens
+        text=string.gsub(text,"%-","");
+        -- change common key text
+        text=string.gsub(text,KEY_HOME,"Hm");
+        text=string.gsub(text,KEY_PAGEUP,"PD");
+        text=string.gsub(text,KEY_SPACE,"SpB");
+        text=string.gsub(text,KEY_DELETE,"Del");
+        text=string.gsub(text,KEY_INSERT,"Ins");
+        text=string.gsub(text,KEY_PAGEDOWN,"PD");
+        -- change common key modifer text
+        text=string.gsub(text,ALT_KEY_TEXT,"A");
+        text=string.gsub(text,CTRL_KEY_TEXT,"C");
+        text=string.gsub(text,SHIFT_KEY_TEXT,"S");
+        -- change mouse button text
+        text=string.gsub(text,KEY_BUTTON1,"LM");
+        text=string.gsub(text,KEY_BUTTON2,"RM");
+        text=string.gsub(text,KEY_BUTTON3,"MM");
+        text=string.gsub(text,KEY_BUTTON4,"M4");
+        text=string.gsub(text,KEY_BUTTON5,"M5");
+        text=string.gsub(text,KEY_MOUSEWHEELUP,"MU");
+        text=string.gsub(text,KEY_MOUSEWHEELDOWN,"MD");
+        -- Update HotKey text
         hotkey:SetText(text);
     end
 end
@@ -39,6 +57,7 @@ local BarFrame=CreateFrame("Frame",nil,UIParent);
 BarFrame:RegisterEvent("ADDON_LOADED");
 BarFrame:SetScript("OnEvent", EventHandler);
 
+-- Hook secure function to update HotKey text
 hooksecurefunc("ActionButton_UpdateHotkeys",updateHotKeyText);
 hooksecurefunc("ActionButton_OnEvent",function(self, event, ...)
     if (event=="PLAYER_ENTERING_WORLD") then

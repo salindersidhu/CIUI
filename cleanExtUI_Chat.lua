@@ -60,7 +60,7 @@ local function UpdateChatUI()
             _G[chatWindowName.."EditBox"]:SetPoint("BOTTOM",_G["ChatFrame"..i],"TOP",0,44);
 		else
             _G[chatWindowName.."EditBox"]:SetPoint("BOTTOM",_G["ChatFrame"..i],"TOP",0,22);
-		end
+        end
         _G[chatWindowName.."EditBox"]:SetPoint("LEFT",_G["ChatFrame"..i],-5,0);
         _G[chatWindowName.."EditBox"]:SetPoint("RIGHT",_G["ChatFrame"..i],10,0);
     end
@@ -74,7 +74,6 @@ local function UpdateChatStrings()
     CHAT_BN_WHISPER_GET="[W From] %s: ";
     CHAT_WHISPER_INFORM_GET="[W To] %s: ";
     CHAT_BN_WHISPER_INFORM_GET="[W To] %s: ";
-
     -- Chat channels
     CHAT_GUILD_GET="|Hchannel:GUILD|h[G]|h %s: ";
     CHAT_PARTY_GET="|Hchannel:PARTY|h[P]|h %s: ";
