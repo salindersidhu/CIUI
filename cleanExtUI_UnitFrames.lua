@@ -98,7 +98,7 @@ local function updateTargetFrameArt(self,forceNormalTexture)
     self.healthbar:SetPoint("TOPLEFT",5,-24);
 
     self.healthbar.LeftText:ClearAllPoints();
-    self.healthbar.LeftText:SetPoint("LEFT"self.healthbar,"LEFT",5,0);
+    self.healthbar.LeftText:SetPoint("LEFT",self.healthbar,"LEFT",5,0);
     self.healthbar.RightText:ClearAllPoints();
     self.healthbar.RightText:SetPoint("RIGHT",self.healthbar,"RIGHT",-3,0);
     self.healthbar.TextString:SetPoint("CENTER",self.healthbar,"CENTER",0,0);
@@ -124,7 +124,7 @@ local function updateTargetFrameArt(self,forceNormalTexture)
         self.manabar.LeftText:Hide();
         self.manabar.RightText:Hide();
         forceNormalTexture=true;
-    elseif (classification=="worldboss" or classification=="elite" ) then
+    elseif (classification=="worldboss" or classification=="elite") then
         self.borderTexture:SetTexture("Interface\\Addons\\CleanExtUI\\Media\\UI-TargetingFrame-Elite");
     elseif (classification=="rareelite") then
         self.borderTexture:SetTexture("Interface\\Addons\\CleanExtUI\\Media\\UI-TargetingFrame-Rare-Elite");
