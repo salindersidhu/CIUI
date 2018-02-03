@@ -184,6 +184,58 @@ local function updateTargetFrameArt(self,forceNormalTexture)
     end
 end
 
+local function updateUnitFrameText(self,_,value,_,maxValue)
+    if (self.RightText and value and maxValue>0 and not self.showPercentage and GetCVar("statusTextDisplay")=="BOTH") then
+        local k,m=1e3;
+        m=k*k;
+        self.RightText:SetText((value>1e3 and value<1e5 and format("%1.3f",value/k)) or (value>=1e5 and value<1e6 and format("%1.0f K",value/k)) or (value>=1e6 and value<1e9 and format("%1.1f M",value/m)) or (value>1e9 and format("%1.1f M",value/m)) or value);
+    end
+end
+
+local function updateClassColor(statusbar, unit)
+    local c;
+    if (UnitIsPlayer(unit) and UnitIsConnected(unit) and unit==statusbar.unit and UnitClass(unit)) then
+        c=RAID_CLASS_COLORS[select(2,UnitClass(unit))];
+        statusbar:SetStatusBarColor(c.r,c.g,c.b);
+    end
+    if (not UnitIsPlayer("target")) then
+        c=RAID_CLASS_COLORS[select(2,UnitClass("target"))];
+        if (not UnitPlayerControlled("target") and UnitIsTapDenied("target")) then
+            TargetFrameHealthBar:SetStatusBarColor(0.5,0.5,0.5);
+        else
+            TargetFrameHealthBar:SetStatusBarColor(c.r,c.g,c.b);
+            TargetFrameHealthBar.lockColor=true;
+        end
+    end
+    if (not UnitIsPlayer("focus")) then
+        c=RAID_CLASS_COLORS[select(2,UnitClass("target"))];
+        if (not UnitPlayerControlled("target") and UnitIsTapDenied("target")) then
+            FocusFrameHealthBar:SetStatusBarColor(0.5,0.5,0.5);
+        else
+            FocusFrameHealthBar:SetStatusBarColor(c.r,c.g,c.b);
+            FocusFrameHealthBar.lockColor=true;
+        end
+    end
+    if (not UnitIsPlayer("targettarget")) then
+        c=RAID_CLASS_COLORS[select(2,UnitClass("targettarget"))];
+        if (not UnitPlayerControlled("targettarget" and UnitIsTapDenied("targettarget"))) then
+            TargetFrameToTHealthBar:SetStatusBarColor(0.5,0.5,0.5);
+        else
+            TargetFrameToTHealthBar:SetStatusBarColor(c.r,c.g,c.b);
+            TargetFrameToTHealthBar.lockColor=true;
+        end
+    end
+    if (not UnitIsPlayer("focustarget")) then
+        c=RAID_CLASS_COLORS[select(2,UnitClass("focustarget"))];
+        if (not UnitPlayerControlled("focustarget") and UnitIsTapDenied("focustarget")) then
+            FocusFrameToTHealthBar:SetStatusBarColor(0.5,0.5,0.5);
+        else
+            FocusFrameToTHealthBar:SetStatusBarColor(c.r,c.g,c.b);
+            FocusFrameToTHealthBar.lockColor=true;
+        end
+    end
+end
+
 local function EventHandler(self, event, ...)
     if (event=="ADDON_LOADED") then
     end
@@ -207,6 +259,11 @@ UnitFrames:RegisterEvent("GROUP_ROSTER_UPDATE");
 UnitFrames:RegisterEvent("PLAYER_FOCUS_CHANGED");
 UnitFrames:SetScript("OnEvent",EventHandler);
 
--- Hook secure function to update Player Unitframe art
+-- Hook secure function to update Unitframes
 hooksecurefunc("PlayerFrame_ToPlayerArt",updatePlayerFrameArt);
 hooksecurefunc("TargetFrame_CheckClassification",updateTargetFrameArt);
+hooksecurefunc("TextStatusBar_UpdateTextStringWithValues",updateUnitFrameText);
+hooksecurefunc("UnitFrameHealthBar_Update",updateClassColor);
+hooksecurefunc("HealthBar_OnValueChanged",function(self)
+    updateClassColor(self,self.unit);
+end);
