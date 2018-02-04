@@ -58,8 +58,29 @@ local function updateHotKeyText(self, bType)
     end
 end
 
+local function updateActionRange(self, elapsed)
+    if (self.rangeTimer==TOOLTIP_UPDATE_TIME) then
+        if (IsActionInRange(self.action)==false) then
+            self.icon:SetVertexColor(1.0,0.0,0.0);
+        else
+            local canUse,amountMana=IsUsableAction(self.action);
+            if (canUse) then
+                self.icon:SetVertexColor(1.0,1.0,1.0);
+            elseif (amountMana) then
+                self.icon:SetVertexColor(0.5,0.5,1.0);
+            else
+                self.icon:SetVertexColor(0.4,0.4,0.4);
+            end
+        end
+    end
+end
+
+local function updateBarUI()
+end
+
 local function EventHandler(self, event, ...)
     if (event=="ADDON_LOADED") then
+        updateBarUI();
     end
 end
 
@@ -70,6 +91,7 @@ BarFrame:SetScript("OnEvent",EventHandler);
 
 -- Hook secure function to update HotKey text
 hooksecurefunc("ActionButton_UpdateHotkeys",updateHotKeyText);
+hooksecurefunc("ActionButton_OnUpdate",updateActionRange);
 hooksecurefunc("ActionButton_OnEvent",function(self, event, ...)
     if (event=="PLAYER_ENTERING_WORLD") then
         ActionButton_UpdateHotkeys(self,self.buttonType);
