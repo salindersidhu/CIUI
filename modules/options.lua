@@ -7,7 +7,7 @@ local function InitInterfaceOptions(frame)
 
     --[[
         Title Block
-        Contains the title, description of settings and restore default button.
+        Contains the title and description of settings.
     ]]
     local title = optsFrame:CreateFontString(nil, 'ARTWORK', 'GameFontNormalLarge')
 	title:SetPoint('TOPLEFT', 16, -16)
@@ -15,7 +15,7 @@ local function InitInterfaceOptions(frame)
 
     local vers = optsFrame:CreateFontString(nil, 'ARTWORK', 'GameFontNormalSmall')
 	vers:SetPoint('TOPLEFT', title:GetStringWidth() + 22, -22)
-    vers:SetText(format('%s %s',Locale['OPTS_VERSION'],GetAddOnMetadata('CleanExtUI', 'Version')))
+    vers:SetText(format('%s %s', Locale['OPTS_VERSION'], GetAddOnMetadata('CleanExtUI', 'Version')))
 
     local desc = optsFrame:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
 	desc:SetPoint('TOPLEFT', title, 'BOTTOMLEFT', 0, -8)
@@ -27,7 +27,7 @@ local function InitInterfaceOptions(frame)
     InterfaceOptions_AddCategory(optsFrame)
 end
 
-local function EventHandler(self, event, ...)
+local function EventHandler(self, event, arg1, ...)
     if (event == 'ADDON_LOADED' and arg1 == 'CleanExtUI') then
         InitInterfaceOptions(self)
     end

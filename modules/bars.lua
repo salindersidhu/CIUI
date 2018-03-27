@@ -3,7 +3,7 @@ local addonName, Locale = ...
 local function UpdateHotKeyText(self, bType)
     -- Obtain button text and hotkey
     local name = self:GetName()
-    local hotKey = _G[name..'HotKey']
+    local hotkey = _G[name..'HotKey']
 
     -- Determine button type if current button type does not exist
     if (not bType) then
@@ -84,3 +84,12 @@ end
 local BarFrame = CreateFrame('Frame', nil, UIParent)
 BarFrame:RegisterEvent('ADDON_LOADED')
 BarFrame:SetScript('OnEvent', EventHandler)
+
+-- Hook secure function to update HotKey text
+hooksecurefunc('ActionButton_UpdateHotkeys', UpdateHotKeyText)
+hooksecurefunc('ActionButton_OnUpdate', updateActionRange)
+hooksecurefunc('ActionButton_OnEvent', function(self, event, ...)
+    if (event=='PLAYER_ENTERING_WORLD') then
+        ActionButton_UpdateHotkeys(self,self.buttonType)
+	end
+end)
