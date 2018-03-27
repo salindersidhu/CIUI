@@ -1,9 +1,9 @@
-local addonName, Locale = ...
+local addonName, L = ...
 
 local function InitInterfaceOptions(frame)
     -- Create a frame for the interface options
     local optsFrame = CreateFrame('Frame', nil, UIParent)
-    optsFrame.name = Locale['OPTS_TITLE']
+    optsFrame.name = L['OPTS_TITLE']
 
     --[[
         Title Block
@@ -11,15 +11,15 @@ local function InitInterfaceOptions(frame)
     ]]
     local title = optsFrame:CreateFontString(nil, 'ARTWORK', 'GameFontNormalLarge')
 	title:SetPoint('TOPLEFT', 16, -16)
-    title:SetText(Locale['OPTS_TITLE'])
+    title:SetText(L['OPTS_TITLE'])
 
     local vers = optsFrame:CreateFontString(nil, 'ARTWORK', 'GameFontNormalSmall')
 	vers:SetPoint('TOPLEFT', title:GetStringWidth() + 22, -22)
-    vers:SetText(format('%s %s', Locale['OPTS_VERSION'], GetAddOnMetadata('CleanExtUI', 'Version')))
+    vers:SetText(format('%s %s', L['OPTS_VERSION'], GetAddOnMetadata('CleanExtUI', 'Version')))
 
     local desc = optsFrame:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
 	desc:SetPoint('TOPLEFT', title, 'BOTTOMLEFT', 0, -8)
-	desc:SetText(Locale['OPTS_DESC'])
+	desc:SetText(L['OPTS_DESC'])
 	desc:SetJustifyH('LEFT')
 	desc:SetWidth(592)
 

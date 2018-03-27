@@ -1,4 +1,4 @@
-local _, Locale = ...
+local _, L = ...
 
--- Load fonts
+-- Resources and Constants
 CHAT_FONT = 'Interface\\AddOns\\CleanExtUI\\media\\Tahoma.ttf'

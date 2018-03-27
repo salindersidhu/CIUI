@@ -8,6 +8,6 @@ core.lua
 
 locales\enUS.lua
 
-modules\chat.lua
 modules\bars.lua
+modules\chat.lua
 modules\options.lua

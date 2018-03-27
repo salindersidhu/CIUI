@@ -1,4 +1,4 @@
-local _, Locale = ...
+local _, L = ...
 
 -- Skip if client locale is not English
 if not(GetLocale() == 'enUS') then
@@ -6,6 +6,6 @@ if not(GetLocale() == 'enUS') then
 end
 
 -- English (DEFAULT)
-Locale['OPTS_VERSION'] = 'version'
-Locale['OPTS_TITLE'] = 'Clean Extended UI'
-Locale['OPTS_DESC'] = 'This addon improves the standard Blizzard user interface.'
+L['OPTS_VERSION'] = 'version'
+L['OPTS_TITLE'] = 'Clean Extended UI'
+L['OPTS_DESC'] = 'This addon improves the standard Blizzard user interface.'
