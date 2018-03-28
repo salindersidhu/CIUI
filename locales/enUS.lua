@@ -6,6 +6,6 @@ if not(GetLocale() == 'enUS') then
 end
 
 -- English (DEFAULT)
-L['OPTS_VERSION'] = 'version'
-L['OPTS_TITLE'] = 'Clean Extended UI'
-L['OPTS_DESC'] = 'This addon improves the standard Blizzard user interface.'
+L['OPT_TITLE'] = 'Clean Extended UI'
+L['OPT_VERSION'] = 'version'
+L['OPT_DESCRIPTION'] = 'This addon improves the standard Blizzard UI.'

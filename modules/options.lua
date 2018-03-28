@@ -1,9 +1,9 @@
-local addonName, L = ...
+local _, L = ...
 
 local function InitInterfaceOptions(frame)
     -- Create a frame for the interface options
     local optsFrame = CreateFrame('Frame', nil, UIParent)
-    optsFrame.name = L['OPTS_TITLE']
+    optsFrame.name = L['OPT_TITLE']
 
     --[[
         Title Block
@@ -11,15 +11,15 @@ local function InitInterfaceOptions(frame)
     ]]
     local title = optsFrame:CreateFontString(nil, 'ARTWORK', 'GameFontNormalLarge')
 	title:SetPoint('TOPLEFT', 16, -16)
-    title:SetText(L['OPTS_TITLE'])
+    title:SetText(L['OPT_TITLE'])
 
     local vers = optsFrame:CreateFontString(nil, 'ARTWORK', 'GameFontNormalSmall')
 	vers:SetPoint('TOPLEFT', title:GetStringWidth() + 22, -22)
-    vers:SetText(format('%s %s', L['OPTS_VERSION'], GetAddOnMetadata('CleanExtUI', 'Version')))
+    vers:SetText(format('%s %s', L['OPT_VERSION'], GetAddOnMetadata(ADDON_ID, 'Version')))
 
     local desc = optsFrame:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
 	desc:SetPoint('TOPLEFT', title, 'BOTTOMLEFT', 0, -8)
-	desc:SetText(L['OPTS_DESC'])
+	desc:SetText(L['OPT_DESCRIPTION'])
 	desc:SetJustifyH('LEFT')
 	desc:SetWidth(592)
 
@@ -28,7 +28,7 @@ local function InitInterfaceOptions(frame)
 end
 
 local function EventHandler(self, event, arg1, ...)
-    if (event == 'ADDON_LOADED' and arg1 == 'CleanExtUI') then
+    if (event == 'ADDON_LOADED' and arg1 == ADDON_ID) then
         InitInterfaceOptions(self)
     end
 end
