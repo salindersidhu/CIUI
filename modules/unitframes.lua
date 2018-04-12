@@ -1,0 +1,111 @@
+local _, L = ...
+
+local function UpdatePlayerFrameArt()
+    -- Hide player name and set player frame texture
+    PlayerName:Hide()
+    PlayerFrameTexture:SetTexture(UI_FRAME_TARGET)
+
+    -- Update player health bar
+    PlayerFrameHealthBar:SetHeight(18)
+    PlayerFrameHealthBar:SetPoint("TOPLEFT", 106, -24)
+    PlayerFrameHealthBar.LeftText:ClearAllPoints()
+    PlayerFrameHealthBar.RightText:ClearAllPoints()
+    PlayerFrameHealthBar.LeftText:SetPoint("LEFT", PlayerFrameHealthBar, "LEFT", 5, 0)	
+    PlayerFrameHealthBar.RightText:SetPoint("RIGHT", PlayerFrameHealthBar, "RIGHT", -5, 0)
+    PlayerFrameHealthBarText:SetPoint("CENTER", PlayerFrameHealthBar, "CENTER", 0, 0)
+
+    -- Update player mana bar
+    PlayerFrameManaBar:SetHeight(18)
+    PlayerFrameManaBar:SetPoint("TOPLEFT", 106, -45)
+    PlayerFrameManaBar.LeftText:ClearAllPoints()
+    PlayerFrameManaBar.RightText:ClearAllPoints()
+    PlayerFrameManaBar.LeftText:SetPoint("LEFT", PlayerFrameManaBar, "LEFT", 5, 0)
+    PlayerFrameManaBar.RightText:SetPoint("RIGHT", PlayerFrameManaBar, "RIGHT", -5, 0)
+    PlayerFrameManaBarText:SetPoint("CENTER", PlayerFrameManaBar, "CENTER", 0, 0)
+
+    -- Update player mana feedback frame
+    PlayerFrameManaBar.FeedbackFrame:ClearAllPoints()
+    PlayerFrameManaBar.FeedbackFrame:SetHeight(18)
+    PlayerFrameManaBar.FeedbackFrame:SetPoint("CENTER", PlayerFrameManaBar, "CENTER", 0, 0)
+
+    -- Update player mana pulse frame
+    PlayerFrameManaBar.FullPowerFrame.PulseFrame:ClearAllPoints()
+    PlayerFrameManaBar.FullPowerFrame.PulseFrame:SetPoint("CENTER", PlayerFrameManaBar.FullPowerFrame, "CENTER", -6, -2)
+
+    -- Update player mana spike frame big spike glow
+    PlayerFrameManaBar.FullPowerFrame.SpikeFrame.BigSpikeGlow:ClearAllPoints()
+    PlayerFrameManaBar.FullPowerFrame.SpikeFrame.BigSpikeGlow:SetSize(30, 50)
+    PlayerFrameManaBar.FullPowerFrame.SpikeFrame.BigSpikeGlow:SetPoint("CENTER", PlayerFrameManaBar.FullPowerFrame, "RIGHT", 5, -4)
+
+    -- Update player mana spike frame alert spike stay
+    PlayerFrameManaBar.FullPowerFrame.SpikeFrame.AlertSpikeStay:ClearAllPoints()
+    PlayerFrameManaBar.FullPowerFrame.SpikeFrame.AlertSpikeStay:SetSize(30, 29)
+    PlayerFrameManaBar.FullPowerFrame.SpikeFrame.AlertSpikeStay:SetPoint("CENTER", PlayerFrameManaBar.FullPowerFrame, "RIGHT", -6, -3)
+end
+
+local function UpdateTargetFrameArt()
+    local classification = UnitClassification(TargetFrame.unit)
+
+    -- Update target frame
+    TargetFrame.nameBackground:Hide()
+    TargetFrame.Background:SetSize(119, 42)
+    TargetFrame.name:SetPoint("LEFT", TargetFrame, 15, 36)
+    TargetFrame.deadText:ClearAllPoints()
+    TargetFrame.deadText:SetPoint("CENTER", TargetFrame.healthbar, "CENTER", 0, 0)
+
+    -- Update threat indicator
+	TargetFrame.manabar.pauseUpdates = false;
+	TargetFrame.manabar:Show()
+	TextStatusBar_UpdateTextString(TargetFrame.manabar)
+	TargetFrame.threatIndicator:SetTexture(UI_FRAME_TARGET_FLASH)
+
+    -- Update target health bar
+    TargetFrame.healthbar:ClearAllPoints()
+	TargetFrame.healthbar:SetSize(119, 18)
+	TargetFrame.healthbar:SetPoint("TOPLEFT", 5, -24)
+	TargetFrame.healthbar.LeftText:ClearAllPoints()
+    TargetFrame.healthbar.RightText:ClearAllPoints()
+    TargetFrame.healthbar.LeftText:SetPoint("LEFT", TargetFrame.healthbar, "LEFT", 5, 0)
+	TargetFrame.healthbar.RightText:SetPoint("RIGHT", TargetFrame.healthbar, "RIGHT", -3, 0)
+	TargetFrame.healthbar.TextString:SetPoint("CENTER", TargetFrame.healthbar, "CENTER", 0, 0)
+
+    -- Update target mana bar
+    TargetFrame.manabar:ClearAllPoints()
+    TargetFrame.manabar:SetSize(119, 18)
+    TargetFrame.manabar:SetPoint("TOPLEFT", 5, -45)
+    TargetFrame.manabar.LeftText:ClearAllPoints()
+    TargetFrame.manabar.RightText:ClearAllPoints()
+	TargetFrame.manabar.LeftText:SetPoint("LEFT", TargetFrame.manabar, "LEFT", 5, 0)
+	TargetFrame.manabar.RightText:SetPoint("RIGHT", TargetFrame.manabar, "RIGHT", -5, 0)
+	TargetFrame.manabar.TextString:SetPoint("CENTER", TargetFrame.manabar, "CENTER", 0, 0)
+
+    -- Show quest icon if target is part of a quest
+	if (TargetFrame.questIcon) then
+		if (UnitIsQuestBoss(TargetFrame.unit)) then
+			TargetFrame.questIcon:Show()
+		else
+			TargetFrame.questIcon:Hide()
+		end
+	end
+end
+
+local function EventHandler(self, event, ...)
+    if (event == 'ADDON_LOADED') then
+    end
+    if(event == 'PLAYER_ENTERING_WORLD') then
+        UpdatePlayerFrameArt()
+        UpdateTargetFrameArt()
+    end
+    if(event == 'UNIT_EXITED_VEHICLE' or event == 'UNIT_ENTERED_VEHICLE') then
+        UpdatePlayerFrameArt()
+        UpdateTargetFrameArt()
+    end
+end
+
+-- Create a frame and register events
+local UnitFrames = CreateFrame('Frame', nil, UIParent)
+UnitFrames:SetScript('OnEvent', EventHandler)
+UnitFrames:RegisterEvent('ADDON_LOADED')
+UnitFrames:RegisterEvent('PLAYER_ENTERING_WORLD')
+UnitFrames:RegisterEvent('UNIT_EXITED_VEHICLE')
+UnitFrames:RegisterEvent('UNIT_ENTERED_VEHICLE')

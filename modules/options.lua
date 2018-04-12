@@ -7,7 +7,7 @@ local function InitInterfaceOptions(frame)
 
     --[[
         Title Block
-        Contains the title and description of settings.
+        Contains the title, version and description of settings.
     ]]
     local title = optsFrame:CreateFontString(nil, 'ARTWORK', 'GameFontNormalLarge')
 	title:SetPoint('TOPLEFT', 16, -16)
@@ -15,7 +15,7 @@ local function InitInterfaceOptions(frame)
 
     local vers = optsFrame:CreateFontString(nil, 'ARTWORK', 'GameFontNormalSmall')
 	vers:SetPoint('TOPLEFT', title:GetStringWidth() + 22, -22)
-    vers:SetText(format('%s %s', L['OPT_VERSION'], GetAddOnMetadata(ADDON_ID, 'Version')))
+    vers:SetText(format('%s %s', L['OPT_VERSION'], ADDON_VERSION))
 
     local desc = optsFrame:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
 	desc:SetPoint('TOPLEFT', title, 'BOTTOMLEFT', 0, -8)
