@@ -58,7 +58,7 @@ local function UpdateHotKeyText(self, bType)
     end
 end
 
-local function updateActionRange(self, elapsed)
+local function UpdateActionRange(self, elapsed)
     if self.rangeTimer == TOOLTIP_UPDATE_TIME then
         if IsActionInRange(self.action) == false then
             self.icon:SetVertexColor(1.0, 0.0, 0.0)
@@ -82,12 +82,12 @@ end
 
 -- Create a frame and register events
 local BarFrame = CreateFrame("Frame", nil, UIParent)
-BarFrame:RegisterEvent("ADDON_LOADED")
 BarFrame:SetScript("OnEvent", EventHandler)
+BarFrame:RegisterEvent('ADDON_LOADED')
 
 -- Hook secure function to update HotKey text
 hooksecurefunc("ActionButton_UpdateHotkeys", UpdateHotKeyText)
-hooksecurefunc("ActionButton_OnUpdate", updateActionRange)
+hooksecurefunc("ActionButton_OnUpdate", UpdateActionRange)
 hooksecurefunc("ActionButton_OnEvent", function(self, event, ...)
     if event=="PLAYER_ENTERING_WORLD" then
         ActionButton_UpdateHotkeys(self, self.buttonType)
