@@ -1,6 +1,6 @@
 local _, L = ...
 
-local function UpdatePlayerFrameArt()
+local function ModifyPlayerFrameArt()
     -- Hide player name and set player frame texture
     PlayerName:Hide()
     PlayerFrameTexture:SetTexture(UI_FRAME_TARGET)
@@ -43,21 +43,18 @@ local function UpdatePlayerFrameArt()
     PlayerFrameManaBar.FullPowerFrame.SpikeFrame.AlertSpikeStay:SetPoint("CENTER", PlayerFrameManaBar.FullPowerFrame, "RIGHT", -6, -3)
 end
 
-local function UpdateTargetFrameArt()
+local function ModifyTargetFrameArt()
     local classification = UnitClassification(TargetFrame.unit)
 
     -- Update target frame
+    TargetFrame.haveElite = true
+    TargetFrameBackground:SetSize(119, 42)
+    TargetFrame.Background:SetPoint("BOTTOMLEFT", TargetFrame, "BOTTOMLEFT", 7, 35)
     TargetFrame.nameBackground:Hide()
     TargetFrame.Background:SetSize(119, 42)
     TargetFrame.name:SetPoint("LEFT", TargetFrame, 15, 36)
     TargetFrame.deadText:ClearAllPoints()
     TargetFrame.deadText:SetPoint("CENTER", TargetFrame.healthbar, "CENTER", 0, 0)
-
-    -- Update threat indicator
-	TargetFrame.manabar.pauseUpdates = false;
-	TargetFrame.manabar:Show()
-	TextStatusBar_UpdateTextString(TargetFrame.manabar)
-	TargetFrame.threatIndicator:SetTexture(UI_FRAME_TARGET_FLASH)
 
     -- Update target health bar
     TargetFrame.healthbar:ClearAllPoints()
@@ -70,6 +67,9 @@ local function UpdateTargetFrameArt()
 	TargetFrame.healthbar.TextString:SetPoint("CENTER", TargetFrame.healthbar, "CENTER", 0, 0)
 
     -- Update target mana bar
+	TargetFrame.manabar.pauseUpdates = false;
+	TargetFrame.manabar:Show()
+	TextStatusBar_UpdateTextString(TargetFrame.manabar)
     TargetFrame.manabar:ClearAllPoints()
     TargetFrame.manabar:SetSize(119, 18)
     TargetFrame.manabar:SetPoint("TOPLEFT", 5, -45)
@@ -79,9 +79,37 @@ local function UpdateTargetFrameArt()
 	TargetFrame.manabar.RightText:SetPoint("RIGHT", TargetFrame.manabar, "RIGHT", -5, 0)
 	TargetFrame.manabar.TextString:SetPoint("CENTER", TargetFrame.manabar, "CENTER", 0, 0)
 
+    -- Update target frame texture
+    if classification == "minus" then
+        TargetFrame.borderTexture:SetTexture(UI_FRAME_TARGET_MINUS)
+        TargetFrame.nameBackground:Hide()
+        TargetFrame.manabar.pauseUpdates = true
+        TargetFrame.manabar:Hide()
+        TargetFrame.manabar.TextString:Hide()
+        TargetFrame.manabar.LeftText:Hide()
+        TargetFrame.manabar.RightText:Hide()
+    elseif classification == "worldboss" or classification == "elite" then
+        TargetFrame.borderTexture:SetTexture(UI_FRAME_TARGET_ELITE)
+    elseif classification == "rareelite"  then
+        TargetFrame.borderTexture:SetTexture(UI_FRAME_TARGET_RARE_ELITE)
+    elseif classification == "rare" then
+        TargetFrame.borderTexture:SetTexture(UI_FRAME_TARGET_RARE)
+    else
+        TargetFrame.borderTexture:SetTexture(UI_FRAME_TARGET)
+    end
+
+    -- Update target frame threat indicator
+    TargetFrame.threatIndicator:SetTexture(UI_FRAME_TARGET_FLASH)
+    if TargetFrame.threatIndicator then
+        TargetFrame.threatIndicator:SetTexCoord(0, 0.9453125, 0.181640625, 0.400390625)
+        TargetFrame.threatIndicator:SetWidth(242)
+        TargetFrame.threatIndicator:SetHeight(112)
+        TargetFrame.threatIndicator:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", -22, 9)
+    end	
+
     -- Show quest icon if target is part of a quest
-	if (TargetFrame.questIcon) then
-		if (UnitIsQuestBoss(TargetFrame.unit)) then
+	if TargetFrame.questIcon then
+		if UnitIsQuestBoss(TargetFrame.unit) then
 			TargetFrame.questIcon:Show()
 		else
 			TargetFrame.questIcon:Hide()
@@ -89,23 +117,34 @@ local function UpdateTargetFrameArt()
 	end
 end
 
+local function ModifyUnitFrameText(self, _, value, _, max)
+    if self.RightText and value and max > 0 and not self.showPercentage and GetCVar("statusTextDisplay") == "BOTH" then
+        local k, m = 1e3
+        m = k*k
+        self.RightText:SetText((value > 1e3 and value < 1e5 and format("%1.3f", value/k)) or (value >= 1e5 and value < 1e6 and format("%1.0f K", value/k)) or (value >= 1e6 and value < 1e9 and format("%1.1f M", value/m)) or (value > 1e9 and format("%1.1f M", value/m)) or value)
+    end
+end
+
 local function EventHandler(self, event, ...)
-    if (event == 'ADDON_LOADED') then
-    end
-    if(event == 'PLAYER_ENTERING_WORLD') then
-        UpdatePlayerFrameArt()
-        UpdateTargetFrameArt()
-    end
-    if(event == 'UNIT_EXITED_VEHICLE' or event == 'UNIT_ENTERED_VEHICLE') then
-        UpdatePlayerFrameArt()
-        UpdateTargetFrameArt()
+    if event == "PLAYER_ENTERING_WORLD" or event == "UNIT_EXITED_VEHICLE" or event == "UNIT_ENTERED_VEHICLE" then
+        ModifyPlayerFrameArt()
+        ModifyTargetFrameArt()
+        Utils.ModifyUnitFrame(PlayerFrame, -265, -150, 1)
+        Utils.ModifyUnitFrame(TargetFrame, 265, -150, 1)
     end
 end
 
 -- Create a frame and register events
-local UnitFrames = CreateFrame('Frame', nil, UIParent)
-UnitFrames:SetScript('OnEvent', EventHandler)
-UnitFrames:RegisterEvent('ADDON_LOADED')
-UnitFrames:RegisterEvent('PLAYER_ENTERING_WORLD')
-UnitFrames:RegisterEvent('UNIT_EXITED_VEHICLE')
-UnitFrames:RegisterEvent('UNIT_ENTERED_VEHICLE')
+local UnitFrames = CreateFrame("Frame", nil, UIParent)
+UnitFrames:SetScript("OnEvent", EventHandler)
+UnitFrames:RegisterEvent("PLAYER_ENTERING_WORLD")
+UnitFrames:RegisterEvent("UNIT_EXITED_VEHICLE")
+UnitFrames:RegisterEvent("UNIT_ENTERED_VEHICLE")
+
+-- Hook secure functions
+hooksecurefunc("TargetFrame_CheckDead", ModifyTargetFrameArt)
+hooksecurefunc("TargetFrame_Update", ModifyTargetFrameArt)
+hooksecurefunc("TargetFrame_CheckFaction", ModifyTargetFrameArt)
+hooksecurefunc("TargetFrame_CheckClassification", ModifyTargetFrameArt)
+hooksecurefunc("TargetofTarget_Update", ModifyTargetFrameArt)
+hooksecurefunc("TextStatusBar_UpdateTextStringWithValues", ModifyUnitFrameText)
