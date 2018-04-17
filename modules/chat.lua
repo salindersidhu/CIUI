@@ -1,5 +1,11 @@
 local _, L = ...
 
+-- CREATE FRAMES --
+local ChatFrame = CreateFrame("Frame")
+
+-- REGISTER EVENTS TO FRAMES --
+ChatFrame:RegisterEvent("ADDON_LOADED")
+
 local function UpdateChatUI()
     -- Hide Battle.net social button and toast
     local button = QuickJoinToastButton or FriendsMicroButton
@@ -84,6 +90,7 @@ local function UpdateChatStrings()
     CHAT_INSTANCE_CHAT_LEADER_GET = "|Hchannel:Battleground|h[IL]|h %s: "
 end
 
+-- CHAT FRAME EVENT HANDLER
 local function EventHandler(self, event, ...)
     if event == "ADDON_LOADED" then
         UpdateChatUI()
@@ -91,7 +98,5 @@ local function EventHandler(self, event, ...)
     end
 end
 
--- Create a frame and register events
-local ChatFrame = CreateFrame("Frame", nil, UIParent)
+-- SET FRAME SCRIPTS
 ChatFrame:SetScript("OnEvent", EventHandler)
-ChatFrame:RegisterEvent("ADDON_LOADED")

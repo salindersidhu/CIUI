@@ -1,5 +1,11 @@
 local _, L = ...
 
+-- CREATE FRAMES --
+local OptionsFrame = CreateFrame("Frame", nil, UIParent)
+
+-- REGISTER EVENTS TO FRAMES --
+OptionsFrame:RegisterEvent("ADDON_LOADED")
+
 local function InitInterfaceOptions(frame)
     -- Create a frame for the interface options
     local optsFrame = CreateFrame("Frame", nil, UIParent)
@@ -27,13 +33,12 @@ local function InitInterfaceOptions(frame)
     InterfaceOptions_AddCategory(optsFrame)
 end
 
+-- OPTIONS FRAME EVENT HANDLER
 local function EventHandler(self, event, arg1, ...)
     if event == "ADDON_LOADED" and arg1 == ADDON_ID then
         InitInterfaceOptions(self)
     end
 end
 
--- Create a frame and register events
-local OptionsFrame = CreateFrame("Frame", nil, UIParent)
+-- SET FRAME SCRIPTS
 OptionsFrame:SetScript("OnEvent", EventHandler)
-OptionsFrame:RegisterEvent("ADDON_LOADED")

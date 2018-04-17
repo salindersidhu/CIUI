@@ -1,8 +1,6 @@
 local _, L = ...
 
---[[
-    Constants
-]]
+-- CONSTANTS
 ADDON_ID = "CleanExtUI"
 ADDON_PATH = "Interface\\Addons\\"..ADDON_ID
 ADDON_VERSION = GetAddOnMetadata(ADDON_ID, "Version")
@@ -18,9 +16,7 @@ UI_FRAME_TARGET_MINUS = "Interface\\TargetingFrame\\UI-TargetingFrame-Minus"
 
 UI_FRAME_PLAYER_STATUS = ADDON_PATH.."\\media\\UI-StatusBar"
 
---[[
-    Utility functions
-]]
+-- UTILITY FUNCTIONS
 Utils = CreateFrame("Frame", nil, UIParent)
 
 function Utils.ModifyFrame(frame, anchor, parent, x, y, scale)

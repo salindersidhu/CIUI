@@ -1,5 +1,13 @@
 local _, L = ...
 
+-- CREATE FRAMES --
+local UnitFramesFrame = CreateFrame("Frame")
+
+-- REGISTER EVENTS TO FRAMES --
+UnitFramesFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+UnitFramesFrame:RegisterEvent("UNIT_EXITED_VEHICLE")
+UnitFramesFrame:RegisterEvent("UNIT_ENTERED_VEHICLE")
+
 local function ModifyPlayerFrameArt()
     -- Hide player name and set player frame texture
     PlayerName:Hide()
@@ -125,6 +133,7 @@ local function ModifyUnitFrameText(self, _, value, _, max)
     end
 end
 
+-- UNIT FRAMES FRAME EVENT HANDLER
 local function EventHandler(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" or event == "UNIT_EXITED_VEHICLE" or event == "UNIT_ENTERED_VEHICLE" then
         ModifyPlayerFrameArt()
@@ -134,14 +143,10 @@ local function EventHandler(self, event, ...)
     end
 end
 
--- Create a frame and register events
-local UnitFrames = CreateFrame("Frame", nil, UIParent)
-UnitFrames:SetScript("OnEvent", EventHandler)
-UnitFrames:RegisterEvent("PLAYER_ENTERING_WORLD")
-UnitFrames:RegisterEvent("UNIT_EXITED_VEHICLE")
-UnitFrames:RegisterEvent("UNIT_ENTERED_VEHICLE")
+-- SET FRAME SCRIPTS
+UnitFramesFrame:SetScript("OnEvent", EventHandler)
 
--- Hook secure functions
+-- HOOK SECURE FUNCTIONS
 hooksecurefunc("TargetFrame_CheckDead", ModifyTargetFrameArt)
 hooksecurefunc("TargetFrame_Update", ModifyTargetFrameArt)
 hooksecurefunc("TargetFrame_CheckFaction", ModifyTargetFrameArt)

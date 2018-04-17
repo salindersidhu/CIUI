@@ -1,5 +1,17 @@
 local _, L = ...
 
+-- CREATE FRAMES --
+local ActionBarFrame = CreateFrame("Frame")
+local HiddenFrame = CreateFrame("Frame", nil)
+
+-- REGISTER EVENTS TO FRAMES --
+ActionBarFrame:RegisterEvent("ADDON_LOADED")
+ActionBarFrame:RegisterEvent("PLAYER_LOGIN")
+ActionBarFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+ActionBarFrame:RegisterEvent("UNIT_PET")
+ActionBarFrame:RegisterEvent("UPDATE_VEHICLE_ACTIONBAR")
+ActionBarFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+
 local function UpdateHotKeyText(self, bType)
     -- Obtain button text and hotkey
     local name = self:GetName()
@@ -75,21 +87,20 @@ local function UpdateActionRange(self, elapsed)
     end
 end
 
+-- ACTION BAR FRAME EVENT HANDLER
 local function EventHandler(self, event, ...)
     if event == "ADDON_LOADED" then
     end
 end
 
--- Create a frame and register events
-local BarFrame = CreateFrame("Frame", nil, UIParent)
-BarFrame:SetScript("OnEvent", EventHandler)
-BarFrame:RegisterEvent('ADDON_LOADED')
+-- SET FRAME SCRIPTS
+ActionBarFrame:SetScript("OnEvent", EventHandler)
 
--- Hook secure function to update HotKey text
+-- HOOK SECURE FUNCTIONS
 hooksecurefunc("ActionButton_UpdateHotkeys", UpdateHotKeyText)
 hooksecurefunc("ActionButton_OnUpdate", UpdateActionRange)
 hooksecurefunc("ActionButton_OnEvent", function(self, event, ...)
     if event=="PLAYER_ENTERING_WORLD" then
         ActionButton_UpdateHotkeys(self, self.buttonType)
-	end
+    end
 end)
