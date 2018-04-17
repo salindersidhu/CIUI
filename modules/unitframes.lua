@@ -138,8 +138,8 @@ local function EventHandler(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" or event == "UNIT_EXITED_VEHICLE" or event == "UNIT_ENTERED_VEHICLE" then
         ModifyPlayerFrameArt()
         ModifyTargetFrameArt()
-        Utils.ModifyUnitFrame(PlayerFrame, -265, -150, 1)
-        Utils.ModifyUnitFrame(TargetFrame, 265, -150, 1)
+        Utils.ModifyUnitFrame(PlayerFrame, -265, -150, 1.3)
+        Utils.ModifyUnitFrame(TargetFrame, 265, -150, 1.3)
     end
 end
 
