@@ -53,12 +53,13 @@ end
 
 local function ModifyTargetFrameArt()
     local classification = UnitClassification(TargetFrame.unit)
+
+    -- Hide target name
     TargetFrameTextureFrameName:Hide()
-    TargetFrame.buffsOnTop = true
 
     -- Update target frame
-    TargetFrame.haveElite = true
     TargetFrameBackground:SetSize(119, 42)
+    TargetFrame.buffsOnTop = true
     TargetFrame.Background:SetPoint("BOTTOMLEFT", TargetFrame, "BOTTOMLEFT", 7, 35)
     TargetFrame.nameBackground:Hide()
     TargetFrame.Background:SetSize(119, 42)
@@ -108,15 +109,6 @@ local function ModifyTargetFrameArt()
         TargetFrame.borderTexture:SetTexture(UI_FRAME_TARGET)
     end
 
-    -- Update target frame threat indicator
-    TargetFrame.threatIndicator:SetTexture(UI_FRAME_TARGET_FLASH)
-    if TargetFrame.threatIndicator then
-        TargetFrame.threatIndicator:SetTexCoord(0, 0.9453125, 0.181640625, 0.400390625)
-        TargetFrame.threatIndicator:SetWidth(242)
-        TargetFrame.threatIndicator:SetHeight(112)
-        TargetFrame.threatIndicator:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", -22, 9)
-    end	
-
     -- Show quest icon if target is part of a quest
 	if TargetFrame.questIcon then
 		if UnitIsQuestBoss(TargetFrame.unit) then
@@ -154,8 +146,8 @@ local function HealthBarOnValueChanged(self, value, smooth)
         value = 0 
     end
 
-    if value > 0.7 then
-        -- If value is > 70% change health bar from green to yellow
+    if value > 0.5 then
+        -- If value is > 50% change health bar from green to yellow
         r = (1.0 - value) * 2
         g = 1.0
     else
