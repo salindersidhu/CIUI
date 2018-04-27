@@ -53,6 +53,8 @@ end
 
 local function ModifyTargetFrameArt()
     local classification = UnitClassification(TargetFrame.unit)
+    TargetFrameTextureFrameName:Hide()
+    TargetFrame.buffsOnTop = true
 
     -- Update target frame
     TargetFrame.haveElite = true
@@ -133,6 +135,38 @@ local function ModifyUnitFrameText(self, _, value, _, max)
     end
 end
 
+local function HealthBarOnValueChanged(self, value, smooth)
+    if not value then
+        return
+    end
+
+    local r, g, b
+    local min, max = self:GetMinMaxValues()
+
+    if ((value < min) or (value > max)) then
+        return
+    end
+
+    -- Set value to range from 0 to 1 in proportation to max/min
+    if (max - min) > 0 then
+        value = (value - min) / (max - min)
+    else
+        value = 0 
+    end
+
+    if value > 0.7 then
+        -- If value is > 70% change health bar from green to yellow
+        r = (1.0 - value) * 2
+        g = 1.0
+    else
+        -- If value is < 50% change health bar from yellow to red
+        r = 1.0
+        g = value * 2
+    end
+
+    self:SetStatusBarColor(r, g, 0.0)
+end
+
 -- UNIT FRAMES FRAME EVENT HANDLER
 local function EventHandler(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" or event == "UNIT_EXITED_VEHICLE" or event == "UNIT_ENTERED_VEHICLE" then
@@ -147,6 +181,7 @@ end
 UnitFramesFrame:SetScript("OnEvent", EventHandler)
 
 -- HOOK SECURE FUNCTIONS
+hooksecurefunc("HealthBar_OnValueChanged", HealthBarOnValueChanged)
 hooksecurefunc("TargetFrame_CheckDead", ModifyTargetFrameArt)
 hooksecurefunc("TargetFrame_Update", ModifyTargetFrameArt)
 hooksecurefunc("TargetFrame_CheckFaction", ModifyTargetFrameArt)
