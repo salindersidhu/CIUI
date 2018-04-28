@@ -87,6 +87,23 @@ local function UpdateActionRange(self, elapsed)
     end
 end
 
+local function UpdateExperienceBars()
+    for _, bar in next, {
+        HonorWatchBar.StatusBar,
+        ArtifactWatchBar.StatusBar,
+        ReputationWatchBar.StatusBar,
+    } do
+        bar.XPBarTexture0:Hide()
+        bar.XPBarTexture1:Hide()
+        bar.XPBarTexture2:Hide()
+        bar.XPBarTexture3:Hide()
+        bar.WatchBarTexture0:Hide()
+        bar.WatchBarTexture1:Hide()
+        bar.WatchBarTexture2:Hide()
+        bar.WatchBarTexture3:Hide()
+    end
+end
+
 local function ResizeMainBar()
     for _, texture in next, {
         StanceBarLeft,
@@ -112,7 +129,7 @@ local function ResizeMainBar()
         ReputationWatchBar,
         ReputationWatchBar.StatusBar,
     } do
-        bar:SetWidth(512);
+        bar:SetWidth(512)
     end
 
     for i = 0, 1 do
@@ -227,19 +244,45 @@ local function MoveBarFrames()
 		PetActionBarFrame:SetPoint("BOTTOMRIGHT", MultiBarBottomLeft, "TOPRIGHT", 100, 5)
 	else
 		PetActionBarFrame:SetPoint("BOTTOMRIGHT", MainMenuBar, "TOPRIGHT", 100, 11)
-	end
-	PetActionBarFrame.SetPoint = function() end
-	PetActionBarFrame:SetScale(0.8)
+    end
+    PetActionBarFrame.SetPoint = function() end
+    PetActionBarFrame:SetScale(0.8)
+end
+
+local function ModifyMicroMenu(parent, x, y, scale)
+    local prevButton = nil
+
+    for _, button in next, {
+        CharacterMicroButton,
+        SpellbookMicroButton,
+        TalentMicroButton,
+        AchievementMicroButton,
+        QuestLogMicroButton,
+        GuildMicroButton,
+        LFDMicroButton,
+        CollectionsMicroButton,
+        EJMicroButton,
+        StoreMicroButton,
+        MainMenuMicroButton
+    } do
+        if prevButton == nil then
+            Utils.ModifyFrame(button, "BOTTOMRIGHT", parent, x, y, scale)
+        else
+            Utils.ModifyFrame(button, "BOTTOMRIGHT", prevButton, 24, 0, scale)
+        end
+        prevButton = button
+    end
 end
 
 -- ACTION BAR FRAME EVENT HANDLER
 local function EventHandler(self, event, ...)
     if event == "ADDON_LOADED" then
-        Utils.ModifyFrame(CharacterMicroButton, 'BOTTOMRIGHT', UIParent, -1, -300, nil)
+        ModifyMicroMenu(UIParent, -239, -1, 0.9)
         Utils.ModifyFrame(MainMenuBarBackpackButton, 'BOTTOMRIGHT', UIParent, -1, -300, nil)
     end
     if event == "PLAYER_LOGIN" then
         ResizeMainBar()
+        UpdateExperienceBars()
     end
     if event == "PLAYER_ENTERING_WORLD" then
         MoveBarFrames()
@@ -252,6 +295,7 @@ ActionBarFrame:SetScript("OnEvent", EventHandler)
 -- HOOK SECURE FUNCTIONS
 hooksecurefunc("ActionButton_UpdateHotkeys", UpdateHotKeyText)
 hooksecurefunc("ActionButton_OnUpdate", UpdateActionRange)
+hooksecurefunc("MainMenuBar_UpdateExperienceBars", UpdateExperienceBars)
 hooksecurefunc("ActionButton_OnEvent", function(self, event, ...)
     if event=="PLAYER_ENTERING_WORLD" then
         ActionButton_UpdateHotkeys(self, self.buttonType)
