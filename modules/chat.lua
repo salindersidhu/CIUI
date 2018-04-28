@@ -81,6 +81,7 @@ local function UpdateChatStrings()
     CHAT_WHISPER_INFORM_GET = "[W To] %s: "
     CHAT_BN_WHISPER_INFORM_GET = "[W To] %s: "
     -- Chat channels
+    CHAT_RAID_GET = "|Hchannel:RAID|h[R]|h %s: "
     CHAT_GUILD_GET = "|Hchannel:GUILD|h[G]|h %s: "
     CHAT_PARTY_GET = "|Hchannel:PARTY|h[P]|h %s: "
     CHAT_OFFICER_GET = "|Hchannel:OFFICER|h[O]|h %s: "
