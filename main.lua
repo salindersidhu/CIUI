@@ -14,10 +14,9 @@ UI_FRAME_TARGET_FLASH = "Interface\\TargetingFrame\\UI-TargetingFrame-Flash"
 UI_FRAME_TARGET_RARE_ELITE = ADDON_PATH.."\\media\\UI-TargetingFrame-Rare-Elite"
 UI_FRAME_TARGET_MINUS = "Interface\\TargetingFrame\\UI-TargetingFrame-Minus"
 
-UI_FRAME_PLAYER_STATUS = ADDON_PATH.."\\media\\UI-StatusBar"
-
--- UTILITY FUNCTIONS
-Utils = CreateFrame("Frame", nil, UIParent)
+-- UNIVERSAL FRAMES AND FUNCTIONS
+Utils = CreateFrame("Frame")
+HiddenFrame = CreateFrame("Frame", nil)
 
 function Utils.ModifyFrame(frame, anchor, parent, x, y, scale)
     frame:SetMovable(true)
@@ -30,6 +29,11 @@ function Utils.ModifyFrame(frame, anchor, parent, x, y, scale)
     if scale ~= nil then
         frame:SetScale(scale)
     end
+end
+
+function Utils.ModifyFixedFrame(frame, anchor, parent, x, y, scale)
+    --frame:SetMovable(true)
+    Utils.ModifyFrame(frame, anchor, parent, x, y, scale)
     frame:SetMovable(false)
 end
 

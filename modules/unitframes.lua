@@ -1,12 +1,12 @@
 local _, L = ...
 
 -- CREATE FRAMES --
-local UnitFramesFrame = CreateFrame("Frame")
+local UnitFramesModule = CreateFrame("Frame")
 
 -- REGISTER EVENTS TO FRAMES --
-UnitFramesFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-UnitFramesFrame:RegisterEvent("UNIT_EXITED_VEHICLE")
-UnitFramesFrame:RegisterEvent("UNIT_ENTERED_VEHICLE")
+UnitFramesModule:RegisterEvent("PLAYER_ENTERING_WORLD")
+UnitFramesModule:RegisterEvent("UNIT_EXITED_VEHICLE")
+UnitFramesModule:RegisterEvent("UNIT_ENTERED_VEHICLE")
 
 local function ModifyPlayerFrameArt()
     -- Hide player name and set player frame texture
@@ -170,7 +170,7 @@ local function EventHandler(self, event, ...)
 end
 
 -- SET FRAME SCRIPTS
-UnitFramesFrame:SetScript("OnEvent", EventHandler)
+UnitFramesModule:SetScript("OnEvent", EventHandler)
 
 -- HOOK SECURE FUNCTIONS
 hooksecurefunc("HealthBar_OnValueChanged", HealthBarOnValueChanged)

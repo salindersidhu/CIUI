@@ -1,12 +1,12 @@
 local _, L = ...
 
 -- CREATE FRAMES --
-local ChatFrame = CreateFrame("Frame")
+local ChatModule = CreateFrame("Frame")
 
 -- REGISTER EVENTS TO FRAMES --
-ChatFrame:RegisterEvent("ADDON_LOADED")
+ChatModule:RegisterEvent("ADDON_LOADED")
 
-local function UpdateChatUI()
+local function ModifyChatUI()
     -- Hide Battle.net social button and toast
     local button = QuickJoinToastButton or FriendsMicroButton
     button:HookScript("OnShow", button.Hide)
@@ -23,7 +23,7 @@ local function UpdateChatUI()
     for i = 1, NUM_CHAT_WINDOWS do
         -- Obtain details on the chat window
         local window = _G["ChatFrame"..i]:GetName()
-        local name, size, r, g, b, alpha, shown, locked, uninteractable = GetChatWindowInfo(i)
+        local _, size, _, _, _, _, _, _, _ = GetChatWindowInfo(i)
 
         -- Remove screen clamping
         _G[window]:SetClampRectInsets(0, 0, 0, 0)
@@ -72,7 +72,7 @@ local function UpdateChatUI()
     end
 end
 
-local function UpdateChatStrings()
+local function ModifyChatStrings()
     -- Player communication
     CHAT_SAY_GET = "%s: "
     CHAT_YELL_GET = "%s: "
@@ -94,10 +94,10 @@ end
 -- CHAT FRAME EVENT HANDLER
 local function EventHandler(self, event, ...)
     if event == "ADDON_LOADED" then
-        UpdateChatUI()
-        UpdateChatStrings()
+        ModifyChatUI()
+        ModifyChatStrings()
     end
 end
 
 -- SET FRAME SCRIPTS
-ChatFrame:SetScript("OnEvent", EventHandler)
+ChatModule:SetScript("OnEvent", EventHandler)
