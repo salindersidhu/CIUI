@@ -115,11 +115,39 @@ local function ModifyTargetFrameArt()
 	end
 end
 
-local function ModifyUnitFrameText(self, _, value, _, max)
-    if self.RightText and value and max > 0 and not self.showPercentage and GetCVar("statusTextDisplay") == "BOTH" then
-        local k, m = 1e3
-        m = k*k
-        self.RightText:SetText((value > 1e3 and value < 1e5 and format("%1.3f", value/k)) or (value >= 1e5 and value < 1e6 and format("%1.0f K", value/k)) or (value >= 1e6 and value < 1e9 and format("%1.1f M", value/m)) or (value > 1e9 and format("%1.1f M", value/m)) or value)
+local function ModifyPartyMemmberFrames()
+    local _, _, flags = PlayerFrameHealthBarTextLeft:GetFont()
+    Utils.ModifyFrame(PartyMemberFrame1, "LEFT", nil, 175, 125, 1.6)
+
+    for i = 2, 4 do
+        _G["PartyMemberFrame"..i]:SetScale(1.6)
+    end
+end
+
+local function AbbreviateLargeNumber(value)
+    local numDigits = strlen(value)
+    local retStr = value
+    if numDigits >= 10 then
+        retStr = string.sub(value, 1, -10).."."..string.sub(value, -9, -9).." G"
+    elseif numDigits >= 7 then
+        retStr = string.sub(value, 1, -7).."."..string.sub(value, -6, -6).." M"
+    elseif numDigits >= 4 then
+        retStr = string.sub(value, 1, -4).."."..string.sub(value, -3, -3).." K"
+    end
+    return retStr
+end
+
+function ModifyUnitFrameText(self, text, value, min, max)
+    local textDisplay = GetCVar("statusTextDisplay")
+
+    if textDisplay == "BOTH" then
+        self.RightText:SetText(AbbreviateLargeNumber(value))
+    elseif textDisplay == "NUMERIC" or self.showNumeric then
+
+
+        text:SetText(AbbreviateLargeNumber(value).." / "..AbbreviateLargeNumber(max))
+
+
     end
 end
 
@@ -157,11 +185,12 @@ end
 
 -- UNIT FRAMES FRAME EVENT HANDLER
 local function EventHandler(self, event, ...)
-    if event == "PLAYER_ENTERING_WORLD" or event == "UNIT_EXITED_VEHICLE" or event == "UNIT_ENTERED_VEHICLE" then
+    if event == "PLAYER_ENTERING_WORLD" then
         ModifyPlayerFrameArt()
         ModifyTargetFrameArt()
         Utils.ModifyUnitFrame(PlayerFrame, -265, -150, 1.3)
         Utils.ModifyUnitFrame(TargetFrame, 265, -150, 1.3)
+        ModifyPartyMemmberFrames()
     end
 end
 
