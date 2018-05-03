@@ -86,6 +86,7 @@ local function ModifyChatStrings()
     CHAT_PARTY_GET = "|Hchannel:PARTY|h[P]|h %s: "
     CHAT_OFFICER_GET = "|Hchannel:OFFICER|h[O]|h %s: "
     CHAT_PARTY_GUIDE_GET = "|Hchannel:PARTY|h[PG]|h %s: "
+    CHAT_RAID_LEADER_GET = "|Hchannel:RAID|h[RL]|h %s: "
     CHAT_PARTY_LEADER_GET = "|Hchannel:PARTY|h[PL]|h %s: "
     CHAT_INSTANCE_CHAT_GET = "|Hchannel:Battleground|h[I]|h %s: "
     CHAT_INSTANCE_CHAT_LEADER_GET = "|Hchannel:Battleground|h[IL]|h %s: "

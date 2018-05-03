@@ -245,9 +245,7 @@ local function MoveBarFrames()
     PetActionBarFrame:SetScale(0.8)
 end
 
-local function ModifyMicroMenu(parent, x, y, scale)
-    local prevButton = nil
-
+local function ModifyMicroMenu(parent, anchor, x, y, stacked, scale)
     for _, button in next, {
         CharacterMicroButton,
         SpellbookMicroButton,
@@ -261,19 +259,23 @@ local function ModifyMicroMenu(parent, x, y, scale)
         StoreMicroButton,
         MainMenuMicroButton
     } do
-        if prevButton == nil then
-            Utils.ModifyFrame(button, "BOTTOMRIGHT", parent, x, y, scale)
-        else
-            Utils.ModifyFrame(button, "BOTTOMRIGHT", prevButton, 24, 0, scale)
-        end
-        prevButton = button
+        button:SetScale(scale)
+    end
+    -- Use existing API to move the micromenu buttons
+    MoveMicroButtons(anchor, parent, anchor, x, y, stacked)
+end
+
+local function Hook_MoveMicroButtons(a, aT, rT, x, y, stacked)
+    if HasOverrideActionBar() then
+        ModifyMicroMenu(aT, rT, x, y, stacked, 1)
+    else
+        ModifyMicroMenu(UIParent, "BOTTOMRIGHT", -257, -1, false, 0.85)
     end
 end
 
 -- ACTION BAR FRAME EVENT HANDLER
 local function EventHandler(self, event, ...)
     if event == "ADDON_LOADED" then
-        ModifyMicroMenu(UIParent, -239, -1, 0.9)
         Utils.ModifyFrame(MainMenuBarBackpackButton, 'BOTTOMRIGHT', UIParent, -1, -300, nil)
     end
     if event == "PLAYER_LOGIN" then
@@ -282,6 +284,7 @@ local function EventHandler(self, event, ...)
     end
     if event == "PLAYER_ENTERING_WORLD" then
         MoveBarFrames()
+        ModifyMicroMenu(UIParent, "BOTTOMRIGHT", -257, -1, false, 0.85)
     end
 end
 
@@ -289,6 +292,7 @@ end
 ActionBarsModule:SetScript("OnEvent", EventHandler)
 
 -- HOOK SECURE FUNCTIONS
+hooksecurefunc("MoveMicroButtons", Hook_MoveMicroButtons)
 hooksecurefunc("ActionButton_UpdateHotkeys", UpdateHotKeyText)
 hooksecurefunc("ActionButton_OnUpdate", UpdateActionRange)
 hooksecurefunc("MainMenuBar_UpdateExperienceBars", UpdateExperienceBars)

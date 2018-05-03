@@ -19,21 +19,20 @@ Utils = CreateFrame("Frame")
 HiddenFrame = CreateFrame("Frame", nil)
 
 function Utils.ModifyFrame(frame, anchor, parent, x, y, scale)
+    -- Enable the frame to be moved and clear all previous points
     frame:SetMovable(true)
     frame:ClearAllPoints()
+    -- Set frame position and scale
     if parent == nil then
-        frame:SetPoint(anchor, x, y)
-    else
         frame:SetPoint(anchor, parent, x, y)
+    else
+        frame:SetPoint(anchor, x, y)
     end
     if scale ~= nil then
         frame:SetScale(scale)
     end
-end
-
-function Utils.ModifyFixedFrame(frame, anchor, parent, x, y, scale)
-    --frame:SetMovable(true)
-    Utils.ModifyFrame(frame, anchor, parent, x, y, scale)
+    -- Configure and lock the frame
+    frame:SetUserPlaced(true)
     frame:SetMovable(false)
 end
 
