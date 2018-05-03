@@ -9,8 +9,8 @@ UnitFramesModule:RegisterEvent("UNIT_EXITED_VEHICLE")
 UnitFramesModule:RegisterEvent("UNIT_ENTERED_VEHICLE")
 
 local function ModifyPlayerFrameArt()
-    -- Hide player name and set player frame texture
-    PlayerName:Hide()
+    -- Update player name and set player frame texture
+    PlayerName:SetPoint("CENTER", PlayerFrame, "CENTER", 50, 36)
     PlayerFrameTexture:SetTexture(UI_FRAME_TARGET)
 
     -- Update player health bar
@@ -54,12 +54,8 @@ end
 local function ModifyTargetFrameArt()
     local classification = UnitClassification(TargetFrame.unit)
 
-    -- Hide target name
-    TargetFrameTextureFrameName:Hide()
-
     -- Update target frame
     TargetFrameBackground:SetSize(119, 42)
-    TargetFrame.buffsOnTop = true
     TargetFrame.Background:SetPoint("BOTTOMLEFT", TargetFrame, "BOTTOMLEFT", 7, 35)
     TargetFrame.nameBackground:Hide()
     TargetFrame.Background:SetSize(119, 42)
