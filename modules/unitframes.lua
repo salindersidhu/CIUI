@@ -11,7 +11,7 @@ UnitFramesModule:RegisterEvent("UNIT_ENTERED_VEHICLE")
 local function ModifyPlayerFrameArt()
     -- Update player name and set player frame texture
     PlayerName:SetPoint("CENTER", PlayerFrame, "CENTER", 50, 36)
-    PlayerFrameTexture:SetTexture(UI_FRAME_TARGET)
+    PlayerFrameTexture:SetTexture(TEXTURE_UI_FRAME_TARGET)
 
     -- Update player health bar
     PlayerFrameHealthBar:SetHeight(18)
@@ -88,21 +88,23 @@ local function ModifyTargetFrameArt()
 
     -- Update target frame texture
     if classification == "minus" then
-        TargetFrame.borderTexture:SetTexture(UI_FRAME_TARGET_MINUS)
-        TargetFrame.nameBackground:Hide()
-        TargetFrame.manabar.pauseUpdates = true
-        TargetFrame.manabar:Hide()
-        TargetFrame.manabar.TextString:Hide()
-        TargetFrame.manabar.LeftText:Hide()
-        TargetFrame.manabar.RightText:Hide()
+        TargetFrame.borderTexture:SetTexture(TEXTURE_UI_FRAME_TARGET)
     elseif classification == "worldboss" or classification == "elite" then
-        TargetFrame.borderTexture:SetTexture(UI_FRAME_TARGET_ELITE)
+        TargetFrame.borderTexture:SetTexture(TEXTURE_UI_FRAME_TARGET_ELITE)
     elseif classification == "rareelite"  then
-        TargetFrame.borderTexture:SetTexture(UI_FRAME_TARGET_RARE_ELITE)
+        TargetFrame.borderTexture:SetTexture(TEXTURE_UI_FRAME_TARGET_RARE_ELITE)
     elseif classification == "rare" then
-        TargetFrame.borderTexture:SetTexture(UI_FRAME_TARGET_RARE)
+        TargetFrame.borderTexture:SetTexture(TEXTURE_UI_FRAME_TARGET_RARE)
     else
-        TargetFrame.borderTexture:SetTexture(UI_FRAME_TARGET)
+        TargetFrame.borderTexture:SetTexture(TEXTURE_UI_FRAME_TARGET)
+    end
+
+    if TargetFrame.threatIndicator and classification == "minus" then
+        TargetFrame.threatIndicator:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Flash")
+        TargetFrame.threatIndicator:SetTexCoord(0, 0.9453125, 0, 0.181640625)
+        TargetFrame.threatIndicator:SetWidth(242)
+        TargetFrame.threatIndicator:SetHeight(93)
+        TargetFrame.threatIndicator:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", -24, 0)
     end
 
     -- Show quest icon if target is part of a quest
@@ -117,7 +119,7 @@ end
 
 local function ModifyPartyMemmberFrames()
     local _, _, flags = PlayerFrameHealthBarTextLeft:GetFont()
-    Utils.ModifyFrame(PartyMemberFrame1, "LEFT", nil, 175, 125, 1.6)
+    Utils.ModifyFrameFixed(PartyMemberFrame1, "LEFT", nil, 175, 125, 1.6)
 
     for i = 2, 4 do
         _G["PartyMemberFrame"..i]:SetScale(1.6)

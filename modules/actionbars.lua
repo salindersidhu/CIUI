@@ -111,7 +111,6 @@ local function ResizeMainBar()
         MainMenuBarPageNumber,
     } do
         texture:SetParent(HiddenFrame)
-        HiddenFrame:Hide()
     end
 
     for _, bar in next, {
@@ -137,7 +136,7 @@ local function ResizeMainBar()
         _G["MainMenuXPBarDiv"..i]:SetParent(HiddenFrame)
     end
 
-    Utils.ModifyFrame(MainMenuBar, 'BOTTOM', nil, 0, 10, 1.1)
+    Utils.ModifyFrameFixed(MainMenuBar, 'BOTTOM', nil, 0, 10, 1.1)
 
 	ReputationWatchBar.StatusBar.WatchBarTexture0:SetWidth(128)
 	ReputationWatchBar.StatusBar.WatchBarTexture1:SetWidth(128)
@@ -271,7 +270,7 @@ end
 -- ACTION BAR FRAME EVENT HANDLER
 local function EventHandler(self, event, ...)
     if event == "ADDON_LOADED" then
-        Utils.ModifyFrame(MainMenuBarBackpackButton, 'BOTTOMRIGHT', UIParent, -1, -300, nil)
+        Utils.ModifyFrameFixed(MainMenuBarBackpackButton, 'BOTTOMRIGHT', UIParent, -1, -300, nil)
     end
     if event == "PLAYER_LOGIN" then
         ResizeMainBar()

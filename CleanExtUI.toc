@@ -1,7 +1,7 @@
 ## Interface: 70300
 ## Title: Clean Extended UI
 ## Author: Salinder Sidhu
-## Version: 0.0.6
+## Version: 0.0.7
 ## Notes: Cleaner version of the standard Blizzard UI.
 
 main.lua

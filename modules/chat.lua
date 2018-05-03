@@ -15,7 +15,7 @@ local function ModifyChatUI()
     BNToastFrame:SetClampRectInsets(-15, 15, 15, -15)
 
     -- Modify edit box font
-    ChatFontNormal:SetFont(CHAT_FONT, 15, "THINOUTLINE")
+    ChatFontNormal:SetFont(FONT_CHAT, 15, "THINOUTLINE")
     ChatFontNormal:SetShadowOffset(1, -1)
     ChatFontNormal:SetShadowColor(0, 0, 0, 0.6)
 
@@ -33,7 +33,7 @@ local function ModifyChatUI()
         -- Modify chat tabs
         local tab = _G[window.."Tab"]
         local tabFont = tab:GetFontString()
-        tabFont:SetFont(CHAT_FONT, 12, "THINOUTLINE")
+        tabFont:SetFont(FONT_CHAT, 12, "THINOUTLINE")
         tabFont:SetShadowOffset(1, -1)
         tabFont:SetShadowColor(0, 0, 0, 0.6)
 
@@ -66,7 +66,7 @@ local function ModifyChatUI()
         _G[window.."EditBox"]:SetPoint("RIGHT", _G[window], 10, 0)
 
         -- Modify chat font
-        _G[window]:SetFont(CHAT_FONT, size, "THINOUTLINE")
+        _G[window]:SetFont(FONT_CHAT, size, "THINOUTLINE")
         _G[window]:SetShadowOffset(1, -1)
         _G[window]:SetShadowColor(0, 0, 0, 0.6)
     end

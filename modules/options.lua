@@ -35,7 +35,7 @@ end
 
 -- OPTIONS FRAME EVENT HANDLER
 local function EventHandler(self, event, arg1, ...)
-    if event == "ADDON_LOADED" and arg1 == ADDON_ID then
+    if event == "ADDON_LOADED" and arg1 == ADDON_NAME then
         CreateInterfaceOptions()
     end
 end
