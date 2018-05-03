@@ -7,6 +7,7 @@ local ActionBarsModule = CreateFrame("Frame")
 ActionBarsModule:RegisterEvent("ADDON_LOADED")
 ActionBarsModule:RegisterEvent("PLAYER_LOGIN")
 ActionBarsModule:RegisterEvent("PLAYER_ENTERING_WORLD")
+ActionBarsModule:RegisterEvent('UNIT_EXITED_VEHICLE')
 
 local function UpdateHotKeyText(self, bType)
     -- Obtain button text and hotkey
@@ -200,15 +201,12 @@ end
 local function MoveBarFrames()
 	MultiBarBottomLeft:ClearAllPoints()
 	MultiBarBottomLeft:SetPoint("BOTTOMLEFT", ActionButton1, "TOPLEFT", 0, 32)
-	MultiBarBottomLeft.SetPoint = function() end
 
 	MultiBarBottomRight:ClearAllPoints()
 	MultiBarBottomRight:SetPoint("BOTTOM", MultiBarBottomLeft, "TOP", 0, 5)
-	MultiBarBottomRight.SetPoint = function() end
 
 	MultiBarRight:ClearAllPoints()
 	MultiBarRight:SetPoint("RIGHT", WorldFrame, "RIGHT", 0, 0)
-	MultiBarRight.SetPoint = function() end
 
 	-- Stance Bar
 	StanceBarFrame:ClearAllPoints();
@@ -219,7 +217,6 @@ local function MoveBarFrames()
 	else
 		StanceBarFrame:SetPoint("BOTTOMLEFT", ActionButton1, "TOPLEFT", 0, 32)
 	end
-	StanceBarFrame.SetPoint = function() end
 
 	-- Possess Bar
 	PossessBarFrame:ClearAllPoints()
@@ -230,7 +227,6 @@ local function MoveBarFrames()
 	else
 		PossessBarFrame:SetPoint("BOTTOMLEFT", ActionButton1, "TOPLEFT", 0, 32)
 	end
-	PossessBarFrame.SetPoint = function() end
 
 	-- Pet Bar
 	PetActionBarFrame:ClearAllPoints()
@@ -241,7 +237,6 @@ local function MoveBarFrames()
 	else
 		PetActionBarFrame:SetPoint("BOTTOMRIGHT", MainMenuBar, "TOPRIGHT", 100, 11)
     end
-    PetActionBarFrame.SetPoint = function() end
     PetActionBarFrame:SetScale(0.8)
 end
 
@@ -296,6 +291,8 @@ hooksecurefunc("MoveMicroButtons", Hook_MoveMicroButtons)
 hooksecurefunc("ActionButton_UpdateHotkeys", UpdateHotKeyText)
 hooksecurefunc("ActionButton_OnUpdate", UpdateActionRange)
 hooksecurefunc("MainMenuBar_UpdateExperienceBars", UpdateExperienceBars)
+hooksecurefunc('MainMenuBarVehicleLeaveButton_Update', MoveBarFrames)
+hooksecurefunc('MultiActionBar_Update', MoveBarFrames)
 hooksecurefunc("ActionButton_OnEvent", function(self, event, ...)
     if event=="PLAYER_ENTERING_WORLD" then
         ActionButton_UpdateHotkeys(self, self.buttonType)

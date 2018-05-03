@@ -143,11 +143,7 @@ function ModifyUnitFrameText(self, text, value, min, max)
     if textDisplay == "BOTH" then
         self.RightText:SetText(AbbreviateLargeNumber(value))
     elseif textDisplay == "NUMERIC" or self.showNumeric then
-
-
         text:SetText(AbbreviateLargeNumber(value).." / "..AbbreviateLargeNumber(max))
-
-
     end
 end
 
