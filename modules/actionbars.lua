@@ -267,10 +267,19 @@ local function Hook_MoveMicroButtons(a, aT, rT, x, y, stacked)
     end
 end
 
+local function MoveTalkingHead()
+    if (InCombatLockdown() == false and MultiBarBottomRight:IsShown()) then
+        TalkingHeadFrame.ignoreFramePositionManager = true
+        TalkingHeadFrame:ClearAllPoints()
+        TalkingHeadFrame:SetPoint("BOTTOM", 0, 155)
+    end
+end
+
 -- ACTION BAR FRAME EVENT HANDLER
 local function EventHandler(self, event, ...)
     if event == "ADDON_LOADED" then
         Utils.ModifyFrameFixed(MainMenuBarBackpackButton, 'BOTTOMRIGHT', UIParent, -1, -300, nil)
+        Utils.ModifyFrameFixed(ExtraActionBarFrame, "BOTTOM", UIParent, 0, 192, nil)
     end
     if event == "PLAYER_LOGIN" then
         ResizeMainBar()
@@ -279,6 +288,7 @@ local function EventHandler(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
         MoveBarFrames()
         ModifyMicroMenu(UIParent, "BOTTOMRIGHT", -257, -1, false, 0.85)
+        MoveTalkingHead()
     end
 end
 

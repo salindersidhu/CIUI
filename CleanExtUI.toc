@@ -3,6 +3,7 @@
 ## Author: Salinder Sidhu
 ## Version: 0.0.7
 ## Notes: Cleaner version of the standard Blizzard UI.
+## Dependencies: Blizzard_TalkingHeadUI
 
 main.lua
 
