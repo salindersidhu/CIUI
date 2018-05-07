@@ -5,6 +5,8 @@ local UnitFramesModule = CreateFrame("Frame")
 
 -- REGISTER EVENTS TO FRAMES --
 UnitFramesModule:RegisterEvent("PLAYER_ENTERING_WORLD")
+UnitFramesModule:RegisterEvent("UNIT_ENTERED_VEHICLE")
+UnitFramesModule:RegisterEvent("UNIT_EXITED_VEHICLE")
 
 local function AbbreviateNumber(n, delim, strAbbr)
     return string.sub(n, 1, delim).."."..string.sub(n, delim + 1, delim + 1).." "..strAbbr
@@ -57,8 +59,8 @@ end
 
 local function ModifyPlayerFrameUI()
     -- Modify Player's name and texture
-    Utils.ModifyFont(PlayerName, nil, nil, "OUTLINE")
-    PlayerName:SetPoint("CENTER", PlayerFrame, "CENTER", 50, 37)
+    Utils.ModifyFont(PlayerName, nil, 11, "OUTLINE")
+    PlayerName:SetPoint("CENTER", PlayerFrame, "CENTER", 50, 36)
     PlayerFrameTexture:SetTexture(TEXTURE_UI_FRAME_TARGET)
 
     -- Update Player's health bar
@@ -105,8 +107,8 @@ local function ModifyTargetFrameUI()
 
     -- Update Target's name
     TargetFrame.nameBackground:Hide()
-    Utils.ModifyFont(TargetFrame.name, nil, nil, "OUTLINE")
-    TargetFrame.name:SetPoint("LEFT", TargetFrame, 15, 37)
+    Utils.ModifyFont(TargetFrame.name, nil, 11, "OUTLINE")
+    TargetFrame.name:SetPoint("LEFT", TargetFrame, 15, 36)
 
     -- Update Target's background
     TargetFrameBackground:SetSize(119, 42)
@@ -153,7 +155,7 @@ local function ModifyTargetFrameUI()
     --  Set threat indicator for the "minus" classification type
     if TargetFrame.threatIndicator and targetType == "minus" then
         TargetFrame.threatIndicator:SetTexture(TEXTURE_UI_FRAME_TARGET_FLASH)
-        TargetFrame.threatIndicator:SetTexCoord(0, 0.9453125, 0, 0.181640625)
+        TargetFrame.threatIndicator:SetTexCoord(0, 0.95, 0, 0.18)
         TargetFrame.threatIndicator:SetWidth(242)
         TargetFrame.threatIndicator:SetHeight(93)
         TargetFrame.threatIndicator:SetPoint("TOPLEFT", TargetFrame, "TOPLEFT", -24, 0)
@@ -173,18 +175,49 @@ local function ModifyPartyFrameUI()
     end
 end
 
+local function SetPlayerFrameVehicleUI()
+    -- Update Player's vehicle health bar
+    PlayerFrameHealthBar:SetHeight(12)
+    PlayerFrameHealthBar:SetPoint("TOPLEFT", 119, -41)
+    PlayerFrameHealthBar.LeftText:ClearAllPoints()
+    PlayerFrameHealthBar.LeftText:SetPoint("LEFT", PlayerFrameHealthBar, "LEFT", 0, 0)
+    PlayerFrameHealthBar.RightText:ClearAllPoints()
+    PlayerFrameHealthBar.RightText:SetPoint("RIGHT", PlayerFrameHealthBar, "RIGHT", 0, 0)
+    PlayerFrameHealthBarText:SetPoint("CENTER", PlayerFrameHealthBar, "CENTER", 0, 0)
+
+    -- Update Player's vehicle mana bar
+    PlayerFrameManaBar:SetHeight(12)
+    PlayerFrameManaBar:SetPoint("TOPLEFT", 119, -52)
+    PlayerFrameManaBar.LeftText:ClearAllPoints()
+    PlayerFrameManaBar.LeftText:SetPoint("LEFT", PlayerFrameManaBar, "LEFT", 0, 0)
+    PlayerFrameManaBar.RightText:ClearAllPoints()
+    PlayerFrameManaBar.RightText:SetPoint("RIGHT", PlayerFrameManaBar, "RIGHT", 0, 0)
+    PlayerFrameManaBarText:SetPoint("CENTER", PlayerFrameManaBar, "CENTER", 0, 0)
+end
+
+local function ModifyUnitFrameUI()
+    -- Modify Party, Player and Target UnitFrames
+    ModifyPartyFrameUI()
+    ModifyPlayerFrameUI()
+    ModifyTargetFrameUI()
+end
+
 -- UNIT FRAMES FRAME EVENT HANDLER
 local function EventHandler(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
-        -- Modify Party UnitFrames
-        ModifyPartyFrameUI()
+        ModifyUnitFrameUI()
+        -- Modify UnitFrame positions
         Utils.ModifyFrameFixed(PartyMemberFrame1, "LEFT", nil, 175, 125, nil)
-        -- Update Player UnitFrame
-        ModifyPlayerFrameUI()
         Utils.ModifyFrameFixed(PlayerFrame, "CENTER", nil, -265, -150, 1.3)
-        -- Update Target UnitFrame
-        ModifyTargetFrameUI()
         Utils.ModifyFrameFixed(TargetFrame, "CENTER", nil, 265, -150, 1.3)
+    end
+    if event == "UNIT_ENTERED_VEHICLE" then
+        -- Modify Player UnitFrame for vehicles
+        SetPlayerFrameVehicleUI()
+    end
+    if event == "UNIT_EXITED_VEHICLE" then
+        -- Restore UnitFrame modifications upon vehicle exit
+        ModifyUnitFrameUI()
     end
 end
 

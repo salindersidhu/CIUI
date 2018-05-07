@@ -27,7 +27,7 @@ local function ModifyMicroMenuButtons(parent, anchor, x, y, stacked, scale)
 end
 
 local function Hook_MoveMicroButtons(a, aT, rT, x, y, stacked)
-    if HasOverrideActionBar() then
+    if HasOverrideActionBar() or HasVehicleActionBar() then
         ModifyMicroMenuButtons(aT, rT, x, y, stacked, 1)
     else
         ModifyMicroMenuButtons(UIParent, "BOTTOMRIGHT", -257, -1, false, 0.85)
