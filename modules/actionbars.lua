@@ -239,34 +239,6 @@ local function MoveBarFrames()
     PetActionBarFrame:SetScale(0.8)
 end
 
-local function ModifyMicroMenu(parent, anchor, x, y, stacked, scale)
-    for _, button in next, {
-        CharacterMicroButton,
-        SpellbookMicroButton,
-        TalentMicroButton,
-        AchievementMicroButton,
-        QuestLogMicroButton,
-        GuildMicroButton,
-        LFDMicroButton,
-        CollectionsMicroButton,
-        EJMicroButton,
-        StoreMicroButton,
-        MainMenuMicroButton
-    } do
-        button:SetScale(scale)
-    end
-    -- Use existing API to move the micromenu buttons
-    MoveMicroButtons(anchor, parent, anchor, x, y, stacked)
-end
-
-local function Hook_MoveMicroButtons(a, aT, rT, x, y, stacked)
-    if HasOverrideActionBar() then
-        ModifyMicroMenu(aT, rT, x, y, stacked, 1)
-    else
-        ModifyMicroMenu(UIParent, "BOTTOMRIGHT", -257, -1, false, 0.85)
-    end
-end
-
 local function MoveTalkingHead()
     if (InCombatLockdown() == false and MultiBarBottomRight:IsShown()) then
         TalkingHeadFrame.ignoreFramePositionManager = true
@@ -287,7 +259,6 @@ local function EventHandler(self, event, ...)
     end
     if event == "PLAYER_ENTERING_WORLD" then
         MoveBarFrames()
-        ModifyMicroMenu(UIParent, "BOTTOMRIGHT", -257, -1, false, 0.85)
         MoveTalkingHead()
     end
 end
@@ -296,7 +267,6 @@ end
 ActionBarsModule:SetScript("OnEvent", EventHandler)
 
 -- HOOK SECURE FUNCTIONS
-hooksecurefunc("MoveMicroButtons", Hook_MoveMicroButtons)
 hooksecurefunc("ActionButton_UpdateHotkeys", UpdateHotKeyText)
 hooksecurefunc("ActionButton_OnUpdate", UpdateActionRange)
 hooksecurefunc("MainMenuBar_UpdateExperienceBars", UpdateExperienceBars)

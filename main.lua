@@ -7,6 +7,7 @@ ADDON_VERSION = GetAddOnMetadata(ADDON_NAME, "Version")
 FONT_CHAT = "Interface\\Addons\\CleanExtUI\\media\\Tahoma.ttf"
 
 TEXTURE_UI_FRAME_TARGET = "Interface\\Addons\\CleanExtUI\\media\\UI-TargetingFrame"
+TEXTURE_UI_FRAME_TARGET_FLASH = "Interface\\TargetingFrame\\UI-TargetingFrame-Flash"
 TEXTURE_UI_FRAME_TARGET_RARE = "Interface\\Addons\\CleanExtUI\\media\\UI-TargetingFrame-Rare"
 TEXTURE_UI_FRAME_TARGET_ELITE = "Interface\\Addons\\CleanExtUI\\media\\UI-TargetingFrame-Elite"
 TEXTURE_UI_FRAME_TARGET_RARE_ELITE = "Interface\\Addons\\CleanExtUI\\media\\UI-TargetingFrame-Rare-Elite"
@@ -15,6 +16,13 @@ TEXTURE_UI_FRAME_TARGET_RARE_ELITE = "Interface\\Addons\\CleanExtUI\\media\\UI-T
 Utils = CreateFrame("Frame")
 HiddenFrame = CreateFrame("Frame", nil)
 HiddenFrame:Hide()
+
+function Utils.ModifyFont(frame, file, size, flags)
+    -- Obtain the frame's default file size and flags
+    local dFile, dSize, dFlags = frame:GetFont()
+    -- Apply changes to font if parameters exist otherwise use default
+    frame:SetFont(file and file or dFile, size and size or dSize, flags and flags or dFlags)
+end
 
 function Utils.ModifyFrame(frame, anchor, parent, x, y, scale)
     -- Clear all previous points
@@ -39,8 +47,4 @@ function Utils.ModifyFrameFixed(frame, anchor, parent, x, y, scale)
     -- Configure and lock the frame
     frame:SetUserPlaced(true)
     frame:SetMovable(false)
-end
-
-function Utils.ModifyUnitFrame(frame, x, y, scale)
-    Utils.ModifyFrameFixed(frame, "CENTER", nil, x, y, scale)
 end

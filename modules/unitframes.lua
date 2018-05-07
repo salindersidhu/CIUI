@@ -5,102 +5,154 @@ local UnitFramesModule = CreateFrame("Frame")
 
 -- REGISTER EVENTS TO FRAMES --
 UnitFramesModule:RegisterEvent("PLAYER_ENTERING_WORLD")
-UnitFramesModule:RegisterEvent("UNIT_EXITED_VEHICLE")
-UnitFramesModule:RegisterEvent("UNIT_ENTERED_VEHICLE")
 
-local function ModifyPlayerFrameArt()
-    -- Update player name and set player frame texture
-    PlayerName:SetPoint("CENTER", PlayerFrame, "CENTER", 50, 36)
+local function AbbreviateNumber(n, delim, strAbbr)
+    return string.sub(n, 1, delim).."."..string.sub(n, delim + 1, delim + 1).." "..strAbbr
+end
+
+local function GetAbbrNumText(value)
+    local numDigits = strlen(value)
+    local text = value
+
+    if numDigits >= 10 then
+        text = AbbreviateNumber(value, -10, "B")
+    elseif numDigits >= 7 then
+        text = AbbreviateNumber(value, -7, "M")
+    elseif numDigits >= 4 then
+        text = AbbreviateNumber(value, -4, "K")
+    end
+
+    return text
+end
+
+local function Hook_TextStatusBar_UpdateTextStringWithValues(self, text, value, min, max)
+    local textDisplay = GetCVar("statusTextDisplay")
+
+    if textDisplay == "BOTH" and not self.showNumeric then
+        self.RightText:SetText(GetAbbrNumText(value))
+    elseif textDisplay == "NUMERIC" or self.showNumeric then
+        text:SetText(GetAbbrNumText(value).." / "..GetAbbrNumText(max))
+    end
+end
+
+local function Hook_HealthBar_OnValueChanged(self, value, smooth)
+    local r, g, b, diff
+    local min, max = self:GetMinMaxValues()
+
+    if (not value) or (value < min) or (value > max) then
+        return
+    end
+
+    -- Set value to range from 0 to 1 in proportation to max/min
+    diff = max - min
+    value = (diff > 0 and ((value - min) / diff) or 0)
+
+    -- Change health bar from default green to yellow or red depending on value
+    r = (value > 0.5 and ((1.0 - value) * 2) or 1.0)
+    g = (value > 0.5 and 1.0 or (value * 2))
+    b = 0.0
+
+    self:SetStatusBarColor(r, g, b)
+end
+
+local function ModifyPlayerFrameUI()
+    -- Modify Player's name and texture
+    Utils.ModifyFont(PlayerName, nil, nil, "OUTLINE")
+    PlayerName:SetPoint("CENTER", PlayerFrame, "CENTER", 50, 37)
     PlayerFrameTexture:SetTexture(TEXTURE_UI_FRAME_TARGET)
 
-    -- Update player health bar
+    -- Update Player's health bar
     PlayerFrameHealthBar:SetHeight(18)
     PlayerFrameHealthBar:SetPoint("TOPLEFT", 106, -24)
     PlayerFrameHealthBar.LeftText:ClearAllPoints()
+    PlayerFrameHealthBar.LeftText:SetPoint("LEFT", PlayerFrameHealthBar, "LEFT", 5, 0)
     PlayerFrameHealthBar.RightText:ClearAllPoints()
-    PlayerFrameHealthBar.LeftText:SetPoint("LEFT", PlayerFrameHealthBar, "LEFT", 5, 0)	
     PlayerFrameHealthBar.RightText:SetPoint("RIGHT", PlayerFrameHealthBar, "RIGHT", -5, 0)
     PlayerFrameHealthBarText:SetPoint("CENTER", PlayerFrameHealthBar, "CENTER", 0, 0)
 
-    -- Update player mana bar
+    -- Update Player's mana bar
     PlayerFrameManaBar:SetHeight(18)
     PlayerFrameManaBar:SetPoint("TOPLEFT", 106, -45)
     PlayerFrameManaBar.LeftText:ClearAllPoints()
-    PlayerFrameManaBar.RightText:ClearAllPoints()
     PlayerFrameManaBar.LeftText:SetPoint("LEFT", PlayerFrameManaBar, "LEFT", 5, 0)
+    PlayerFrameManaBar.RightText:ClearAllPoints()
     PlayerFrameManaBar.RightText:SetPoint("RIGHT", PlayerFrameManaBar, "RIGHT", -5, 0)
     PlayerFrameManaBarText:SetPoint("CENTER", PlayerFrameManaBar, "CENTER", 0, 0)
 
-    -- Update player mana feedback frame
+    -- Update Player's mana feedback frame
     PlayerFrameManaBar.FeedbackFrame:ClearAllPoints()
     PlayerFrameManaBar.FeedbackFrame:SetHeight(18)
     PlayerFrameManaBar.FeedbackFrame:SetPoint("CENTER", PlayerFrameManaBar, "CENTER", 0, 0)
 
-    -- Update player mana pulse frame
+    -- Update Player's mana pulse frame
     PlayerFrameManaBar.FullPowerFrame.PulseFrame:ClearAllPoints()
     PlayerFrameManaBar.FullPowerFrame.PulseFrame:SetPoint("CENTER", PlayerFrameManaBar.FullPowerFrame, "CENTER", -6, -2)
 
-    -- Update player mana spike frame big spike glow
+    -- Update Player's mana spike frame big spike glow
     PlayerFrameManaBar.FullPowerFrame.SpikeFrame.BigSpikeGlow:ClearAllPoints()
     PlayerFrameManaBar.FullPowerFrame.SpikeFrame.BigSpikeGlow:SetSize(30, 50)
     PlayerFrameManaBar.FullPowerFrame.SpikeFrame.BigSpikeGlow:SetPoint("CENTER", PlayerFrameManaBar.FullPowerFrame, "RIGHT", 5, -4)
 
-    -- Update player mana spike frame alert spike stay
+    -- Update Player's mana spike frame alert spike stay
     PlayerFrameManaBar.FullPowerFrame.SpikeFrame.AlertSpikeStay:ClearAllPoints()
     PlayerFrameManaBar.FullPowerFrame.SpikeFrame.AlertSpikeStay:SetSize(30, 29)
     PlayerFrameManaBar.FullPowerFrame.SpikeFrame.AlertSpikeStay:SetPoint("CENTER", PlayerFrameManaBar.FullPowerFrame, "RIGHT", -6, -3)
 end
 
-local function ModifyTargetFrameArt()
-    local classification = UnitClassification(TargetFrame.unit)
+local function ModifyTargetFrameUI()
+    -- Obtain target's unit classification type
+    local targetType = UnitClassification(TargetFrame.unit)
 
-    -- Update target frame
-    TargetFrameBackground:SetSize(119, 42)
-    TargetFrame.Background:SetPoint("BOTTOMLEFT", TargetFrame, "BOTTOMLEFT", 7, 35)
+    -- Update Target's name
     TargetFrame.nameBackground:Hide()
+    Utils.ModifyFont(TargetFrame.name, nil, nil, "OUTLINE")
+    TargetFrame.name:SetPoint("LEFT", TargetFrame, 15, 37)
+
+    -- Update Target's background
+    TargetFrameBackground:SetSize(119, 42)
     TargetFrame.Background:SetSize(119, 42)
-    TargetFrame.name:SetPoint("LEFT", TargetFrame, 15, 36)
+    TargetFrame.Background:SetPoint("BOTTOMLEFT", TargetFrame, "BOTTOMLEFT", 7, 35)
+
+    -- Update Target's "dead" text
     TargetFrame.deadText:ClearAllPoints()
     TargetFrame.deadText:SetPoint("CENTER", TargetFrame.healthbar, "CENTER", 0, 0)
 
-    -- Update target health bar
+    -- Update Target's health bar
     TargetFrame.healthbar:ClearAllPoints()
 	TargetFrame.healthbar:SetSize(119, 18)
 	TargetFrame.healthbar:SetPoint("TOPLEFT", 5, -24)
-	TargetFrame.healthbar.LeftText:ClearAllPoints()
-    TargetFrame.healthbar.RightText:ClearAllPoints()
+    TargetFrame.healthbar.LeftText:ClearAllPoints()
     TargetFrame.healthbar.LeftText:SetPoint("LEFT", TargetFrame.healthbar, "LEFT", 5, 0)
+    TargetFrame.healthbar.RightText:ClearAllPoints()
 	TargetFrame.healthbar.RightText:SetPoint("RIGHT", TargetFrame.healthbar, "RIGHT", -3, 0)
 	TargetFrame.healthbar.TextString:SetPoint("CENTER", TargetFrame.healthbar, "CENTER", 0, 0)
 
-    -- Update target mana bar
-	TargetFrame.manabar.pauseUpdates = false;
-	TargetFrame.manabar:Show()
-	TextStatusBar_UpdateTextString(TargetFrame.manabar)
+    -- Update Target's mana bar
     TargetFrame.manabar:ClearAllPoints()
     TargetFrame.manabar:SetSize(119, 18)
     TargetFrame.manabar:SetPoint("TOPLEFT", 5, -45)
     TargetFrame.manabar.LeftText:ClearAllPoints()
-    TargetFrame.manabar.RightText:ClearAllPoints()
 	TargetFrame.manabar.LeftText:SetPoint("LEFT", TargetFrame.manabar, "LEFT", 5, 0)
-	TargetFrame.manabar.RightText:SetPoint("RIGHT", TargetFrame.manabar, "RIGHT", -5, 0)
+    TargetFrame.manabar.RightText:ClearAllPoints()
+    TargetFrame.manabar.RightText:SetPoint("RIGHT", TargetFrame.manabar, "RIGHT", -5, 0)
 	TargetFrame.manabar.TextString:SetPoint("CENTER", TargetFrame.manabar, "CENTER", 0, 0)
 
-    -- Update target frame texture
-    if classification == "minus" then
+    -- Set texture based on target's unit classification type
+    if targetType == "minus" then
         TargetFrame.borderTexture:SetTexture(TEXTURE_UI_FRAME_TARGET)
-    elseif classification == "worldboss" or classification == "elite" then
+    elseif targetType == "worldboss" or targetType == "elite" then
         TargetFrame.borderTexture:SetTexture(TEXTURE_UI_FRAME_TARGET_ELITE)
-    elseif classification == "rareelite"  then
+    elseif targetType == "rareelite"  then
         TargetFrame.borderTexture:SetTexture(TEXTURE_UI_FRAME_TARGET_RARE_ELITE)
-    elseif classification == "rare" then
+    elseif targetType == "rare" then
         TargetFrame.borderTexture:SetTexture(TEXTURE_UI_FRAME_TARGET_RARE)
     else
         TargetFrame.borderTexture:SetTexture(TEXTURE_UI_FRAME_TARGET)
     end
 
-    if TargetFrame.threatIndicator and classification == "minus" then
-        TargetFrame.threatIndicator:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Flash")
+    --  Set threat indicator for the "minus" classification type
+    if TargetFrame.threatIndicator and targetType == "minus" then
+        TargetFrame.threatIndicator:SetTexture(TEXTURE_UI_FRAME_TARGET_FLASH)
         TargetFrame.threatIndicator:SetTexCoord(0, 0.9453125, 0, 0.181640625)
         TargetFrame.threatIndicator:SetWidth(242)
         TargetFrame.threatIndicator:SetHeight(93)
@@ -108,87 +160,31 @@ local function ModifyTargetFrameArt()
     end
 
     -- Show quest icon if target is part of a quest
-	if TargetFrame.questIcon then
-		if UnitIsQuestBoss(TargetFrame.unit) then
-			TargetFrame.questIcon:Show()
-		else
-			TargetFrame.questIcon:Hide()
-		end
+	if TargetFrame.questIcon and UnitIsQuestBoss(TargetFrame.unit) then
+		TargetFrame.questIcon:Show()
+	else
+		TargetFrame.questIcon:Hide()
 	end
 end
 
-local function ModifyPartyMemmberFrames()
-    local _, _, flags = PlayerFrameHealthBarTextLeft:GetFont()
-    Utils.ModifyFrameFixed(PartyMemberFrame1, "LEFT", nil, 175, 125, 1.6)
-
-    for i = 2, 4 do
+local function ModifyPartyFrameUI()
+    for i = 1, 4 do
         _G["PartyMemberFrame"..i]:SetScale(1.6)
     end
-end
-
-local function AbbreviateLargeNumber(value)
-    local numDigits = strlen(value)
-    local retStr = value
-    if numDigits >= 10 then
-        retStr = string.sub(value, 1, -10).."."..string.sub(value, -9, -9).." G"
-    elseif numDigits >= 7 then
-        retStr = string.sub(value, 1, -7).."."..string.sub(value, -6, -6).." M"
-    elseif numDigits >= 4 then
-        retStr = string.sub(value, 1, -4).."."..string.sub(value, -3, -3).." K"
-    end
-    return retStr
-end
-
-function ModifyUnitFrameText(self, text, value, min, max)
-    local textDisplay = GetCVar("statusTextDisplay")
-
-    if textDisplay == "BOTH" then
-        self.RightText:SetText(AbbreviateLargeNumber(value))
-    elseif textDisplay == "NUMERIC" or self.showNumeric then
-        text:SetText(AbbreviateLargeNumber(value).." / "..AbbreviateLargeNumber(max))
-    end
-end
-
-local function HealthBarOnValueChanged(self, value, smooth)
-    if not value then
-        return
-    end
-
-    local r, g, b
-    local min, max = self:GetMinMaxValues()
-
-    if ((value < min) or (value > max)) then
-        return
-    end
-
-    -- Set value to range from 0 to 1 in proportation to max/min
-    if (max - min) > 0 then
-        value = (value - min) / (max - min)
-    else
-        value = 0 
-    end
-
-    if value > 0.5 then
-        -- If value is > 50% change health bar from green to yellow
-        r = (1.0 - value) * 2
-        g = 1.0
-    else
-        -- If value is < 50% change health bar from yellow to red
-        r = 1.0
-        g = value * 2
-    end
-
-    self:SetStatusBarColor(r, g, 0.0)
 end
 
 -- UNIT FRAMES FRAME EVENT HANDLER
 local function EventHandler(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
-        ModifyPlayerFrameArt()
-        ModifyTargetFrameArt()
-        Utils.ModifyUnitFrame(PlayerFrame, -265, -150, 1.3)
-        Utils.ModifyUnitFrame(TargetFrame, 265, -150, 1.3)
-        ModifyPartyMemmberFrames()
+        -- Modify Party UnitFrames
+        ModifyPartyFrameUI()
+        Utils.ModifyFrameFixed(PartyMemberFrame1, "LEFT", nil, 175, 125, nil)
+        -- Update Player UnitFrame
+        ModifyPlayerFrameUI()
+        Utils.ModifyFrameFixed(PlayerFrame, "CENTER", nil, -265, -150, 1.3)
+        -- Update Target UnitFrame
+        ModifyTargetFrameUI()
+        Utils.ModifyFrameFixed(TargetFrame, "CENTER", nil, 265, -150, 1.3)
     end
 end
 
@@ -196,10 +192,10 @@ end
 UnitFramesModule:SetScript("OnEvent", EventHandler)
 
 -- HOOK SECURE FUNCTIONS
-hooksecurefunc("HealthBar_OnValueChanged", HealthBarOnValueChanged)
-hooksecurefunc("TargetFrame_CheckDead", ModifyTargetFrameArt)
-hooksecurefunc("TargetFrame_Update", ModifyTargetFrameArt)
-hooksecurefunc("TargetFrame_CheckFaction", ModifyTargetFrameArt)
-hooksecurefunc("TargetFrame_CheckClassification", ModifyTargetFrameArt)
-hooksecurefunc("TargetofTarget_Update", ModifyTargetFrameArt)
-hooksecurefunc("TextStatusBar_UpdateTextStringWithValues", ModifyUnitFrameText)
+hooksecurefunc("TargetFrame_CheckDead", ModifyTargetFrameUI)
+hooksecurefunc("TargetFrame_Update", ModifyTargetFrameUI)
+hooksecurefunc("TargetFrame_CheckFaction", ModifyTargetFrameUI)
+hooksecurefunc("TargetFrame_CheckClassification", ModifyTargetFrameUI)
+hooksecurefunc("TargetofTarget_Update", ModifyTargetFrameUI)
+hooksecurefunc("HealthBar_OnValueChanged", Hook_HealthBar_OnValueChanged)
+hooksecurefunc("TextStatusBar_UpdateTextStringWithValues", Hook_TextStatusBar_UpdateTextStringWithValues)
