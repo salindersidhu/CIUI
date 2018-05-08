@@ -14,8 +14,6 @@ TEXTURE_UI_FRAME_TARGET_RARE_ELITE = "Interface\\Addons\\CleanExtUI\\media\\UI-T
 
 -- UNIVERSAL FRAMES AND FUNCTIONS
 Utils = CreateFrame("Frame")
-HiddenFrame = CreateFrame("Frame", nil)
-HiddenFrame:Hide()
 
 function Utils.ModifyFont(frame, file, size, flags)
     -- Obtain the frame's default file size and flags

@@ -110,7 +110,7 @@ local function ResizeMainBar()
         MainMenuBarTexture3,
         MainMenuBarPageNumber,
     } do
-        texture:SetParent(HiddenFrame)
+        texture:Hide()
     end
 
     for _, bar in next, {
@@ -129,14 +129,14 @@ local function ResizeMainBar()
     end
 
     for i = 0, 1 do
-        _G["SlidingActionBarTexture"..i]:SetParent(HiddenFrame)
+        _G["SlidingActionBarTexture"..i]:Hide()
     end
 
     for i = 10, 19 do
-        _G["MainMenuXPBarDiv"..i]:SetParent(HiddenFrame)
+        _G["MainMenuXPBarDiv"..i]:Hide()
     end
 
-    Utils.ModifyFrameFixed(MainMenuBar, 'BOTTOM', nil, 0, 10, 1.1)
+    Utils.ModifyFrameFixed(MainMenuBar, "BOTTOM", nil, 0, 10, 1.1)
 
 	ReputationWatchBar.StatusBar.WatchBarTexture0:SetWidth(128)
 	ReputationWatchBar.StatusBar.WatchBarTexture1:SetWidth(128)

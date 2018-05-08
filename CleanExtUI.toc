@@ -11,6 +11,7 @@ locales\enUS.lua
 
 modules\actionbars.lua
 modules\chat.lua
+modules\map.lua
 modules\micromenu.lua
 modules\options.lua
 modules\unitframes.lua
