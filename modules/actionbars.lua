@@ -9,24 +9,20 @@ ActionBarsModule:RegisterEvent("PLAYER_LOGIN")
 ActionBarsModule:RegisterEvent("PLAYER_ENTERING_WORLD")
 ActionBarsModule:RegisterEvent('UNIT_EXITED_VEHICLE')
 
-local function UpdateHotKeyText(self, bType)
+local function Hook_ActionButton_UpdateHotkeys(self, bT)
     -- Obtain button text and hotkey
     local name = self:GetName()
     local hotkey = _G[name.."HotKey"]
 
     -- Determine button type if current button type does not exist
-    if not bType then
+    if not bT then
         if name and not string.match(name, "Stance") then
-            if string.match(name, "PetAction") then
-                bType = "BONUSACTIONBUTTON"
-            else
-                bType = "ACTIONBUTTON"
-            end
+            bT = string.match(name, "PetAction") and "BONUSACTIONBUTTON" or "ACTIONBUTTON"
         end
     end
 
     -- Obtain current HotKey binding text if it exists
-    local text = bType and GetBindingText(GetBindingKey(bType..self:GetID())) or ""
+    local text = bT and GetBindingText(GetBindingKey(bT..self:GetID())) or ""
 
     -- Modify HotKey text if text exists
     if text and text ~= "" then
@@ -67,37 +63,20 @@ local function UpdateHotKeyText(self, bType)
     end
 end
 
-local function UpdateActionRange(self, elapsed)
+local function Hook_ActionButton_OnUpdate(self, elapsed)
     if self.rangeTimer == TOOLTIP_UPDATE_TIME then
+        -- If action is not within range set action bar icon color to red
         if IsActionInRange(self.action) == false then
             self.icon:SetVertexColor(1.0, 0.0, 0.0)
         else
-            local canUse, amountMana = IsUsableAction(self.action)
-            if canUse then
+            if IsUsableAction(self.action) then
+                -- If action is within range and usable set icon color to white
                 self.icon:SetVertexColor(1.0, 1.0, 1.0)
-            elseif amountMana then
-                self.icon:SetVertexColor(0.5, 0.5, 1.0)
             else
+                -- If action is within range and unsable set icon color to grey
                 self.icon:SetVertexColor(0.4, 0.4, 0.4)
             end
         end
-    end
-end
-
-local function UpdateExperienceBars()
-    for _, bar in next, {
-        HonorWatchBar.StatusBar,
-        ArtifactWatchBar.StatusBar,
-        ReputationWatchBar.StatusBar,
-    } do
-        bar.XPBarTexture0:Hide()
-        bar.XPBarTexture1:Hide()
-        bar.XPBarTexture2:Hide()
-        bar.XPBarTexture3:Hide()
-        bar.WatchBarTexture0:Hide()
-        bar.WatchBarTexture1:Hide()
-        bar.WatchBarTexture2:Hide()
-        bar.WatchBarTexture3:Hide()
     end
 end
 
@@ -247,6 +226,12 @@ local function MoveTalkingHead()
     end
 end
 
+local function Hook_ActionButton_OnEvent(self, event, ...)
+    if event == "PLAYER_ENTERING_WORLD" then
+        ActionButton_UpdateHotkeys(self, self.buttonType)
+    end
+end
+
 -- ACTION BAR FRAME EVENT HANDLER
 local function EventHandler(self, event, ...)
     if event == "ADDON_LOADED" then
@@ -255,7 +240,6 @@ local function EventHandler(self, event, ...)
     end
     if event == "PLAYER_LOGIN" then
         ResizeMainBar()
-        UpdateExperienceBars()
     end
     if event == "PLAYER_ENTERING_WORLD" then
         MoveBarFrames()
@@ -267,13 +251,8 @@ end
 ActionBarsModule:SetScript("OnEvent", EventHandler)
 
 -- HOOK SECURE FUNCTIONS
-hooksecurefunc("ActionButton_UpdateHotkeys", UpdateHotKeyText)
-hooksecurefunc("ActionButton_OnUpdate", UpdateActionRange)
-hooksecurefunc("MainMenuBar_UpdateExperienceBars", UpdateExperienceBars)
+hooksecurefunc("ActionButton_UpdateHotkeys", Hook_ActionButton_UpdateHotkeys)
+hooksecurefunc("ActionButton_OnUpdate", Hook_ActionButton_OnUpdate)
 hooksecurefunc('MainMenuBarVehicleLeaveButton_Update', MoveBarFrames)
 hooksecurefunc('MultiActionBar_Update', MoveBarFrames)
-hooksecurefunc("ActionButton_OnEvent", function(self, event, ...)
-    if event=="PLAYER_ENTERING_WORLD" then
-        ActionButton_UpdateHotkeys(self, self.buttonType)
-    end
-end)
+hooksecurefunc("ActionButton_OnEvent", Hook_ActionButton_OnEvent)

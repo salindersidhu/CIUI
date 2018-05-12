@@ -9,7 +9,7 @@ OptionsModule:RegisterEvent("ADDON_LOADED")
 local function CreateInterfaceOptions()
     -- Create a frame for the interface options
     local opts = CreateFrame("Frame")
-    opts.name = L["OPT_TITLE"]
+    opts.name = L["OPT_ADDON"]
 
     --[[
         Title Block

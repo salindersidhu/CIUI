@@ -7,7 +7,7 @@ local MapModule = CreateFrame("Frame")
 MapModule:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 local function Minimap_OnMouseWheel(self, delta)
-    if(delta > 0) then
+    if delta > 0 then
         Minimap_ZoomIn()
     else
         Minimap_ZoomOut()
@@ -19,6 +19,7 @@ local function ModifyMinimap()
 	MinimapZoomIn:Hide()
     MinimapZoomOut:Hide()
 
+    -- Enable zoom in and out with the mouse wheel
     Minimap:EnableMouseWheel(true)
     Minimap:SetScript("OnMouseWheel", Minimap_OnMouseWheel)
 end
