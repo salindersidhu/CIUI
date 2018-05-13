@@ -4,8 +4,6 @@ local _, L = ...
 ADDON_NAME = "CIUI"
 ADDON_VERSION = GetAddOnMetadata(ADDON_NAME, "Version")
 
-FONT_CHAT = "Interface\\Addons\\CIUI\\media\\Tahoma.ttf"
-
 TEXTURE_UI_FRAME_TARGET = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame"
 TEXTURE_UI_FRAME_TARGET_FLASH = "Interface\\TargetingFrame\\UI-TargetingFrame-Flash"
 TEXTURE_UI_FRAME_TARGET_RARE = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame-Rare"
