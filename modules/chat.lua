@@ -46,14 +46,9 @@ local function ModifyChatWindowTab(tabID, tabName)
 
     -- Modify edit box position
     _G[window.."EditBox"]:ClearAllPoints()
-    if (window == "ChatFrame2") then
-        -- Fix positioning for Combat Log tab
-        _G[window.."EditBox"]:SetPoint("BOTTOM", _G[window], "TOP", 0, 44)
-    else
-        _G[window.."EditBox"]:SetPoint("BOTTOM", _G[window], "TOP", 0, 22)
-    end
     _G[window.."EditBox"]:SetPoint("LEFT", _G[window], -5, 0)
     _G[window.."EditBox"]:SetPoint("RIGHT", _G[window], 10, 0)
+    _G[window.."EditBox"]:SetPoint("BOTTOM", _G[window], "TOP", 0, window == "ChatFrame2" and 44 or 22)
 
     -- Modify chat font
     Utils.ModifyFont(_G[window], nil, size, "THINOUTLINE")

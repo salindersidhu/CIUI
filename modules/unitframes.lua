@@ -7,6 +7,7 @@ local UnitFramesModule = CreateFrame("Frame")
 UnitFramesModule:RegisterEvent("PLAYER_ENTERING_WORLD")
 UnitFramesModule:RegisterEvent("UNIT_ENTERED_VEHICLE")
 UnitFramesModule:RegisterEvent("UNIT_EXITED_VEHICLE")
+UnitFramesModule:RegisterEvent("GROUP_ROSTER_UPDATE")
 
 local function AbbreviateNumber(n, delim, strAbbr)
     return string.sub(n, 1, delim).."."..string.sub(n, delim + 1, delim + 1).." "..strAbbr
@@ -57,11 +58,24 @@ local function Hook_HealthBar_OnValueChanged(self, value, smooth)
     self:SetStatusBarColor(r, g, b)
 end
 
+local function ModifyPlayerFrameGroupIndicator()
+    -- Replace "Group" in group indicator text with "G"
+    local text = PlayerFrameGroupIndicatorText:GetText()
+    text = string.gsub(text, "Group ", "G")
+    PlayerFrameGroupIndicatorText:SetText(text)
+end
+
 local function ModifyPlayerFrameUI()
     -- Modify Player's name and texture
     Utils.ModifyFont(PlayerName, nil, 11, "OUTLINE")
     PlayerName:SetPoint("CENTER", PlayerFrame, "CENTER", 50, 36)
     PlayerFrameTexture:SetTexture(TEXTURE_UI_FRAME_TARGET)
+
+    -- Update Player's raid group indicator
+    Utils.ModifyFont(PlayerFrameGroupIndicatorText, nil, nil, "OUTLINE")
+    PlayerFrameGroupIndicatorLeft:SetTexture(nil)
+    PlayerFrameGroupIndicatorRight:SetTexture(nil)
+    PlayerFrameGroupIndicatorMiddle:SetTexture(nil)
 
     -- Update Player's health bar
     PlayerFrameHealthBar:SetHeight(18)
@@ -218,6 +232,9 @@ local function EventHandler(self, event, ...)
     if event == "UNIT_EXITED_VEHICLE" then
         -- Restore UnitFrame modifications upon vehicle exit
         ModifyUnitFrameUI()
+    end
+    if event == "GROUP_ROSTER_UPDATE" then
+        ModifyPlayerFrameGroupIndicator()
     end
 end
 
