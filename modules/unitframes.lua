@@ -225,7 +225,7 @@ local function EventHandler(self, event, ...)
         Utils.ModifyFrameFixed(PlayerFrame, "CENTER", nil, -265, -150, 1.3)
         Utils.ModifyFrameFixed(TargetFrame, "CENTER", nil, 265, -150, 1.3)
     end
-    if event == "UNIT_ENTERED_VEHICLE" then
+    if event == "UNIT_ENTERED_VEHICLE" and HasOverrideActionBar() then
         -- Modify Player UnitFrame for vehicles
         SetPlayerFrameVehicleUI()
     end

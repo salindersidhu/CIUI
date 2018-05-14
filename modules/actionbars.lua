@@ -177,14 +177,17 @@ local function ResizeMainBar()
 end
 
 local function MoveBarFrames()
-	MultiBarBottomLeft:ClearAllPoints()
-	MultiBarBottomLeft:SetPoint("BOTTOMLEFT", ActionButton1, "TOPLEFT", 0, 32)
+    MultiBarBottomLeft:ClearAllPoints()
+    MultiBarBottomLeft:SetPoint("BOTTOMLEFT", ActionButton1, "TOPLEFT", 0, 32)
+    
+    MultiBarBottomRight:ClearAllPoints()
+    MultiBarBottomRight:SetPoint("BOTTOM", MultiBarBottomLeft, "TOP", 0, 5)
 
-	MultiBarBottomRight:ClearAllPoints()
-	MultiBarBottomRight:SetPoint("BOTTOM", MultiBarBottomLeft, "TOP", 0, 5)
+    MultiBarRight:ClearAllPoints()
+    MultiBarRight:SetPoint("RIGHT", WorldFrame, "RIGHT", 0, 0)
 
-	MultiBarRight:ClearAllPoints()
-	MultiBarRight:SetPoint("RIGHT", WorldFrame, "RIGHT", 0, 0)
+    -- Vehicle exit button
+    Utils.ModifyFrame(MainMenuBarVehicleLeaveButton, "CENTER", nil, -350, 40, nil)
 
 	-- Stance Bar
 	StanceBarFrame:ClearAllPoints();
