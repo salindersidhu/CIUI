@@ -1,6 +1,10 @@
 # CIUI
 > CIUI or **Clean and Improved UI** is an addon for World of Warcraft that improves the standard Blizzard UI by focusing on cleaner and minimal design while preserving the aesthetic of the standard Blizzard UI.
 
+<p align="left">
+	<img src="https://user-images.githubusercontent.com/12175684/40276220-705d903e-5bd2-11e8-8d29-88d694939805.jpg" width="960" height="540" alt="Screenshot"/>
+</p>
+
 # Table of Contents
 * [Getting Started](#getting-started)
     * [Installing](#installing)
@@ -19,7 +23,7 @@ Alternatively, you can install the addon using the provided makefile with the co
 make
 ```
 
-To remove the addon simply delete the CIUI folder in your World of Warcraft's Addon folder.
+To remove the addon, simply delete the CIUI folder in your World of Warcraft's Addon folder.
 
 Alternatively, you can remove the addon using the provided makefile with the command:
 ```bash
