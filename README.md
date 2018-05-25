@@ -35,10 +35,10 @@ CIUI welcomes contributions from anyone and everyone. Please see our [contributi
 # Credits
 CIUI draws inspiration from the following existing addons:
 
-* **easy-frames** - Player and Target unit frames
-* **daftMainBar** - Main action bar and extra action bars
-* **UnitFramesImproved** - Player and Target unit frames
-* **Improved Blizzard UI** - Minimap and party unit frames
+- **easy-frames** - Player and Target unit frames
+- **daftMainBar** - Main action bar and extra action bars
+- **UnitFramesImproved** - Player and Target unit frames
+- **Improved Blizzard UI** - Minimap and party unit frames
 
 # License
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](/LICENSE.md)

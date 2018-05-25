@@ -135,23 +135,23 @@ local function ModifyTargetFrameUI()
 
     -- Update Target's health bar
     TargetFrame.healthbar:ClearAllPoints()
-	TargetFrame.healthbar:SetSize(119, 18)
-	TargetFrame.healthbar:SetPoint("TOPLEFT", 5, -24)
+    TargetFrame.healthbar:SetSize(119, 18)
+    TargetFrame.healthbar:SetPoint("TOPLEFT", 5, -24)
     TargetFrame.healthbar.LeftText:ClearAllPoints()
     TargetFrame.healthbar.LeftText:SetPoint("LEFT", TargetFrame.healthbar, "LEFT", 5, 0)
     TargetFrame.healthbar.RightText:ClearAllPoints()
-	TargetFrame.healthbar.RightText:SetPoint("RIGHT", TargetFrame.healthbar, "RIGHT", -3, 0)
-	TargetFrame.healthbar.TextString:SetPoint("CENTER", TargetFrame.healthbar, "CENTER", 0, 0)
+    TargetFrame.healthbar.RightText:SetPoint("RIGHT", TargetFrame.healthbar, "RIGHT", -3, 0)
+    TargetFrame.healthbar.TextString:SetPoint("CENTER", TargetFrame.healthbar, "CENTER", 0, 0)
 
     -- Update Target's mana bar
     TargetFrame.manabar:ClearAllPoints()
     TargetFrame.manabar:SetSize(119, 18)
     TargetFrame.manabar:SetPoint("TOPLEFT", 5, -45)
     TargetFrame.manabar.LeftText:ClearAllPoints()
-	TargetFrame.manabar.LeftText:SetPoint("LEFT", TargetFrame.manabar, "LEFT", 5, 0)
+    TargetFrame.manabar.LeftText:SetPoint("LEFT", TargetFrame.manabar, "LEFT", 5, 0)
     TargetFrame.manabar.RightText:ClearAllPoints()
     TargetFrame.manabar.RightText:SetPoint("RIGHT", TargetFrame.manabar, "RIGHT", -5, 0)
-	TargetFrame.manabar.TextString:SetPoint("CENTER", TargetFrame.manabar, "CENTER", 0, 0)
+    TargetFrame.manabar.TextString:SetPoint("CENTER", TargetFrame.manabar, "CENTER", 0, 0)
 
     -- Set texture based on target's unit classification type
     if targetType == "minus" then
@@ -176,11 +176,11 @@ local function ModifyTargetFrameUI()
     end
 
     -- Show quest icon if target is part of a quest
-	if TargetFrame.questIcon and UnitIsQuestBoss(TargetFrame.unit) then
-		TargetFrame.questIcon:Show()
-	else
-		TargetFrame.questIcon:Hide()
-	end
+    if TargetFrame.questIcon and UnitIsQuestBoss(TargetFrame.unit) then
+        TargetFrame.questIcon:Show()
+    else
+        TargetFrame.questIcon:Hide()
+    end
 end
 
 local function ModifyPartyFrameUI()

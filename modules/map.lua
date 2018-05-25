@@ -15,8 +15,8 @@ local function Minimap_OnMouseWheel(self, delta)
 end
 
 local function ModifyMinimap()
-	-- Hide Minimap zoom buttons
-	MinimapZoomIn:Hide()
+    -- Hide Minimap zoom buttons
+    MinimapZoomIn:Hide()
     MinimapZoomOut:Hide()
 
     -- Enable zoom in and out with the mouse wheel
