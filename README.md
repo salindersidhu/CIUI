@@ -2,13 +2,12 @@
 > CIUI or **Clean and Improved UI** is an addon for World of Warcraft that improves the standard Blizzard UI by focusing on cleaner and minimal design while preserving the aesthetic of the standard Blizzard UI.
 
 <p align="left">
-	<img src="https://user-images.githubusercontent.com/12175684/40276220-705d903e-5bd2-11e8-8d29-88d694939805.jpg" width="960" height="540" alt="Screenshot"/>
+	<img src="https://user-images.githubusercontent.com/12175684/40276220-705d903e-5bd2-11e8-8d29-88d694939805.jpg" width="960" height="540" alt="screenshot"/>
 </p>
 
 # Table of Contents
 * [Getting Started](#getting-started)
     * [Installing](#installing)
-    * [Compatibility](#compatibility)
 * [Contributing](#contributing)
 * [Credits](#credits)
 * [License](#license)
@@ -30,19 +29,8 @@ Alternatively, you can remove the addon using the provided makefile with the com
 make clean
 ```
 
-## Compatibility
-CIUI is coded to rarely interact with other addons, however unexpected behaviour is always possible. The addon's compatibility with other commonly used addons is shown in the following table:
-
-|Addon|Status|Notes|Last Checked|
-|---|:-:|---|--:|
-|AdiBags|:heavy_check_mark:||*2018/05/19*
-|Angry Assignments|:heavy_check_mark:||*2018/05/19*
-|Deadly Boss Mods|:heavy_check_mark:||*2018/05/19*
-|Details! Damage Meter|:heavy_check_mark:||*2018/05/19*
-|WeakAuras 2|:heavy_check_mark:||*2018/05/19*
-
 # Contributing
-CIUI welcomes contributions from anyone and everyone. Please see our [contributing guide](/CONTRIBUTING.md) for submitting pull requests and reporting issues.
+CIUI welcomes contributions from anyone and everyone. Please see our [contributing guide](/CONTRIBUTING.md) for more info.
 
 # Credits
 CIUI draws inspiration from the following existing addons:
