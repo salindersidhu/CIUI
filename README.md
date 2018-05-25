@@ -1,20 +1,20 @@
 # CIUI
-> CIUI or **Clean and Improved UI** is an addon for World of Warcraft that improves the standard Blizzard UI by focusing on cleaner and minimal design while preserving the aesthetic of the standard Blizzard UI.
+CIUI or **Clean and Improved UI** is an addon for World of Warcraft that improves the standard Blizzard UI by focusing on cleaner design, preserving the art and aesthetic of the standard Blizzard UI and shifting critial information to the center of the screen closer to the player's field of view.
 
 <p align="left">
 	<img src="https://user-images.githubusercontent.com/12175684/40276220-705d903e-5bd2-11e8-8d29-88d694939805.jpg" width="960" height="540" alt="screenshot"/>
 </p>
 
 # Table of Contents
-* [Getting Started](#getting-started)
-    * [Installing](#installing)
+* [Features](#features)
+* [Installing](#installing)
 * [Contributing](#contributing)
 * [Credits](#credits)
 * [License](#license)
 
-# Getting Started
+# Features
 
-## Installing
+# Installing
 To install CIUI, simply copy the folder to World of Warcraft's Addon folder, which is usually ``C:/Program Files (x86)/World of Warcraft/Interface/Addons``.
 
 Alternatively, you can install the addon using the provided makefile with the command:
