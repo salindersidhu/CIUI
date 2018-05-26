@@ -1,5 +1,5 @@
 # CIUI
-CIUI or **Clean and Improved UI** is an addon for World of Warcraft that improves the standard Blizzard UI by focusing on cleaner design, preserving the art and aesthetic of the standard Blizzard UI and shifting critial information to the center of the screen closer to the player's field of view.
+CIUI or **Clean and Improved UI** is an addon for World of Warcraft that improves the standard Blizzard UI by focusing on cleaner design, preserving the art and aesthetic of the standard Blizzard UI and shifting critical information to the center of the screen closer to the player's field of view.
 
 <p align="left">
 	<img src="https://user-images.githubusercontent.com/12175684/40276220-705d903e-5bd2-11e8-8d29-88d694939805.jpg" width="960" height="540" alt="screenshot"/>
