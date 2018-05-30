@@ -149,31 +149,24 @@ local function ResizeMainBar()
 
     MainMenuBar:ClearAllPoints()
     MainMenuBar:SetPoint("BOTTOM", WorldFrame, "BOTTOM", 0, -1)
-    MainMenuBar.SetPoint = function() end
 
     MainMenuBarTexture0:ClearAllPoints()
     MainMenuBarTexture0:SetPoint("RIGHT", MainMenuBar, "CENTER", 0, -4)
-    MainMenuBarTexture0.SetPoint = function() end
 
     MainMenuBarTexture1:ClearAllPoints()
     MainMenuBarTexture1:SetPoint("LEFT", MainMenuBar, "CENTER", 0, -4)
-    MainMenuBarTexture1.SetPoint = function() end
 
     MainMenuBarLeftEndCap:ClearAllPoints()
     MainMenuBarLeftEndCap:SetPoint("BOTTOMRIGHT", MainMenuBar, "BOTTOMLEFT", 31, 0)
-    MainMenuBarLeftEndCap.SetPoint = function() end
 
     ActionBarUpButton:ClearAllPoints()
     ActionBarUpButton:SetPoint("CENTER", MainMenuBarArtFrame, "TOPLEFT", 521, -22)
-    ActionBarUpButton.SetPoint = function() end
 
     ActionBarDownButton:ClearAllPoints()
     ActionBarDownButton:SetPoint("CENTER", MainMenuBarArtFrame, "TOPLEFT", 521, -42)
-    ActionBarDownButton.SetPoint = function() end
 
     MainMenuBarRightEndCap:ClearAllPoints()
     MainMenuBarRightEndCap:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMRIGHT", -31, 0)
-    MainMenuBarRightEndCap.SetPoint = function() end
 end
 
 local function MoveBarFrames()
