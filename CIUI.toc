@@ -1,8 +1,8 @@
 ## Interface: 70300
 ## Title: CIUI
 ## Author: Salinder Sidhu
-## Version: 0.1.0 Beta
-## Notes: A cleaner and improved version of the standard Blizzard UI.
+## Version: 1.0.0
+## Notes: An improved version of the standard Blizzard UI.
 ## Dependencies: Blizzard_TalkingHeadUI
 
 main.lua

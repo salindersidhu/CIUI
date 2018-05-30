@@ -39,7 +39,6 @@ local function Hook_TextStatusBar_UpdateTextStringWithValues(self, text, value, 
 end
 
 local function Hook_HealthBar_OnValueChanged(self, value, smooth)
-    local r, g, b, diff
     local min, max = self:GetMinMaxValues()
 
     if (not value) or (value < min) or (value > max) then
@@ -48,14 +47,14 @@ local function Hook_HealthBar_OnValueChanged(self, value, smooth)
 
     -- Set value to range from 0 to 1 in proportation to max/min
     diff = max - min
-    value = (diff > 0 and ((value - min) / diff) or 0)
+    value = diff > 0 and ((value - min) / diff) or 0
 
     -- Change health bar from default green to yellow or red depending on value
-    r = (value > 0.5 and ((1.0 - value) * 2) or 1.0)
-    g = (value > 0.5 and 1.0 or (value * 2))
-    b = 0.0
-
-    self:SetStatusBarColor(r, g, b)
+    if value > 0.5 then
+        self:SetStatusBarColor((1 - value) * 2, 1, 0)
+    else
+        self:SetStatusBarColor(1, value * 2, 0)
+    end
 end
 
 local function ModifyPlayerFrameGroupIndicator()
@@ -76,6 +75,10 @@ local function ModifyPlayerFrameUI()
     PlayerFrameGroupIndicatorLeft:SetTexture(nil)
     PlayerFrameGroupIndicatorRight:SetTexture(nil)
     PlayerFrameGroupIndicatorMiddle:SetTexture(nil)
+    PlayerFrameGroupIndicator:ClearAllPoints()
+    PlayerFrameGroupIndicator:SetPoint("CENTER", PlayerFrame, "CENTER", 50, 47)
+    PlayerFrameGroupIndicatorText:ClearAllPoints()
+    PlayerFrameGroupIndicatorText:SetPoint("CENTER", PlayerFrameGroupIndicator, "CENTER", 0, 0)
 
     -- Update Player's health bar
     PlayerFrameHealthBar:SetHeight(18)
@@ -228,12 +231,19 @@ local function EventHandler(self, event, ...)
     if event == "UNIT_ENTERED_VEHICLE" and UnitVehicleSkin("player") ~= nil then
         -- Modify Player UnitFrame for vehicles
         SetPlayerFrameVehicleUI()
+        -- Set default key bindings for vehicle action buttons
+        for i = 1, 6 do
+            SetBinding(tostring(i), "ACTIONBUTTON"..i)
+        end
     end
     if event == "UNIT_EXITED_VEHICLE" then
         -- Restore UnitFrame modifications upon vehicle exit
         ModifyUnitFrameUI()
+        -- Restore original keybinding upon vehicle exit
+        LoadBindings(GetCurrentBindingSet())
     end
     if event == "GROUP_ROSTER_UPDATE" then
+        -- Modify Group Indicator text when group roster is updated
         ModifyPlayerFrameGroupIndicator()
     end
 end

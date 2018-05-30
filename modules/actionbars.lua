@@ -117,35 +117,21 @@ local function ResizeMainBar()
 
     Utils.ModifyFrameFixed(MainMenuBar, "BOTTOM", nil, 0, 10, 1.1)
 
-    ReputationWatchBar.StatusBar.WatchBarTexture0:SetWidth(128)
-    ReputationWatchBar.StatusBar.WatchBarTexture1:SetWidth(128)
-    ReputationWatchBar.StatusBar.WatchBarTexture2:SetWidth(128)
-    ReputationWatchBar.StatusBar.WatchBarTexture3:SetWidth(128)
+    for _, foo in next, {
+        ReputationWatchBar,
+        ArtifactWatchBar,
+        HonorWatchBar
+    } do
+        foo.StatusBar.WatchBarTexture0:SetWidth(128)
+        foo.StatusBar.WatchBarTexture1:SetWidth(128)
+        foo.StatusBar.WatchBarTexture2:SetWidth(128)
+        foo.StatusBar.WatchBarTexture3:SetWidth(128)
 
-    ArtifactWatchBar.StatusBar.WatchBarTexture0:SetWidth(128)
-    ArtifactWatchBar.StatusBar.WatchBarTexture1:SetWidth(128)
-    ArtifactWatchBar.StatusBar.WatchBarTexture2:SetWidth(128)
-    ArtifactWatchBar.StatusBar.WatchBarTexture3:SetWidth(128)
-
-    HonorWatchBar.StatusBar.WatchBarTexture0:SetWidth(128)
-    HonorWatchBar.StatusBar.WatchBarTexture1:SetWidth(128)
-    HonorWatchBar.StatusBar.WatchBarTexture2:SetWidth(128)
-    HonorWatchBar.StatusBar.WatchBarTexture3:SetWidth(128)
-
-    ReputationWatchBar.StatusBar.XPBarTexture0:SetWidth(128)
-    ReputationWatchBar.StatusBar.XPBarTexture1:SetWidth(128)
-    ReputationWatchBar.StatusBar.XPBarTexture2:SetWidth(128)
-    ReputationWatchBar.StatusBar.XPBarTexture3:SetWidth(128)
-
-    ArtifactWatchBar.StatusBar.XPBarTexture0:SetWidth(128)
-    ArtifactWatchBar.StatusBar.XPBarTexture1:SetWidth(128)
-    ArtifactWatchBar.StatusBar.XPBarTexture2:SetWidth(128)
-    ArtifactWatchBar.StatusBar.XPBarTexture3:SetWidth(128)
-
-    HonorWatchBar.StatusBar.XPBarTexture0:SetWidth(128)
-    HonorWatchBar.StatusBar.XPBarTexture1:SetWidth(128)
-    HonorWatchBar.StatusBar.XPBarTexture2:SetWidth(128)
-    HonorWatchBar.StatusBar.XPBarTexture3:SetWidth(128)
+        foo.StatusBar.XPBarTexture0:SetWidth(128)
+        foo.StatusBar.XPBarTexture1:SetWidth(128)
+        foo.StatusBar.XPBarTexture2:SetWidth(128)
+        foo.StatusBar.XPBarTexture3:SetWidth(128)
+    end
 
     MainMenuBar:ClearAllPoints()
     MainMenuBar:SetPoint("BOTTOM", WorldFrame, "BOTTOM", 0, -1)
