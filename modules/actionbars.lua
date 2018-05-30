@@ -187,7 +187,7 @@ local function MoveBarFrames()
     MultiBarRight:SetPoint("RIGHT", WorldFrame, "RIGHT", 0, 0)
 
     -- Vehicle exit button
-    Utils.ModifyFrame(MainMenuBarVehicleLeaveButton, "CENTER", nil, -350, 40, nil)
+    Utils.ModifyFrame(MainMenuBarVehicleLeaveButton, "CENTER", nil, -280, 70, nil)
 
     -- Stance Bar
     StanceBarFrame:ClearAllPoints();
@@ -201,7 +201,7 @@ local function MoveBarFrames()
 
     -- Possess Bar
     PossessBarFrame:ClearAllPoints()
-    if MultiBarBottomRight:IsShown() then	
+    if MultiBarBottomRight:IsShown() then
         PossessBarFrame:SetPoint("BOTTOMLEFT", MultiBarBottomRight, "TOPLEFT", -10, 5)
     elseif MultiBarBottomLeft:IsShown() then
         PossessBarFrame:SetPoint("BOTTOMLEFT", MultiBarBottomLeft, "TOPLEFT", -10, 5)
