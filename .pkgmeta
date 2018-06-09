@@ -1,0 +1,14 @@
+package-as: CIUI
+
+enable-nolib-creation: no
+
+manual-changelog:
+   filename: CHANGELOG.md
+   markup-type: markdown
+
+ignore:
+    - makefile
+    - README.md
+    - LICENSE.md
+    - CHANGELOG.md
+    - CONTRIBUTING.md
