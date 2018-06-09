@@ -2,8 +2,8 @@
 CIUI or **Clean and Improved UI** is an addon for World of Warcraft that improves the standard Blizzard UI by focusing on cleaner design, preserving the art and aesthetic of the standard Blizzard UI and shifting critical information to the center of the screen closer to the player's field of view.
 
 [![Build Status](https://api.travis-ci.org/salindersidhu/CIUI.svg)](https://travis-ci.org/salindersidhu/CIUI)
-![Release Version](https://github-basic-badges.herokuapp.com/release/salindersidhu/CIUI.svg)
-![Total Downloads](https://github-basic-badges.herokuapp.com/downloads/salindersidhu/CIUI/total.svg)
+[![Release Version](https://github-basic-badges.herokuapp.com/release/salindersidhu/CIUI.svg)](https://github-basic-badges.herokuapp.com/release/salindersidhu/CIUI.svg)
+[![Total Downloads](https://github-basic-badges.herokuapp.com/downloads/salindersidhu/CIUI/total.svg)](https://github-basic-badges.herokuapp.com/downloads/salindersidhu/CIUI/total.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](/LICENSE.md)
 
 <p align="left">
