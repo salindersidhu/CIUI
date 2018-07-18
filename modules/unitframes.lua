@@ -5,38 +5,10 @@ local UnitFramesModule = CreateFrame("Frame")
 
 -- REGISTER EVENTS TO FRAMES --
 UnitFramesModule:RegisterEvent("PLAYER_ENTERING_WORLD")
+UnitFramesModule:RegisterEvent('PLAYER_LOGIN')
 UnitFramesModule:RegisterEvent("UNIT_ENTERED_VEHICLE")
 UnitFramesModule:RegisterEvent("UNIT_EXITED_VEHICLE")
 UnitFramesModule:RegisterEvent("GROUP_ROSTER_UPDATE")
-
-local function AbbreviateNumber(n, delim, strAbbr)
-    return string.sub(n, 1, delim).."."..string.sub(n, delim + 1, delim + 1).." "..strAbbr
-end
-
-local function GetAbbrNumText(value)
-    local numDigits = strlen(value)
-    local text = value
-
-    if numDigits >= 10 then
-        text = AbbreviateNumber(value, -10, "B")
-    elseif numDigits >= 7 then
-        text = AbbreviateNumber(value, -7, "M")
-    elseif numDigits >= 4 then
-        text = AbbreviateNumber(value, -4, "K")
-    end
-
-    return text
-end
-
-local function Hook_TextStatusBar_UpdateTextStringWithValues(self, text, value, min, max)
-    local textDisplay = GetCVar("statusTextDisplay")
-
-    if textDisplay == "BOTH" and not self.showNumeric then
-        self.RightText:SetText(GetAbbrNumText(value))
-    elseif textDisplay == "NUMERIC" or self.showNumeric then
-        text:SetText(GetAbbrNumText(value).." / "..GetAbbrNumText(max))
-    end
-end
 
 local function Hook_HealthBar_OnValueChanged(self, value, smooth)
     local min, max = self:GetMinMaxValues()
@@ -236,7 +208,7 @@ local function EventHandler(self, event, ...)
             SetBinding(tostring(i), "ACTIONBUTTON"..i)
         end
     end
-    if event == "UNIT_EXITED_VEHICLE" then
+    if event == "UNIT_EXITED_VEHICLE" and ... == 'player' then
         -- Restore UnitFrame modifications upon vehicle exit
         ModifyUnitFrameUI()
         -- Restore original keybinding upon vehicle exit
@@ -258,4 +230,4 @@ hooksecurefunc("TargetFrame_CheckFaction", ModifyTargetFrameUI)
 hooksecurefunc("TargetFrame_CheckClassification", ModifyTargetFrameUI)
 hooksecurefunc("TargetofTarget_Update", ModifyTargetFrameUI)
 hooksecurefunc("HealthBar_OnValueChanged", Hook_HealthBar_OnValueChanged)
-hooksecurefunc("TextStatusBar_UpdateTextStringWithValues", Hook_TextStatusBar_UpdateTextStringWithValues)
+hooksecurefunc('PlayerFrame_Update', ModifyUnitFrameUI)
