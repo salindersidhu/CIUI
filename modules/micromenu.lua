@@ -6,38 +6,20 @@ local MicroMenuModule = CreateFrame("Frame")
 -- REGISTER EVENTS TO FRAMES --
 MicroMenuModule:RegisterEvent("PLAYER_ENTERING_WORLD")
 
-local function ModifyMicroMenuButtons(parent, anchor, x, y, stacked, scale)
-    for _, button in next, {
-        EJMicroButton,
-        LFDMicroButton,
-        StoreMicroButton,
-        GuildMicroButton,
-        TalentMicroButton,
-        MainMenuMicroButton,
-        QuestLogMicroButton,
-        CharacterMicroButton,
-        SpellbookMicroButton,
-        CollectionsMicroButton,
-        AchievementMicroButton,
-    } do
-        button:SetScale(scale)
-    end
-    -- Use existing API to move the micromenu buttons
-    MoveMicroButtons(anchor, parent, anchor, x, y, stacked)
-end
-
 local function Hook_MoveMicroButtons(a, aT, rT, x, y, stacked)
     if HasOverrideActionBar() or HasVehicleActionBar() then
-        ModifyMicroMenuButtons(aT, rT, x, y, stacked, 1)
+        MoveMicroButtons(rT, aT, rT, x, y, stacked)
     else
-        ModifyMicroMenuButtons(UIParent, "BOTTOMRIGHT", -257, -1, false, 0.85)
+        MoveMicroButtons("BOTTOMLEFT", MicroButtonAndBagsBar, "BOTTOMLEFT", 12, -1, false)
     end
 end
 
 -- ACTION BAR FRAME EVENT HANDLER
 local function EventHandler(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
-        ModifyMicroMenuButtons(UIParent, "BOTTOMRIGHT", -257, -1, false, 0.85)
+        Utils.ModifyFrameFixed(MainMenuBarBackpackButton, 'BOTTOMRIGHT', UIParent, -1, -300, nil)
+        MicroButtonAndBagsBar:Hide()
+        MoveMicroButtons("BOTTOMLEFT", MicroButtonAndBagsBar, "BOTTOMLEFT", 12, -1, false)
     end
 end
 
