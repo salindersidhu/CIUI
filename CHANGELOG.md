@@ -1,3 +1,7 @@
-# Changelog
+## Changelog
 
-1.0.0 - Initial Release
+- Updated for BFA Pre-patch
+- Unitframes updated
+- Actionbars updated
+- Micromenu updated
+- TOC version bump
