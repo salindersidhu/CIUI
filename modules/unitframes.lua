@@ -5,6 +5,7 @@ local UnitFramesModule = CreateFrame("Frame")
 
 -- REGISTER EVENTS TO FRAMES --
 UnitFramesModule:RegisterEvent("PLAYER_ENTERING_WORLD")
+UnitFramesModule:RegisterEvent('PLAYER_LOGIN')
 UnitFramesModule:RegisterEvent("UNIT_ENTERED_VEHICLE")
 UnitFramesModule:RegisterEvent("UNIT_EXITED_VEHICLE")
 UnitFramesModule:RegisterEvent("GROUP_ROSTER_UPDATE")
@@ -207,7 +208,7 @@ local function EventHandler(self, event, ...)
             SetBinding(tostring(i), "ACTIONBUTTON"..i)
         end
     end
-    if event == "UNIT_EXITED_VEHICLE" then
+    if event == "UNIT_EXITED_VEHICLE" and ... == 'player' then
         -- Restore UnitFrame modifications upon vehicle exit
         ModifyUnitFrameUI()
         -- Restore original keybinding upon vehicle exit
@@ -229,3 +230,4 @@ hooksecurefunc("TargetFrame_CheckFaction", ModifyTargetFrameUI)
 hooksecurefunc("TargetFrame_CheckClassification", ModifyTargetFrameUI)
 hooksecurefunc("TargetofTarget_Update", ModifyTargetFrameUI)
 hooksecurefunc("HealthBar_OnValueChanged", Hook_HealthBar_OnValueChanged)
+hooksecurefunc('PlayerFrame_Update', ModifyUnitFrameUI)
