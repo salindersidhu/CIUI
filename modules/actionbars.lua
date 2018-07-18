@@ -80,133 +80,71 @@ local function Hook_ActionButton_OnUpdate(self, elapsed)
     end
 end
 
--- local function ResizeMainBar()
---     for _, texture in next, {
---         StanceBarLeft,
---         StanceBarRight,
---         StanceBarMiddle,
---         MainMenuBarTexture2,
---         MainMenuBarTexture3,
---         MainMenuBarPageNumber,
---     } do
---         texture:Hide()
---     end
+local function ModifyActionBars(isRightMultiBarShowing)
+    if (InCombatLockdown() == false) then
+        -- Force the MainMenuBar artwork to be the small version
+        _, width, height = GetAtlasInfo("hud-MainMenuBar-small")
+        MainMenuBar:SetSize(width,height)
+        MainMenuBar:SetScale(1.1)
+		MainMenuBarArtFrame:SetSize(width,height)
+		MainMenuBarArtFrameBackground:SetSize(width, height)
+		MainMenuBarArtFrameBackground.BackgroundLarge:Hide()
+		MainMenuBarArtFrameBackground.BackgroundSmall:Show()
+		MainMenuBarArtFrame.PageNumber:ClearAllPoints()
+        MainMenuBarArtFrame.PageNumber:SetPoint("RIGHT", MainMenuBarArtFrameBackground, "RIGHT", -6, -3);
 
---     for _, bar in next, {
---         MainMenuBar,
---         MainMenuExpBar,
---         MainMenuBarArtFrame,
---         MainMenuBarMaxLevelBar,
---         HonorWatchBar,
---         HonorWatchBar.StatusBar,
---         ArtifactWatchBar,
---         ArtifactWatchBar.StatusBar,
---         ReputationWatchBar,
---         ReputationWatchBar.StatusBar,
---     } do
---         bar:SetWidth(512)
---     end
+        -- Move the RightMultiBar and make it horizontal
+        if (isRightMultiBarShowing) then
+            Utils.ModifyFrameFixed(MultiBarBottomRight, 'TOP', MainMenuBar, -142, 85, nil)
+            Utils.ModifyFrameFixed(MultiBarBottomRightButton7, 'RIGHT', MultiBarBottomRightButton6, 43, 0, nil)
+        
+            -- Move talking head frame
+            TalkingHeadFrame.ignoreFramePositionManager = true
+            TalkingHeadFrame:ClearAllPoints()
+            TalkingHeadFrame:SetPoint("BOTTOM", 0, 155)
+        end
+    end
+end
 
---     for i = 0, 1 do
---         _G["SlidingActionBarTexture"..i]:Hide()
---     end
+local function MoveBarFrames()
+    -- Vehicle exit button
+    Utils.ModifyFrame(MainMenuBarVehicleLeaveButton, "CENTER", nil, -280, 70, nil)
 
---     for i = 10, 19 do
---         _G["MainMenuXPBarDiv"..i]:Hide()
---     end
+    -- Stance Bar
+    StanceBarFrame:ClearAllPoints();
+    if MultiBarBottomRight:IsShown() then	
+        StanceBarFrame:SetPoint("BOTTOMLEFT", MultiBarBottomRight, "TOPLEFT", -10, 5)
+    elseif MultiBarBottomLeft:IsShown() then
+        StanceBarFrame:SetPoint("BOTTOMLEFT", MultiBarBottomLeft, "TOPLEFT", -10, 5)
+    else
+        StanceBarFrame:SetPoint("BOTTOMLEFT", ActionButton1, "TOPLEFT", 0, 32)
+    end
 
---     Utils.ModifyFrameFixed(MainMenuBar, "BOTTOM", nil, 0, 10, 1.1)
+    -- Possess Bar
+    PossessBarFrame:ClearAllPoints()
+    if MultiBarBottomRight:IsShown() then
+        PossessBarFrame:SetPoint("BOTTOMLEFT", MultiBarBottomRight, "TOPLEFT", -10, 5)
+    elseif MultiBarBottomLeft:IsShown() then
+        PossessBarFrame:SetPoint("BOTTOMLEFT", MultiBarBottomLeft, "TOPLEFT", -10, 5)
+    else
+        PossessBarFrame:SetPoint("BOTTOMLEFT", ActionButton1, "TOPLEFT", 0, 32)
+    end
 
---     for _, foo in next, {
---         ReputationWatchBar,
---         ArtifactWatchBar,
---         HonorWatchBar
---     } do
---         foo.StatusBar.WatchBarTexture0:SetWidth(128)
---         foo.StatusBar.WatchBarTexture1:SetWidth(128)
---         foo.StatusBar.WatchBarTexture2:SetWidth(128)
---         foo.StatusBar.WatchBarTexture3:SetWidth(128)
+    -- Pet Bar
+    PetActionBarFrame:ClearAllPoints()
+    if MultiBarBottomRight:IsShown() then	
+        PetActionBarFrame:SetPoint("BOTTOMRIGHT", MultiBarBottomRight, "TOPRIGHT", 100, 5)
+    elseif MultiBarBottomLeft:IsShown() then
+        PetActionBarFrame:SetPoint("BOTTOMRIGHT", MultiBarBottomLeft, "TOPRIGHT", 100, 5)
+    else
+        PetActionBarFrame:SetPoint("BOTTOMRIGHT", MainMenuBar, "TOPRIGHT", 100, 11)
+    end
+    PetActionBarFrame:SetScale(0.8)
+end
 
---         foo.StatusBar.XPBarTexture0:SetWidth(128)
---         foo.StatusBar.XPBarTexture1:SetWidth(128)
---         foo.StatusBar.XPBarTexture2:SetWidth(128)
---         foo.StatusBar.XPBarTexture3:SetWidth(128)
---     end
-
---     MainMenuBar:ClearAllPoints()
---     MainMenuBar:SetPoint("BOTTOM", WorldFrame, "BOTTOM", 0, -1)
-
---     MainMenuBarTexture0:ClearAllPoints()
---     MainMenuBarTexture0:SetPoint("RIGHT", MainMenuBar, "CENTER", 0, -4)
-
---     MainMenuBarTexture1:ClearAllPoints()
---     MainMenuBarTexture1:SetPoint("LEFT", MainMenuBar, "CENTER", 0, -4)
-
---     MainMenuBarLeftEndCap:ClearAllPoints()
---     MainMenuBarLeftEndCap:SetPoint("BOTTOMRIGHT", MainMenuBar, "BOTTOMLEFT", 31, 0)
-
---     ActionBarUpButton:ClearAllPoints()
---     ActionBarUpButton:SetPoint("CENTER", MainMenuBarArtFrame, "TOPLEFT", 521, -22)
-
---     ActionBarDownButton:ClearAllPoints()
---     ActionBarDownButton:SetPoint("CENTER", MainMenuBarArtFrame, "TOPLEFT", 521, -42)
-
---     MainMenuBarRightEndCap:ClearAllPoints()
---     MainMenuBarRightEndCap:SetPoint("BOTTOMLEFT", MainMenuBar, "BOTTOMRIGHT", -31, 0)
--- end
-
--- local function MoveBarFrames()
---     MultiBarBottomLeft:ClearAllPoints()
---     MultiBarBottomLeft:SetPoint("BOTTOMLEFT", ActionButton1, "TOPLEFT", 0, 32)
-    
---     MultiBarBottomRight:ClearAllPoints()
---     MultiBarBottomRight:SetPoint("BOTTOM", MultiBarBottomLeft, "TOP", 0, 5)
-
---     MultiBarRight:ClearAllPoints()
---     MultiBarRight:SetPoint("RIGHT", WorldFrame, "RIGHT", 0, 0)
-
---     -- Vehicle exit button
---     Utils.ModifyFrame(MainMenuBarVehicleLeaveButton, "CENTER", nil, -280, 70, nil)
-
---     -- Stance Bar
---     StanceBarFrame:ClearAllPoints();
---     if MultiBarBottomRight:IsShown() then	
---         StanceBarFrame:SetPoint("BOTTOMLEFT", MultiBarBottomRight, "TOPLEFT", -10, 5)
---     elseif MultiBarBottomLeft:IsShown() then
---         StanceBarFrame:SetPoint("BOTTOMLEFT", MultiBarBottomLeft, "TOPLEFT", -10, 5)
---     else
---         StanceBarFrame:SetPoint("BOTTOMLEFT", ActionButton1, "TOPLEFT", 0, 32)
---     end
-
---     -- Possess Bar
---     PossessBarFrame:ClearAllPoints()
---     if MultiBarBottomRight:IsShown() then
---         PossessBarFrame:SetPoint("BOTTOMLEFT", MultiBarBottomRight, "TOPLEFT", -10, 5)
---     elseif MultiBarBottomLeft:IsShown() then
---         PossessBarFrame:SetPoint("BOTTOMLEFT", MultiBarBottomLeft, "TOPLEFT", -10, 5)
---     else
---         PossessBarFrame:SetPoint("BOTTOMLEFT", ActionButton1, "TOPLEFT", 0, 32)
---     end
-
---     -- Pet Bar
---     PetActionBarFrame:ClearAllPoints()
---     if MultiBarBottomRight:IsShown() then	
---         PetActionBarFrame:SetPoint("BOTTOMRIGHT", MultiBarBottomRight, "TOPRIGHT", 100, 5)
---     elseif MultiBarBottomLeft:IsShown() then
---         PetActionBarFrame:SetPoint("BOTTOMRIGHT", MultiBarBottomLeft, "TOPRIGHT", 100, 5)
---     else
---         PetActionBarFrame:SetPoint("BOTTOMRIGHT", MainMenuBar, "TOPRIGHT", 100, 11)
---     end
---     PetActionBarFrame:SetScale(0.8)
--- end
-
--- local function MoveTalkingHead()
---     if (InCombatLockdown() == false and MultiBarBottomRight:IsShown()) then
---         TalkingHeadFrame.ignoreFramePositionManager = true
---         TalkingHeadFrame:ClearAllPoints()
---         TalkingHeadFrame:SetPoint("BOTTOM", 0, 155)
---     end
--- end
+local function Hook_ChangeMenuBarSizeAndPosition(self, isRightMultiBarShowing)
+    ModifyActionBars(isRightMultiBarShowing)
+end
 
 local function Hook_ActionButton_OnEvent(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
@@ -216,17 +154,15 @@ end
 
 -- ACTION BAR FRAME EVENT HANDLER
 local function EventHandler(self, event, ...)
-    -- if event == "ADDON_LOADED" then
-    --     Utils.ModifyFrameFixed(MainMenuBarBackpackButton, 'BOTTOMRIGHT', UIParent, -1, -300, nil)
-    --     Utils.ModifyFrameFixed(ExtraActionBarFrame, "BOTTOM", UIParent, 0, 192, nil)
-    -- end
-    -- if event == "PLAYER_LOGIN" then
-    --     ResizeMainBar()
-    -- end
-    -- if event == "PLAYER_ENTERING_WORLD" then
-    --     MoveBarFrames()
-    --     MoveTalkingHead()
-    -- end
+    if event == "ADDON_LOADED" then
+        Utils.ModifyFrameFixed(ExtraActionBarFrame, "BOTTOM", UIParent, 0, 192, nil)
+    end
+    if event == "PLAYER_ENTERING_WORLD" then
+        MoveBarFrames()
+    end
+    if event == "PLAYER_LOGIN" then
+        ModifyActionBars(MultiBarBottomRight:IsShown())
+    end
 end
 
 -- -- SET FRAME SCRIPTS
@@ -235,6 +171,7 @@ ActionBarsModule:SetScript("OnEvent", EventHandler)
 -- -- HOOK SECURE FUNCTIONS
 hooksecurefunc("ActionButton_UpdateHotkeys", Hook_ActionButton_UpdateHotkeys)
 hooksecurefunc("ActionButton_OnUpdate", Hook_ActionButton_OnUpdate)
--- hooksecurefunc('MainMenuBarVehicleLeaveButton_Update', MoveBarFrames)
--- hooksecurefunc('MultiActionBar_Update', MoveBarFrames)
+hooksecurefunc('MainMenuBarVehicleLeaveButton_Update', MoveBarFrames)
+hooksecurefunc('MultiActionBar_Update', MoveBarFrames)
 hooksecurefunc("ActionButton_OnEvent", Hook_ActionButton_OnEvent)
+hooksecurefunc(MainMenuBar, "ChangeMenuBarSizeAndPosition", Hook_ChangeMenuBarSizeAndPosition)

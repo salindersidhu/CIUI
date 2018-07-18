@@ -3,6 +3,7 @@
 ## Author: Salinder Sidhu
 ## Version: @project-version@
 ## Notes: An improved version of the standard Blizzard UI.
+## Dependencies: Blizzard_TalkingHeadUI
 
 main.lua
 
