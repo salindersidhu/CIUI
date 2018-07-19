@@ -1,6 +1,6 @@
 # Configure variables
 NAME=CIUI
-HASH="DEV $(shell git rev-parse HEAD | cut -c 1-6)"
+HASH="DEV $(shell git rev-parse HEAD)"
 SRC=*.toc *.lua locales media modules
 FOLDER:="C:/Program Files/World of Warcraft/Interface/AddOns/$(NAME)"
 
