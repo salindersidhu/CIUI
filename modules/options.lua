@@ -1,9 +1,9 @@
 local _, L = ...
 
--- CREATE FRAMES --
+-- CREATE FRAMES
 local OptionsModule = CreateFrame("Frame")
 
--- REGISTER EVENTS TO FRAMES --
+-- REGISTER EVENTS TO FRAMES
 OptionsModule:RegisterEvent("ADDON_LOADED")
 
 local function CreateInterfaceOptions()
@@ -33,7 +33,7 @@ local function CreateInterfaceOptions()
     InterfaceOptions_AddCategory(opts)
 end
 
--- OPTIONS FRAME EVENT HANDLER
+-- EVENT HANDLER
 local function EventHandler(self, event, arg1, ...)
     if event == "ADDON_LOADED" and arg1 == ADDON_NAME then
         CreateInterfaceOptions()

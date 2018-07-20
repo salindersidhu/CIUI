@@ -1,10 +1,10 @@
 local _, L = ...
 
--- CREATE FRAMES --
-local MapModule = CreateFrame("Frame")
+-- CREATE FRAMES
+local MinimapModule = CreateFrame("Frame")
 
--- REGISTER EVENTS TO FRAMES --
-MapModule:RegisterEvent("PLAYER_ENTERING_WORLD")
+-- REGISTER EVENTS TO FRAMES
+MinimapModule:RegisterEvent("ADDON_LOADED")
 
 local function Minimap_OnMouseWheel(self, delta)
     if delta > 0 then
@@ -26,10 +26,10 @@ end
 
 -- CHAT FRAME EVENT HANDLER
 local function EventHandler(self, event, ...)
-    if event == "PLAYER_ENTERING_WORLD" then
+    if event == "ADDON_LOADED" then
         ModifyMinimap()
     end
 end
 
 -- SET FRAME SCRIPTS
-MapModule:SetScript("OnEvent", EventHandler)
+MinimapModule:SetScript("OnEvent", EventHandler)

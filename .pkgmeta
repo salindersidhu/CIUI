@@ -3,12 +3,11 @@ package-as: CIUI
 enable-nolib-creation: no
 
 manual-changelog:
-   filename: CHANGELOG.md
+   filename: changelog.txt
    markup-type: markdown
 
 ignore:
-    - makefile
+    - Makefile
     - README.md
     - LICENSE.md
-    - CHANGELOG.md
     - CONTRIBUTING.md
