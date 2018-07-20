@@ -6,12 +6,16 @@
 ## Dependencies: Blizzard_TalkingHeadUI
 
 main.lua
+utils.lua
 
 locales\enUS.lua
 
 modules\actionbars.lua
+modules\bagbar.lua
 modules\chat.lua
-modules\map.lua
 modules\micromenu.lua
+modules\minimap.lua
 modules\options.lua
-modules\unitframes.lua
+modules\partyframe.lua
+modules\playerframe.lua
+modules\targetframe.lua
