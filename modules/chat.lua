@@ -1,9 +1,9 @@
 local _, L = ...
 
--- CREATE FRAMES --
+-- CREATE FRAMES
 local ChatModule = CreateFrame("Frame")
 
--- REGISTER EVENTS TO FRAMES --
+-- REGISTER EVENTS TO FRAMES
 ChatModule:RegisterEvent("ADDON_LOADED")
 ChatModule:RegisterEvent("PET_BATTLE_OPENING_START")
 
@@ -96,7 +96,7 @@ local function ModifyChatStrings()
     CHAT_INSTANCE_CHAT_LEADER_GET = "|Hchannel:Battleground|h[IL]|h %s: "
 end
 
--- CHAT FRAME EVENT HANDLER
+-- EVENT HANDLER
 local function EventHandler(self, event, ...)
     if event == "ADDON_LOADED" then
         ModifyChatUI()

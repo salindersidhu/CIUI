@@ -1,9 +1,9 @@
 local _, L = ...
 
--- CREATE FRAMES --
+-- CREATE FRAMES
 local MicroMenuModule = CreateFrame("Frame")
 
--- REGISTER EVENTS TO FRAMES --
+-- REGISTER EVENTS TO FRAMES
 MicroMenuModule:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 local function Hook_MoveMicroButtons(a, aT, rT, x, y, stacked)
@@ -14,11 +14,9 @@ local function Hook_MoveMicroButtons(a, aT, rT, x, y, stacked)
     end
 end
 
--- ACTION BAR FRAME EVENT HANDLER
+-- EVENT HANDLER
 local function EventHandler(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
-        Utils.ModifyFrameFixed(MainMenuBarBackpackButton, 'BOTTOMRIGHT', UIParent, -1, -300, nil)
-        MicroButtonAndBagsBar:Hide()
         MoveMicroButtons("BOTTOMLEFT", MicroButtonAndBagsBar, "BOTTOMLEFT", 12, -1, false)
     end
 end
