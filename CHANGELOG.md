@@ -1,7 +1,6 @@
 ## Changelog
 
-- Updated for BFA Pre-patch
-- Unitframes updated
-- Actionbars updated
-- Micromenu updated
-- TOC version bump
+- Misc bug fixes for BFA
+- Fixed pet bar
+- Fixed stance bar
+- Fixed actionbar scaling

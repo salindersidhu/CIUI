@@ -10,7 +10,7 @@ utils.lua
 
 locales\enUS.lua
 
-modules\actionbars.lua
+modules\actionbar.lua
 modules\bagbar.lua
 modules\chat.lua
 modules\micromenu.lua

@@ -119,16 +119,10 @@ local function EventHandler(self, event, arg1, ...)
     if event == "UNIT_ENTERED_VEHICLE" and UnitVehicleSkin("player") ~= nil then
         -- Modify Player UnitFrame for vehicles
         ModifyVehicleUI()
-        -- Set default key bindings for vehicle action buttons
-        for i = 1, 6 do
-            SetBinding(tostring(i), "ACTIONBUTTON"..i)
-        end
     end
     if event == "UNIT_EXITED_VEHICLE" and ... == 'player' then
         -- Restore UnitFrame modifications upon vehicle exit
         ModifyPlayerFrameUI()
-        -- Restore original keybinding upon vehicle exit
-        LoadBindings(GetCurrentBindingSet())
     end
     if event == "GROUP_ROSTER_UPDATE" then
         -- Modify Group Indicator text when group roster is updated
