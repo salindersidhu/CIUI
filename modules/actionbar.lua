@@ -84,27 +84,35 @@ local function Hook_ActionButtonOnUpdate(self, elapsed)
 end
 
 local function ModifyActionBars(isShown)
-    if (InCombatLockdown() == false) then
-        -- Force the MainMenuBar artwork to be the small version
-        _, width, height = GetAtlasInfo("hud-MainMenuBar-small")
-        MainMenuBar:SetSize(width,height)
-		MainMenuBarArtFrame:SetSize(width,height)
-		MainMenuBarArtFrameBackground:SetSize(width, height)
-		MainMenuBarArtFrameBackground.BackgroundLarge:Hide()
-		MainMenuBarArtFrameBackground.BackgroundSmall:Show()
-		MainMenuBarArtFrame.PageNumber:ClearAllPoints()
-        MainMenuBarArtFrame.PageNumber:SetPoint("RIGHT", MainMenuBarArtFrameBackground, "RIGHT", -6, -3);
+    -- Force the MainMenuBar artwork to be the small version
+    _, width, height = GetAtlasInfo("hud-MainMenuBar-small")
 
-        -- Move the RightMultiBar and make it horizontal
-        if (isShown) then
-            Utils.ModifyFrameFixed(MultiBarBottomRight, 'TOP', MainMenuBar, -142, 85, nil)
-            Utils.ModifyFrameFixed(MultiBarBottomRightButton7, 'RIGHT', MultiBarBottomRightButton6, 43, 0, nil)
+    MainMenuBar:SetMovable(true)
+    MainMenuBarArtFrame:SetMovable(true)
+    MainMenuBarArtFrameBackground:SetMovable(true)
 
-            -- Move talking head frame
-            TalkingHeadFrame.ignoreFramePositionManager = true
-            TalkingHeadFrame:ClearAllPoints()
-            TalkingHeadFrame:SetPoint("BOTTOM", 0, 155)
-        end
+    MainMenuBar:SetSize(width,height)
+    MainMenuBarArtFrame:SetSize(width,height)
+    MainMenuBarArtFrameBackground:SetSize(width, height)
+
+    MainMenuBar:SetMovable(false)
+    MainMenuBarArtFrame:SetMovable(false)
+    MainMenuBarArtFrameBackground:SetMovable(false)
+
+    MainMenuBarArtFrameBackground.BackgroundLarge:Hide()
+    MainMenuBarArtFrameBackground.BackgroundSmall:Show()
+    MainMenuBarArtFrame.PageNumber:ClearAllPoints()
+    MainMenuBarArtFrame.PageNumber:SetPoint("RIGHT", MainMenuBarArtFrameBackground, "RIGHT", -6, -3);
+
+    -- Move the RightMultiBar and make it horizontal
+    if (isShown) then
+        Utils.ModifyFrameFixed(MultiBarBottomRight, 'TOP', MainMenuBar, -142, 85, nil)
+        Utils.ModifyFrameFixed(MultiBarBottomRightButton7, 'RIGHT', MultiBarBottomRightButton6, 43, 0, nil)
+
+        -- Move talking head frame
+        TalkingHeadFrame.ignoreFramePositionManager = true
+        TalkingHeadFrame:ClearAllPoints()
+        TalkingHeadFrame:SetPoint("BOTTOM", 0, 155)
     end
 end
 
