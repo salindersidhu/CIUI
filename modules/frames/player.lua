@@ -1,13 +1,13 @@
 local _, L = ...
 
 -- CREATE FRAMES
-local PlayerFrameModule = CreateFrame("Frame")
+local PlayerModule = CreateFrame("Frame")
 
 -- REGISTER EVENTS TO FRAMES
-PlayerFrameModule:RegisterEvent("PLAYER_ENTERING_WORLD")
-PlayerFrameModule:RegisterEvent("UNIT_ENTERED_VEHICLE")
-PlayerFrameModule:RegisterEvent("UNIT_EXITED_VEHICLE")
-PlayerFrameModule:RegisterEvent("GROUP_ROSTER_UPDATE")
+PlayerModule:RegisterEvent("PLAYER_ENTERING_WORLD")
+PlayerModule:RegisterEvent("UNIT_ENTERED_VEHICLE")
+PlayerModule:RegisterEvent("UNIT_EXITED_VEHICLE")
+PlayerModule:RegisterEvent("GROUP_ROSTER_UPDATE")
 
 local function Hook_HealthBarOnValueChanged(self, value, smooth)
     local min, max = self:GetMinMaxValues()
@@ -131,7 +131,7 @@ local function EventHandler(self, event, arg1, ...)
 end
 
 -- SET FRAME SCRIPTS
-PlayerFrameModule:SetScript("OnEvent", EventHandler)
+PlayerModule:SetScript("OnEvent", EventHandler)
 
 -- HOOK SECURE FUNCTIONS
 hooksecurefunc("HealthBar_OnValueChanged", Hook_HealthBarOnValueChanged)

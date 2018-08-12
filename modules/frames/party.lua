@@ -1,10 +1,10 @@
 local _, L = ...
 
 -- CREATE FRAMES
-local PartyFrameModule = CreateFrame("Frame")
+local PartyModule = CreateFrame("Frame")
 
 -- REGISTER EVENTS TO FRAMES
-PartyFrameModule:RegisterEvent("PLAYER_ENTERING_WORLD")
+PartyModule:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 local function ModifyPartyFrameUI()
     for i = 1, 4 do
@@ -22,4 +22,4 @@ local function EventHandler(self, event, ...)
 end
 
 -- SET FRAME SCRIPTS
-PartyFrameModule:SetScript("OnEvent", EventHandler)
+PartyModule:SetScript("OnEvent", EventHandler)

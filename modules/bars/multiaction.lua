@@ -1,16 +1,16 @@
 local _, L = ...
 
 -- CREATE FRAMES
-local ActionBarsModule = CreateFrame("Frame")
+local MultiActionModule = CreateFrame("Frame")
 
 -- REGISTER EVENTS TO FRAMES
-ActionBarsModule:RegisterEvent("ADDON_LOADED")
-ActionBarsModule:RegisterEvent("PLAYER_LOGIN")
-ActionBarsModule:RegisterEvent("PLAYER_TALENT_UPDATE")
-ActionBarsModule:RegisterEvent("PLAYER_ENTERING_WORLD")
-ActionBarsModule:RegisterEvent("UNIT_ENTERED_VEHICLE")
-ActionBarsModule:RegisterEvent("UNIT_EXITED_VEHICLE")
-ActionBarsModule:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+MultiActionModule:RegisterEvent("ADDON_LOADED")
+MultiActionModule:RegisterEvent("PLAYER_LOGIN")
+MultiActionModule:RegisterEvent("PLAYER_TALENT_UPDATE")
+MultiActionModule:RegisterEvent("PLAYER_ENTERING_WORLD")
+MultiActionModule:RegisterEvent("UNIT_ENTERED_VEHICLE")
+MultiActionModule:RegisterEvent("UNIT_EXITED_VEHICLE")
+MultiActionModule:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
 
 local function Hook_ActionButtonUpdateHotkeys(self, bT)
     -- Obtain button text and hotkey
@@ -84,35 +84,37 @@ local function Hook_ActionButtonOnUpdate(self, elapsed)
 end
 
 local function ModifyActionBars(isShown)
-    -- Force the MainMenuBar artwork to be the small version
-    _, width, height = GetAtlasInfo("hud-MainMenuBar-small")
+    if (InCombatLockdown() == false) then
+        -- Force the MainMenuBar artwork to be the small version
+        _, width, height = GetAtlasInfo("hud-MainMenuBar-small")
 
-    MainMenuBar:SetMovable(true)
-    MainMenuBarArtFrame:SetMovable(true)
-    MainMenuBarArtFrameBackground:SetMovable(true)
+        MainMenuBar:SetMovable(true)
+        MainMenuBarArtFrame:SetMovable(true)
+        MainMenuBarArtFrameBackground:SetMovable(true)
 
-    MainMenuBar:SetSize(width,height)
-    MainMenuBarArtFrame:SetSize(width,height)
-    MainMenuBarArtFrameBackground:SetSize(width, height)
+        MainMenuBar:SetSize(width,height)
+        MainMenuBarArtFrame:SetSize(width,height)
+        MainMenuBarArtFrameBackground:SetSize(width, height)
 
-    MainMenuBar:SetMovable(false)
-    MainMenuBarArtFrame:SetMovable(false)
-    MainMenuBarArtFrameBackground:SetMovable(false)
+        MainMenuBar:SetMovable(false)
+        MainMenuBarArtFrame:SetMovable(false)
+        MainMenuBarArtFrameBackground:SetMovable(false)
 
-    MainMenuBarArtFrameBackground.BackgroundLarge:Hide()
-    MainMenuBarArtFrameBackground.BackgroundSmall:Show()
-    MainMenuBarArtFrame.PageNumber:ClearAllPoints()
-    MainMenuBarArtFrame.PageNumber:SetPoint("RIGHT", MainMenuBarArtFrameBackground, "RIGHT", -6, -3);
+        MainMenuBarArtFrameBackground.BackgroundLarge:Hide()
+        MainMenuBarArtFrameBackground.BackgroundSmall:Show()
+        MainMenuBarArtFrame.PageNumber:ClearAllPoints()
+        MainMenuBarArtFrame.PageNumber:SetPoint("RIGHT", MainMenuBarArtFrameBackground, "RIGHT", -6, -3);
 
-    -- Move the RightMultiBar and make it horizontal
-    if (isShown) then
-        Utils.ModifyFrameFixed(MultiBarBottomRight, 'TOP', MainMenuBar, -142, 85, nil)
-        Utils.ModifyFrameFixed(MultiBarBottomRightButton7, 'RIGHT', MultiBarBottomRightButton6, 43, 0, nil)
+        -- Move the RightMultiBar and make it horizontal
+        if (isShown) then
+            Utils.ModifyFrameFixed(MultiBarBottomRight, 'TOP', MainMenuBar, -142, 85, nil)
+            Utils.ModifyFrameFixed(MultiBarBottomRightButton7, 'RIGHT', MultiBarBottomRightButton6, 43, 0, nil)
 
-        -- Move talking head frame
-        TalkingHeadFrame.ignoreFramePositionManager = true
-        TalkingHeadFrame:ClearAllPoints()
-        TalkingHeadFrame:SetPoint("BOTTOM", 0, 155)
+            -- Move talking head frame
+            TalkingHeadFrame.ignoreFramePositionManager = true
+            TalkingHeadFrame:ClearAllPoints()
+            TalkingHeadFrame:SetPoint("BOTTOM", 0, 155)
+        end
     end
 end
 
@@ -166,7 +168,7 @@ local function EventHandler(self, event, ...)
 end
 
 -- SET FRAME SCRIPTS
-ActionBarsModule:SetScript("OnEvent", EventHandler)
+MultiActionModule:SetScript("OnEvent", EventHandler)
 
 -- HOOK SECURE FUNCTIONS
 hooksecurefunc("ActionButton_UpdateHotkeys", Hook_ActionButtonUpdateHotkeys)

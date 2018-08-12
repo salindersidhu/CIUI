@@ -11,10 +11,6 @@ local function CreateInterfaceOptions()
     local opts = CreateFrame("Frame")
     opts.name = L["OPT_ADDON"]
 
-    --[[
-        Title Block
-        Contains the title, version and description of settings.
-    ]]
     local title = opts:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
     title:SetPoint("TOPLEFT", 16, -16)
     title:SetText(L["OPT_TITLE"])

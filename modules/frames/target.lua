@@ -1,10 +1,10 @@
 local _, L = ...
 
 -- CREATE FRAMES
-local TargetFrameModule = CreateFrame("Frame")
+local TargetModule = CreateFrame("Frame")
 
 -- REGISTER EVENTS TO FRAMES
-TargetFrameModule:RegisterEvent("PLAYER_ENTERING_WORLD")
+TargetModule:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 local function ModifyTargetFrameUI()
     -- Obtain target's unit classification type
@@ -84,7 +84,7 @@ local function EventHandler(self, event, arg1, ...)
 end
 
 -- SET FRAME SCRIPTS
-TargetFrameModule:SetScript("OnEvent", EventHandler)
+TargetModule:SetScript("OnEvent", EventHandler)
 
 -- HOOK SECURE FUNCTIONS
 hooksecurefunc("TargetFrame_CheckDead", ModifyTargetFrameUI)

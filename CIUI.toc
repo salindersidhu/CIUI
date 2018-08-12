@@ -10,12 +10,12 @@ utils.lua
 
 locales\enUS.lua
 
-modules\actionbar.lua
-modules\bagbar.lua
-modules\chat.lua
-modules\micromenu.lua
-modules\minimap.lua
-modules\options.lua
-modules\partyframe.lua
-modules\playerframe.lua
-modules\targetframe.lua
+modules\bars\bag.lua
+modules\bars\multiaction.lua
+modules\frames\party.lua
+modules\frames\player.lua
+modules\frames\target.lua
+modules\misc\chat.lua
+modules\misc\minimap.lua
+modules\misc\micromenu.lua
+modules\misc\options.lua
