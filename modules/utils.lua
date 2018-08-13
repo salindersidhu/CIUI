@@ -1,7 +1,4 @@
-local _, L = ...
-
--- CREATE FRAMES AND FUNCTIONS
-Utils = CreateFrame("Frame")
+Utils = Classes.Class()
 
 function Utils.ModifyFont(frame, file, size, flags)
     -- Obtain the frame's default file size and flags
@@ -34,3 +31,4 @@ function Utils.ModifyFrameFixed(frame, anchor, parent, x, y, scale)
     frame:SetUserPlaced(true)
     frame:SetMovable(false)
 end
+

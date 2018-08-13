@@ -1,12 +1,3 @@
-local _, L = ...
-
--- CREATE FRAMES
-local ChatModule = CreateFrame("Frame")
-
--- REGISTER EVENTS TO FRAMES
-ChatModule:RegisterEvent("ADDON_LOADED")
-ChatModule:RegisterEvent("PET_BATTLE_OPENING_START")
-
 local function ModifyChatWindowTab(tabID, tabName)
     -- Obtain details on the chat window
     local window = _G["ChatFrame"..tabID]:GetName()
@@ -54,7 +45,6 @@ local function ModifyChatWindowTab(tabID, tabName)
     Utils.ModifyFont(_G[window], nil, size, "THINOUTLINE")
     _G[window]:SetShadowOffset(1, -1)
     _G[window]:SetShadowColor(0, 0, 0, 0.6)
-
 end
 
 local function ModifyChatUI()
@@ -96,16 +86,24 @@ local function ModifyChatStrings()
     CHAT_INSTANCE_CHAT_LEADER_GET = "|Hchannel:Battleground|h[IL]|h %s: "
 end
 
--- EVENT HANDLER
-local function EventHandler(self, event, ...)
-    if event == "ADDON_LOADED" then
-        ModifyChatUI()
-        ModifyChatStrings()
-    end
-    if event == "PET_BATTLE_OPENING_START" then
-        ModifyChatWindowTab(11, "Pet Log")
-    end
+ChatModule = Classes.Class(Module)
+
+function ChatModule:Init()
+    self.super:Init("Chat")
 end
 
--- SET FRAME SCRIPTS
-ChatModule:SetScript("OnEvent", EventHandler)
+function ChatModule:GetEvents()
+    return {"ADDON_LOADED", "PET_BATTLE_OPENING_START"}
+end
+
+function ChatModule:GetEventHandler()
+    return function(self, event, ...)
+        if event == "ADDON_LOADED" then
+            ModifyChatUI()
+            ModifyChatStrings()
+        end
+        if event == "PET_BATTLE_OPENING_START" then
+            ModifyChatWindowTab(11, "Pet Log")
+        end
+    end
+end

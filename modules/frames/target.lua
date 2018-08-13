@@ -1,10 +1,8 @@
-local _, L = ...
-
--- CREATE FRAMES
-local TargetModule = CreateFrame("Frame")
-
--- REGISTER EVENTS TO FRAMES
-TargetModule:RegisterEvent("PLAYER_ENTERING_WORLD")
+local TEXTURE_UI_FRAME_TARGET = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame"
+local TEXTURE_UI_FRAME_TARGET_FLASH = "Interface\\TargetingFrame\\UI-TargetingFrame-Flash"
+local TEXTURE_UI_FRAME_TARGET_RARE = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame-Rare"
+local TEXTURE_UI_FRAME_TARGET_ELITE = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame-Elite"
+local TEXTURE_UI_FRAME_TARGET_RARE_ELITE = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame-Rare-Elite"
 
 local function ModifyTargetFrameUI()
     -- Obtain target's unit classification type
@@ -74,21 +72,28 @@ local function ModifyTargetFrameUI()
     end
 end
 
--- EVENT HANDLER
-local function EventHandler(self, event, arg1, ...)
-    if event == "PLAYER_ENTERING_WORLD" then
-        ModifyTargetFrameUI()
-        -- Modify TargetFrame position
-        Utils.ModifyFrameFixed(TargetFrame, "CENTER", nil, 265, -150, 1.3)
-    end
-end
-
--- SET FRAME SCRIPTS
-TargetModule:SetScript("OnEvent", EventHandler)
-
--- HOOK SECURE FUNCTIONS
 hooksecurefunc("TargetFrame_CheckDead", ModifyTargetFrameUI)
 hooksecurefunc("TargetFrame_Update", ModifyTargetFrameUI)
 hooksecurefunc("TargetFrame_CheckFaction", ModifyTargetFrameUI)
 hooksecurefunc("TargetFrame_CheckClassification", ModifyTargetFrameUI)
 hooksecurefunc("TargetofTarget_Update", ModifyTargetFrameUI)
+
+TargetFrameModule = Classes.Class(Module)
+
+function TargetFrameModule:Init()
+    self.super:Init("TargetFrame")
+end
+
+function TargetFrameModule:GetEvents()
+    return {"PLAYER_ENTERING_WORLD"}
+end
+
+function TargetFrameModule:GetEventHandler()
+    return function (self, event, ...)
+        if event == "PLAYER_ENTERING_WORLD" then
+            ModifyTargetFrameUI()
+            -- Modify TargetFrame position
+            Utils.ModifyFrameFixed(TargetFrame, "CENTER", nil, 265, -150, 1.3)
+        end
+    end
+end

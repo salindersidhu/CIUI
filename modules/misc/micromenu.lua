@@ -1,11 +1,3 @@
-local _, L = ...
-
--- CREATE FRAMES
-local MicroMenuModule = CreateFrame("Frame")
-
--- REGISTER EVENTS TO FRAMES
-MicroMenuModule:RegisterEvent("PLAYER_ENTERING_WORLD")
-
 local function Hook_MoveMicroButtons(a, aT, rT, x, y, stacked)
     if HasOverrideActionBar() or HasVehicleActionBar() then
         MoveMicroButtons(rT, aT, rT, x, y, stacked)
@@ -14,15 +6,22 @@ local function Hook_MoveMicroButtons(a, aT, rT, x, y, stacked)
     end
 end
 
--- EVENT HANDLER
-local function EventHandler(self, event, ...)
-    if event == "PLAYER_ENTERING_WORLD" then
-        MoveMicroButtons("BOTTOMLEFT", MicroButtonAndBagsBar, "BOTTOMLEFT", 12, -1, false)
-    end
+hooksecurefunc("MoveMicroButtons", Hook_MoveMicroButtons)
+
+MicroMenuModule = Classes.Class(Module)
+
+function MicroMenuModule:Init()
+    self.super:Init("MicroMenu")
 end
 
--- SET FRAME SCRIPTS
-MicroMenuModule:SetScript("OnEvent", EventHandler)
+function MicroMenuModule:GetEvents()
+    return {"PLAYER_ENTERING_WORLD"}
+end
 
--- HOOK SECURE FUNCTIONS
-hooksecurefunc("MoveMicroButtons", Hook_MoveMicroButtons)
+function MicroMenuModule:GetEventHandler()
+    return function (self, event, ...)
+        if event == "PLAYER_ENTERING_WORLD" then
+            MoveMicroButtons("BOTTOMLEFT", MicroButtonAndBagsBar, "BOTTOMLEFT", 12, -1, false)
+        end
+    end
+end

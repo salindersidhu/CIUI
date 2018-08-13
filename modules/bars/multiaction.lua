@@ -1,17 +1,3 @@
-local _, L = ...
-
--- CREATE FRAMES
-local MultiActionModule = CreateFrame("Frame")
-
--- REGISTER EVENTS TO FRAMES
-MultiActionModule:RegisterEvent("ADDON_LOADED")
-MultiActionModule:RegisterEvent("PLAYER_LOGIN")
-MultiActionModule:RegisterEvent("PLAYER_TALENT_UPDATE")
-MultiActionModule:RegisterEvent("PLAYER_ENTERING_WORLD")
-MultiActionModule:RegisterEvent("UNIT_ENTERED_VEHICLE")
-MultiActionModule:RegisterEvent("UNIT_EXITED_VEHICLE")
-MultiActionModule:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-
 local function Hook_ActionButtonUpdateHotkeys(self, bT)
     -- Obtain button text and hotkey
     local name = self:GetName()
@@ -147,29 +133,6 @@ local function Hook_ActionButtonOnEvent(self, event, ...)
     end
 end
 
--- ACTION BAR FRAME EVENT HANDLER
-local function EventHandler(self, event, ...)
-    if event == "ADDON_LOADED" then
-        Utils.ModifyFrameFixed(ExtraActionBarFrame, "BOTTOM", UIParent, 0, 192, nil)
-    end
-    if event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_LOGIN" or event == "PLAYER_TALENT_UPDATE" or event == "ACTIVE_TALENT_GROUP_CHANGED" then
-        ModifyActionBars(MultiBarBottomRight:IsShown())
-    end
-    if event == "UNIT_ENTERED_VEHICLE" and UnitVehicleSkin("player") ~= nil then
-        -- Set default key bindings for vehicle action buttons
-        for i = 1, 6 do
-            SetBinding(tostring(i), "ACTIONBUTTON"..i)
-        end
-    end
-    if event == "UNIT_EXITED_VEHICLE" and ... == 'player' then
-        -- Restore original keybinding upon vehicle exit
-        LoadBindings(GetCurrentBindingSet())
-    end
-end
-
--- SET FRAME SCRIPTS
-MultiActionModule:SetScript("OnEvent", EventHandler)
-
 -- HOOK SECURE FUNCTIONS
 hooksecurefunc("ActionButton_UpdateHotkeys", Hook_ActionButtonUpdateHotkeys)
 hooksecurefunc("ActionButton_OnUpdate", Hook_ActionButtonOnUpdate)
@@ -177,3 +140,42 @@ hooksecurefunc("ActionButton_OnEvent", Hook_ActionButtonOnEvent)
 hooksecurefunc('MultiActionBar_Update', MoveBarFrames)
 hooksecurefunc('MainMenuBarVehicleLeaveButton_Update', MoveVehicleButton)
 hooksecurefunc(MainMenuBar, "ChangeMenuBarSizeAndPosition", Hook_ChangeMenuBarSizeAndPosition)
+
+MultiActionModule = Classes.Class(Module)
+
+function MultiActionModule:Init()
+    self.super:Init("MultiActionBar")
+end
+
+function MultiActionModule:GetEvents()
+    return {
+        "ADDON_LOADED",
+        "PLAYER_LOGIN",
+        "PLAYER_TALENT_UPDATE",
+        "PLAYER_ENTERING_WORLD",
+        "UNIT_ENTERED_VEHICLE",
+        "UNIT_EXITED_VEHICLE",
+        "ACTIVE_TALENT_GROUP_CHANGED"
+    }
+end
+
+function MultiActionModule:GetEventHandler()
+    return function(self, event, ...)
+        if event == "ADDON_LOADED" then
+            Utils.ModifyFrameFixed(ExtraActionBarFrame, "BOTTOM", UIParent, 0, 192, nil)
+        end
+        if event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_LOGIN" or event == "PLAYER_TALENT_UPDATE" or event == "ACTIVE_TALENT_GROUP_CHANGED" then
+            ModifyActionBars(MultiBarBottomRight:IsShown())
+        end
+        if event == "UNIT_ENTERED_VEHICLE" and UnitVehicleSkin("player") ~= nil then
+            -- Set default key bindings for vehicle action buttons
+            for i = 1, 6 do
+                SetBinding(tostring(i), "ACTIONBUTTON"..i)
+            end
+        end
+        if event == "UNIT_EXITED_VEHICLE" and ... == 'player' then
+            -- Restore original keybinding upon vehicle exit
+            LoadBindings(GetCurrentBindingSet())
+        end
+    end
+end

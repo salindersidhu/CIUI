@@ -1,17 +1,17 @@
-local _, L = ...
+BagModule = Classes.Class(Module)
 
--- CREATE FRAMES
-local BagModule = CreateFrame("Frame")
-
--- REGISTER EVENTS TO FRAMES
-BagModule:RegisterEvent("ADDON_LOADED")
-
--- EVENT HANDLER
-local function EventHandler(self, event, ...)
-    if event == "ADDON_LOADED" then
-        MicroButtonAndBagsBar:Hide()
-    end
+function BagModule:Init()
+    self.super:Init("BagBar")
 end
 
--- SET FRAME SCRIPTS
-BagModule:SetScript("OnEvent", EventHandler)
+function BagModule:GetEvents()
+    return {"ADDON_LOADED"}
+end
+
+function BagModule:GetEventHandler()
+    return function (self, event, ...)
+        if event == "ADDON_LOADED" then
+            MicroButtonAndBagsBar:Hide()
+        end
+    end
+end

@@ -1,11 +1,3 @@
-local _, L = ...
-
--- CREATE FRAMES
-local MinimapModule = CreateFrame("Frame")
-
--- REGISTER EVENTS TO FRAMES
-MinimapModule:RegisterEvent("ADDON_LOADED")
-
 local function Minimap_OnMouseWheel(self, delta)
     if delta > 0 then
         Minimap_ZoomIn()
@@ -24,12 +16,20 @@ local function ModifyMinimap()
     Minimap:SetScript("OnMouseWheel", Minimap_OnMouseWheel)
 end
 
--- CHAT FRAME EVENT HANDLER
-local function EventHandler(self, event, ...)
-    if event == "ADDON_LOADED" then
-        ModifyMinimap()
-    end
+MinimapModule = Classes.Class(Module)
+
+function MinimapModule:Init()
+    self.super:Init("MiniMap")
 end
 
--- SET FRAME SCRIPTS
-MinimapModule:SetScript("OnEvent", EventHandler)
+function MinimapModule:GetEvents()
+    return {"ADDON_LOADED"}
+end
+
+function MinimapModule:GetEventHandler()
+    return function (self, event, ...)
+        if event == "ADDON_LOADED" then
+            ModifyMinimap()
+        end
+    end
+end
