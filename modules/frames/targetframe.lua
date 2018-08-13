@@ -1,16 +1,16 @@
-local TEXTURE_UI_FRAME_TARGET = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame"
-local TEXTURE_UI_FRAME_TARGET_FLASH = "Interface\\TargetingFrame\\UI-TargetingFrame-Flash"
-local TEXTURE_UI_FRAME_TARGET_RARE = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame-Rare"
-local TEXTURE_UI_FRAME_TARGET_ELITE = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame-Elite"
-local TEXTURE_UI_FRAME_TARGET_RARE_ELITE = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame-Rare-Elite"
+local UI_TARGET_FRAME = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame"
+local UI_TARGET_FRAME_FLASH = "Interface\\TargetingFrame\\UI-TargetingFrame-Flash"
+local UI_TARGET_FRAME_RARE = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame-Rare"
+local UI_TARGET_FRAME_ELITE = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame-Elite"
+local UI_TARGET_FRAME_RARE_ELITE = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame-Rare-Elite"
 
-local function ModifyTargetFrameUI()
+local function modifyTargetFrameUI()
     -- Obtain target's unit classification type
     local targetType = UnitClassification(TargetFrame.unit)
 
     -- Update Target's name
     TargetFrame.nameBackground:Hide()
-    Utils.ModifyFont(TargetFrame.name, nil, 11, "OUTLINE")
+    Utils.modifyFont(TargetFrame.name, nil, 11, "OUTLINE")
     TargetFrame.name:SetPoint("LEFT", TargetFrame, 15, 36)
 
     -- Update Target's background
@@ -44,20 +44,20 @@ local function ModifyTargetFrameUI()
 
     -- Set texture based on target's unit classification type
     if targetType == "minus" then
-        TargetFrame.borderTexture:SetTexture(TEXTURE_UI_FRAME_TARGET)
+        TargetFrame.borderTexture:SetTexture(UI_TARGET_FRAME)
     elseif targetType == "worldboss" or targetType == "elite" then
-        TargetFrame.borderTexture:SetTexture(TEXTURE_UI_FRAME_TARGET_ELITE)
+        TargetFrame.borderTexture:SetTexture(UI_TARGET_FRAME_ELITE)
     elseif targetType == "rareelite"  then
-        TargetFrame.borderTexture:SetTexture(TEXTURE_UI_FRAME_TARGET_RARE_ELITE)
+        TargetFrame.borderTexture:SetTexture(UI_TARGET_FRAME_RARE_ELITE)
     elseif targetType == "rare" then
-        TargetFrame.borderTexture:SetTexture(TEXTURE_UI_FRAME_TARGET_RARE)
+        TargetFrame.borderTexture:SetTexture(UI_TARGET_FRAME_RARE)
     else
-        TargetFrame.borderTexture:SetTexture(TEXTURE_UI_FRAME_TARGET)
+        TargetFrame.borderTexture:SetTexture(UI_TARGET_FRAME)
     end
 
     --  Set threat indicator for the "minus" classification type
     if TargetFrame.threatIndicator and targetType == "minus" then
-        TargetFrame.threatIndicator:SetTexture(TEXTURE_UI_FRAME_TARGET_FLASH)
+        TargetFrame.threatIndicator:SetTexture(UI_TARGET_FRAME_FLASH)
         TargetFrame.threatIndicator:SetTexCoord(0, 0.95, 0, 0.18)
         TargetFrame.threatIndicator:SetWidth(242)
         TargetFrame.threatIndicator:SetHeight(93)
@@ -72,28 +72,25 @@ local function ModifyTargetFrameUI()
     end
 end
 
-hooksecurefunc("TargetFrame_CheckDead", ModifyTargetFrameUI)
-hooksecurefunc("TargetFrame_Update", ModifyTargetFrameUI)
-hooksecurefunc("TargetFrame_CheckFaction", ModifyTargetFrameUI)
-hooksecurefunc("TargetFrame_CheckClassification", ModifyTargetFrameUI)
-hooksecurefunc("TargetofTarget_Update", ModifyTargetFrameUI)
+hooksecurefunc("TargetFrame_CheckDead", modifyTargetFrameUI)
+hooksecurefunc("TargetFrame_Update", modifyTargetFrameUI)
+hooksecurefunc("TargetFrame_CheckFaction", modifyTargetFrameUI)
+hooksecurefunc("TargetFrame_CheckClassification", modifyTargetFrameUI)
+hooksecurefunc("TargetofTarget_Update", modifyTargetFrameUI)
 
-TargetFrameModule = Classes.Class(Module)
+TargetFrameModule = classes.class(Module)
 
-function TargetFrameModule:Init()
-    self.super:Init("TargetFrame")
+function TargetFrameModule:init()
+    self.super:init("TargetFrame")
+    self:addEvent("PLAYER_ENTERING_WORLD")
 end
 
-function TargetFrameModule:GetEvents()
-    return {"PLAYER_ENTERING_WORLD"}
-end
-
-function TargetFrameModule:GetEventHandler()
+function TargetFrameModule:getEventHandler()
     return function (self, event, ...)
         if event == "PLAYER_ENTERING_WORLD" then
-            ModifyTargetFrameUI()
+            modifyTargetFrameUI()
             -- Modify TargetFrame position
-            Utils.ModifyFrameFixed(TargetFrame, "CENTER", nil, 265, -150, 1.3)
+            Utils.modifyFrameFixed(TargetFrame, "CENTER", nil, 265, -150, 1.3)
         end
     end
 end

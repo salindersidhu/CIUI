@@ -1,4 +1,4 @@
-local function ModifyChatWindowTab(tabID, tabName)
+local function modifyChatWindowTab(tabID, tabName)
     -- Obtain details on the chat window
     local window = _G["ChatFrame"..tabID]:GetName()
     local _, size, _, _, _, _, _, _, _ = GetChatWindowInfo(tabID)
@@ -14,7 +14,7 @@ local function ModifyChatWindowTab(tabID, tabName)
 
     -- Modify chat tab font
     local tabFont = tab:GetFontString()
-    Utils.ModifyFont(tabFont, nil, 12, "THINOUTLINE")
+    Utils.modifyFont(tabFont, nil, 12, "THINOUTLINE")
     tabFont:SetShadowOffset(1, -1)
     tabFont:SetShadowColor(0, 0, 0, 0.6)
 
@@ -42,12 +42,12 @@ local function ModifyChatWindowTab(tabID, tabName)
     _G[window.."EditBox"]:SetPoint("BOTTOM", _G[window], "TOP", 0, window == "ChatFrame2" and 44 or 22)
 
     -- Modify chat font
-    Utils.ModifyFont(_G[window], nil, size, "THINOUTLINE")
+    Utils.modifyFont(_G[window], nil, size, "THINOUTLINE")
     _G[window]:SetShadowOffset(1, -1)
     _G[window]:SetShadowColor(0, 0, 0, 0.6)
 end
 
-local function ModifyChatUI()
+local function modifyChatUI()
     -- Hide Battle.net social button and toast
     local button = QuickJoinToastButton or FriendsMicroButton
     button:HookScript("OnShow", button.Hide)
@@ -56,17 +56,17 @@ local function ModifyChatUI()
     BNToastFrame:SetClampRectInsets(-15, 15, 15, -15)
 
     -- Modify edit box font
-    Utils.ModifyFont(ChatFontNormal, nil, 16, "THINOUTLINE")
+    Utils.modifyFont(ChatFontNormal, nil, 16, "THINOUTLINE")
     ChatFontNormal:SetShadowOffset(1, -1)
     ChatFontNormal:SetShadowColor(0, 0, 0, 0.6)
 
     -- Apply changes to every chat window tab
     for i = 1, NUM_CHAT_WINDOWS do
-        ModifyChatWindowTab(i, nil)
+        modifyChatWindowTab(i, nil)
     end
 end
 
-local function ModifyChatStrings()
+local function modifyChatStrings()
     -- Player communication
     CHAT_SAY_GET = "%s: "
     CHAT_YELL_GET = "%s: "
@@ -86,24 +86,21 @@ local function ModifyChatStrings()
     CHAT_INSTANCE_CHAT_LEADER_GET = "|Hchannel:Battleground|h[IL]|h %s: "
 end
 
-ChatModule = Classes.Class(Module)
+ChatModule = classes.class(Module)
 
-function ChatModule:Init()
-    self.super:Init("Chat")
+function ChatModule:init()
+    self.super:init("Chat")
+    self:setEvents({"ADDON_LOADED", "PET_BATTLE_OPENING_START"})
 end
 
-function ChatModule:GetEvents()
-    return {"ADDON_LOADED", "PET_BATTLE_OPENING_START"}
-end
-
-function ChatModule:GetEventHandler()
+function ChatModule:getEventHandler()
     return function(self, event, ...)
         if event == "ADDON_LOADED" then
-            ModifyChatUI()
-            ModifyChatStrings()
+            modifyChatUI()
+            modifyChatStrings()
         end
         if event == "PET_BATTLE_OPENING_START" then
-            ModifyChatWindowTab(11, "Pet Log")
+            modifyChatWindowTab(11, "Pet Log")
         end
     end
 end

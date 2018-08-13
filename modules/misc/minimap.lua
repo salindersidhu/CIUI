@@ -1,4 +1,4 @@
-local function Minimap_OnMouseWheel(self, delta)
+local function mapOnMouseWheel(self, delta)
     if delta > 0 then
         Minimap_ZoomIn()
     else
@@ -6,30 +6,27 @@ local function Minimap_OnMouseWheel(self, delta)
     end
 end
 
-local function ModifyMinimap()
+local function modifymap()
     -- Hide Minimap zoom buttons
     MinimapZoomIn:Hide()
     MinimapZoomOut:Hide()
 
     -- Enable zoom in and out with the mouse wheel
     Minimap:EnableMouseWheel(true)
-    Minimap:SetScript("OnMouseWheel", Minimap_OnMouseWheel)
+    Minimap:SetScript("OnMouseWheel", mapOnMouseWheel)
 end
 
-MinimapModule = Classes.Class(Module)
+MinimapModule = classes.class(Module)
 
-function MinimapModule:Init()
-    self.super:Init("MiniMap")
+function MinimapModule:init()
+    self.super:init("MiniMap")
+    self:addEvent("ADDON_LOADED")
 end
 
-function MinimapModule:GetEvents()
-    return {"ADDON_LOADED"}
-end
-
-function MinimapModule:GetEventHandler()
+function MinimapModule:getEventHandler()
     return function (self, event, ...)
         if event == "ADDON_LOADED" then
-            ModifyMinimap()
+            modifymap()
         end
     end
 end

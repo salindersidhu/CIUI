@@ -5,16 +5,16 @@
 ## Notes: An improved version of the standard Blizzard UI.
 ## Dependencies: Blizzard_TalkingHeadUI
 
-oop\classes.lua
+system\classes.lua
 
 modules\module.lua
 modules\utils.lua
 
-modules\bars\bag.lua
-modules\bars\multiaction.lua
-modules\frames\party.lua
-modules\frames\player.lua
-modules\frames\target.lua
+modules\bars\bagbar.lua
+modules\bars\actionbar.lua
+modules\frames\partyframe.lua
+modules\frames\playerframe.lua
+modules\frames\targetframe.lua
 modules\misc\chat.lua
 modules\misc\micromenu.lua
 modules\misc\minimap.lua

@@ -1,32 +1,34 @@
 local modules = {
-    BagModule.New(),
-    ChatModule.New(),
-    MinimapModule.New(),
-    MicroMenuModule.New(),
-    MultiActionModule.New(),
-    PartyFrameModule.New(),
-    PlayerFrameModule.New(),
-    TargetFrameModule.New()
+    ActionBarModule,
+    BagBarModule,
+    ChatModule,
+    MinimapModule,
+    MicroMenuModule,
+    PartyFrameModule,
+    PlayerFrameModule,
+    TargetFrameModule
 }
 
-local function LoadModules(modules)
+local function loadModules(modules)
     for _, m in ipairs(modules) do
+        -- Create an instance of the module
+        mI = m.new()
         -- Create a frame for each module
         local f = CreateFrame("Frame")
         -- Register events to frame
-        for _, e in ipairs(m:GetEvents()) do
+        for _, e in ipairs(mI:getEvents()) do
             f:RegisterEvent(e)
         end
         -- Set frame event handler
-        f:SetScript("OnEvent", m:GetEventHandler())
+        f:SetScript("OnEvent", mI:getEventHandler())
     end
 end
 
-local function CreateInterfaceOptions()
+local function createInterfaceOptions()
     local Options = CreateFrame("Frame")
     Options.name = "CIUI"
     InterfaceOptions_AddCategory(Options)
 end
 
-LoadModules(modules)
-CreateInterfaceOptions()
+loadModules(modules)
+createInterfaceOptions()
