@@ -1,18 +1,4 @@
-local _, L = ...
-
--- CREATE FRAMES
-local ActionBarsModule = CreateFrame("Frame")
-
--- REGISTER EVENTS TO FRAMES
-ActionBarsModule:RegisterEvent("ADDON_LOADED")
-ActionBarsModule:RegisterEvent("PLAYER_LOGIN")
-ActionBarsModule:RegisterEvent("PLAYER_TALENT_UPDATE")
-ActionBarsModule:RegisterEvent("PLAYER_ENTERING_WORLD")
-ActionBarsModule:RegisterEvent("UNIT_ENTERED_VEHICLE")
-ActionBarsModule:RegisterEvent("UNIT_EXITED_VEHICLE")
-ActionBarsModule:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-
-local function Hook_ActionButtonUpdateHotkeys(self, bT)
+local function actionButtonUpdateHotkeys(self, bT)
     -- Obtain button text and hotkey
     local name = self:GetName()
     local hotkey = _G[name.."HotKey"]
@@ -66,7 +52,7 @@ local function Hook_ActionButtonUpdateHotkeys(self, bT)
     end
 end
 
-local function Hook_ActionButtonOnUpdate(self, elapsed)
+local function actionButtonOnUpdate(self, elapsed)
     if self.rangeTimer == TOOLTIP_UPDATE_TIME then
         -- If action is not within range set action bar icon color to red
         if IsActionInRange(self.action) == false then
@@ -83,95 +69,109 @@ local function Hook_ActionButtonOnUpdate(self, elapsed)
     end
 end
 
-local function ModifyActionBars(isShown)
-    -- Force the MainMenuBar artwork to be the small version
-    _, width, height = GetAtlasInfo("hud-MainMenuBar-small")
+local function modifyActionBars(isShown)
+    if (InCombatLockdown() == false) then
+        -- Force the MainMenuBar artwork to be the small version
+        _, width, height = GetAtlasInfo("hud-MainMenuBar-small")
 
-    MainMenuBar:SetMovable(true)
-    MainMenuBarArtFrame:SetMovable(true)
-    MainMenuBarArtFrameBackground:SetMovable(true)
+        MainMenuBar:SetMovable(true)
+        MainMenuBarArtFrame:SetMovable(true)
+        MainMenuBarArtFrameBackground:SetMovable(true)
 
-    MainMenuBar:SetSize(width,height)
-    MainMenuBarArtFrame:SetSize(width,height)
-    MainMenuBarArtFrameBackground:SetSize(width, height)
+        MainMenuBar:SetSize(width,height)
+        MainMenuBarArtFrame:SetSize(width,height)
+        MainMenuBarArtFrameBackground:SetSize(width, height)
 
-    MainMenuBar:SetMovable(false)
-    MainMenuBarArtFrame:SetMovable(false)
-    MainMenuBarArtFrameBackground:SetMovable(false)
+        MainMenuBar:SetMovable(false)
+        MainMenuBarArtFrame:SetMovable(false)
+        MainMenuBarArtFrameBackground:SetMovable(false)
 
-    MainMenuBarArtFrameBackground.BackgroundLarge:Hide()
-    MainMenuBarArtFrameBackground.BackgroundSmall:Show()
-    MainMenuBarArtFrame.PageNumber:ClearAllPoints()
-    MainMenuBarArtFrame.PageNumber:SetPoint("RIGHT", MainMenuBarArtFrameBackground, "RIGHT", -6, -3);
+        MainMenuBarArtFrameBackground.BackgroundLarge:Hide()
+        MainMenuBarArtFrameBackground.BackgroundSmall:Show()
+        MainMenuBarArtFrame.PageNumber:ClearAllPoints()
+        MainMenuBarArtFrame.PageNumber:SetPoint("RIGHT", MainMenuBarArtFrameBackground, "RIGHT", -6, -3);
 
-    -- Move the RightMultiBar and make it horizontal
-    if (isShown) then
-        Utils.ModifyFrameFixed(MultiBarBottomRight, 'TOP', MainMenuBar, -142, 85, nil)
-        Utils.ModifyFrameFixed(MultiBarBottomRightButton7, 'RIGHT', MultiBarBottomRightButton6, 43, 0, nil)
+        -- Move the RightMultiBar and make it horizontal
+        if (isShown) then
+            Utils.modifyFrameFixed(MultiBarBottomRight, "TOP", MainMenuBar, -142, 85, nil)
+            Utils.modifyFrameFixed(MultiBarBottomRightButton7, "RIGHT", MultiBarBottomRightButton6, 43, 0, nil)
 
-        -- Move talking head frame
-        TalkingHeadFrame.ignoreFramePositionManager = true
-        TalkingHeadFrame:ClearAllPoints()
-        TalkingHeadFrame:SetPoint("BOTTOM", 0, 155)
+            -- Move talking head frame
+            TalkingHeadFrame.ignoreFramePositionManager = true
+            TalkingHeadFrame:ClearAllPoints()
+            TalkingHeadFrame:SetPoint("BOTTOM", 0, 155)
+        end
     end
 end
 
-local function MoveVehicleButton()
+local function moveVehicleButton()
     -- Move vehicle exit button
-    Utils.ModifyFrameFixed(MainMenuBarVehicleLeaveButton, "CENTER", nil, -300, 70, nil)
+    Utils.modifyFrameFixed(MainMenuBarVehicleLeaveButton, "CENTER", nil, -300, 70, nil)
 end
 
-local function MoveBarFrames()
+local function moveBarFrames()
     -- Move Pet and Stance Frames
     if MultiBarBottomRight:IsShown() then
-        Utils.ModifyFrameFixed(StanceBarFrame, 'TOPLEFT', MainMenuBar, -4, 118, nil)
-        Utils.ModifyFrameFixed(PetActionButton1, "TOP", MainMenuBar, -189, 120, nil)
+        Utils.modifyFrameFixed(StanceBarFrame, "TOPLEFT", MainMenuBar, -4, 118, nil)
+        Utils.modifyFrameFixed(PetActionButton1, "TOP", MainMenuBar, -189, 120, nil)
     elseif MultiBarBottomLeft:IsShown() then
-        Utils.ModifyFrameFixed(StanceBarFrame, 'TOPLEFT', MainMenuBar, -4, 75, nil)
-        Utils.ModifyFrameFixed(PetActionButton1, "TOP", MainMenuBar, -189, 76, nil)
+        Utils.modifyFrameFixed(StanceBarFrame, "TOPLEFT", MainMenuBar, -4, 75, nil)
+        Utils.modifyFrameFixed(PetActionButton1, "TOP", MainMenuBar, -189, 76, nil)
     else
-        Utils.ModifyFrameFixed(StanceBarFrame, 'TOPLEFT', MainMenuBar, 0, 31, nil);
-        Utils.ModifyFrameFixed(PetActionButton1, "TOP", MainMenuBar, -189, 31, nil)      
+        Utils.modifyFrameFixed(StanceBarFrame, "TOPLEFT", MainMenuBar, 0, 31, nil)
+        Utils.modifyFrameFixed(PetActionButton1, "TOP", MainMenuBar, -189, 31, nil)
     end
 end
 
-local function Hook_ChangeMenuBarSizeAndPosition(self, isShown)
-    ModifyActionBars(isShown)
+local function hookChangeMenuBarSizeAndPosition(self, isShown)
+    modifyActionBars(isShown)
 end
 
-local function Hook_ActionButtonOnEvent(self, event, ...)
+local function actionButtonOnEvent(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
         ActionButton_UpdateHotkeys(self, self.buttonType)
     end
 end
 
--- ACTION BAR FRAME EVENT HANDLER
-local function EventHandler(self, event, ...)
-    if event == "ADDON_LOADED" then
-        Utils.ModifyFrameFixed(ExtraActionBarFrame, "BOTTOM", UIParent, 0, 192, nil)
-    end
-    if event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_LOGIN" or event == "PLAYER_TALENT_UPDATE" or event == "ACTIVE_TALENT_GROUP_CHANGED" then
-        ModifyActionBars(MultiBarBottomRight:IsShown())
-    end
-    if event == "UNIT_ENTERED_VEHICLE" and UnitVehicleSkin("player") ~= nil then
-        -- Set default key bindings for vehicle action buttons
-        for i = 1, 6 do
-            SetBinding(tostring(i), "ACTIONBUTTON"..i)
-        end
-    end
-    if event == "UNIT_EXITED_VEHICLE" and ... == 'player' then
-        -- Restore original keybinding upon vehicle exit
-        LoadBindings(GetCurrentBindingSet())
-    end
+hooksecurefunc("ActionButton_UpdateHotkeys", actionButtonUpdateHotkeys)
+hooksecurefunc("ActionButton_OnUpdate", actionButtonOnUpdate)
+hooksecurefunc("ActionButton_OnEvent", actionButtonOnEvent)
+hooksecurefunc("MultiActionBar_Update", moveBarFrames)
+hooksecurefunc("MainMenuBarVehicleLeaveButton_Update", moveVehicleButton)
+hooksecurefunc(MainMenuBar, "ChangeMenuBarSizeAndPosition", hookChangeMenuBarSizeAndPosition)
+
+ActionBarModule = classes.class(Module)
+
+function ActionBarModule:init()
+    self.super:init("ActionBar")
+    self:setEvents({
+        "ADDON_LOADED",
+        "PLAYER_LOGIN",
+        "PLAYER_TALENT_UPDATE",
+        "PLAYER_ENTERING_WORLD",
+        "UNIT_ENTERED_VEHICLE",
+        "UNIT_EXITED_VEHICLE",
+        "ACTIVE_TALENT_GROUP_CHANGED"
+    })
 end
 
--- SET FRAME SCRIPTS
-ActionBarsModule:SetScript("OnEvent", EventHandler)
-
--- HOOK SECURE FUNCTIONS
-hooksecurefunc("ActionButton_UpdateHotkeys", Hook_ActionButtonUpdateHotkeys)
-hooksecurefunc("ActionButton_OnUpdate", Hook_ActionButtonOnUpdate)
-hooksecurefunc("ActionButton_OnEvent", Hook_ActionButtonOnEvent)
-hooksecurefunc('MultiActionBar_Update', MoveBarFrames)
-hooksecurefunc('MainMenuBarVehicleLeaveButton_Update', MoveVehicleButton)
-hooksecurefunc(MainMenuBar, "ChangeMenuBarSizeAndPosition", Hook_ChangeMenuBarSizeAndPosition)
+function ActionBarModule:getEventHandler()
+    return function(self, event, ...)
+        if event == "ADDON_LOADED" then
+            Utils.modifyFrameFixed(ExtraActionBarFrame, "BOTTOM", UIParent, 0, 192, nil)
+        end
+        if event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_LOGIN" or event == "PLAYER_TALENT_UPDATE" or event == "ACTIVE_TALENT_GROUP_CHANGED" then
+            modifyActionBars(MultiBarBottomRight:IsShown())
+        end
+        if event == "UNIT_ENTERED_VEHICLE" and UnitVehicleSkin("player") ~= nil then
+            -- Set default key bindings for vehicle action buttons
+            for i = 1, 6 do
+                SetBinding(tostring(i), "ACTIONBUTTON"..i)
+            end
+        end
+        if event == "UNIT_EXITED_VEHICLE" and ... == "player" then
+            -- Restore original keybinding upon vehicle exit
+            LoadBindings(GetCurrentBindingSet())
+        end
+    end
+end

@@ -1,12 +1,4 @@
-local _, L = ...
-
--- CREATE FRAMES
-local MinimapModule = CreateFrame("Frame")
-
--- REGISTER EVENTS TO FRAMES
-MinimapModule:RegisterEvent("ADDON_LOADED")
-
-local function Minimap_OnMouseWheel(self, delta)
+local function mapOnMouseWheel(self, delta)
     if delta > 0 then
         Minimap_ZoomIn()
     else
@@ -14,22 +6,27 @@ local function Minimap_OnMouseWheel(self, delta)
     end
 end
 
-local function ModifyMinimap()
+local function modifymap()
     -- Hide Minimap zoom buttons
     MinimapZoomIn:Hide()
     MinimapZoomOut:Hide()
 
     -- Enable zoom in and out with the mouse wheel
     Minimap:EnableMouseWheel(true)
-    Minimap:SetScript("OnMouseWheel", Minimap_OnMouseWheel)
+    Minimap:SetScript("OnMouseWheel", mapOnMouseWheel)
 end
 
--- CHAT FRAME EVENT HANDLER
-local function EventHandler(self, event, ...)
-    if event == "ADDON_LOADED" then
-        ModifyMinimap()
+MinimapModule = classes.class(Module)
+
+function MinimapModule:init()
+    self.super:init("MiniMap")
+    self:addEvent("ADDON_LOADED")
+end
+
+function MinimapModule:getEventHandler()
+    return function (self, event, ...)
+        if event == "ADDON_LOADED" then
+            modifymap()
+        end
     end
 end
-
--- SET FRAME SCRIPTS
-MinimapModule:SetScript("OnEvent", EventHandler)

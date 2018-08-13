@@ -1,3 +1,3 @@
 ## Changelog
 
-- Fixed actionbar
+- Code Architecture Updates
