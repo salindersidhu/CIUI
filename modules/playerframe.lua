@@ -1,5 +1,3 @@
-local UI_TARGET_FRAME = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame"
-
 local function healthBarOnValueChanged(self, value, smooth)
     local min, max = self:GetMinMaxValues()
 
@@ -50,7 +48,7 @@ local function modifyPlayerFrameUI()
     -- Modify Player's name and texture
     Utils.modifyFont(PlayerName, nil, 11, "OUTLINE")
     PlayerName:SetPoint("CENTER", PlayerFrame, "CENTER", 50, 36)
-    PlayerFrameTexture:SetTexture(UI_TARGET_FRAME)
+    PlayerFrameTexture:SetTexture(Const.UI_TARGET_FRAME)
 
     -- Update Player's raid group indicator
     Utils.modifyFont(PlayerFrameGroupIndicatorText, nil, nil, "OUTLINE")

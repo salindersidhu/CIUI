@@ -1,17 +1,5 @@
 Utils = {}
 
-function Utils.isEmpty(n)
-    return n == nil or #n == 0
-end
-
-function Utils.isType(n, t)
-    return type(n) == t
-end
-
-function Utils.isNotType(n, t)
-    return type(n) ~= t
-end
-
 function Utils.modifyFont(frame, file, size, flags)
     -- Obtain the frame's default file size and flags
     local dFile, dSize, dFlags = frame:GetFont()
