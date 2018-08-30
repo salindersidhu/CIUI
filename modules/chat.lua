@@ -93,14 +93,12 @@ function ChatModule:init()
     self:setEvents({"ADDON_LOADED", "PET_BATTLE_OPENING_START"})
 end
 
-function ChatModule:getEventHandler()
-    return function(self, event, ...)
-        if event == "ADDON_LOADED" then
-            modifyChatUI()
-            modifyChatStrings()
-        end
-        if event == "PET_BATTLE_OPENING_START" then
-            modifyChatWindowTab(11, "Pet Log")
-        end
+function ChatModule:eventHandler(event, ...)
+    if event == "ADDON_LOADED" then
+        modifyChatUI()
+        modifyChatStrings()
+    end
+    if event == "PET_BATTLE_OPENING_START" then
+        modifyChatWindowTab(11, "Pet Log")
     end
 end

@@ -15,10 +15,8 @@ function MicroMenuModule:init()
     self:addEvent("PLAYER_ENTERING_WORLD")
 end
 
-function MicroMenuModule:getEventHandler()
-    return function (self, event, ...)
-        if event == "PLAYER_ENTERING_WORLD" then
-            MoveMicroButtons("BOTTOMLEFT", MicroButtonAndBagsBar, "BOTTOMLEFT", 12, -1, false)
-        end
+function MicroMenuModule:eventHandler(event, ...)
+    if event == "PLAYER_ENTERING_WORLD" then
+        MoveMicroButtons("BOTTOMLEFT", MicroButtonAndBagsBar, "BOTTOMLEFT", 12, -1, false)
     end
 end

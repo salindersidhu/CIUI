@@ -23,10 +23,8 @@ function MinimapModule:init()
     self:addEvent("ADDON_LOADED")
 end
 
-function MinimapModule:getEventHandler()
-    return function (self, event, ...)
-        if event == "ADDON_LOADED" then
-            modifymap()
-        end
+function MinimapModule:eventHandler(event, ...)
+    if event == "ADDON_LOADED" then
+        modifymap()
     end
 end

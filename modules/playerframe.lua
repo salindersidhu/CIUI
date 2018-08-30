@@ -113,24 +113,22 @@ function PlayerFrameModule:init()
     })
 end
 
-function PlayerFrameModule:getEventHandler()
-    return function (self, event, ...)
-        if event == "PLAYER_ENTERING_WORLD" then
-            modifyPlayerFrameUI()
-            -- Modify PlayerFrame position
-            ModifyFrameFixed(PlayerFrame, "CENTER", nil, -265, -150, 1.3)
-        end
-        if event == "UNIT_ENTERED_VEHICLE" and UnitVehicleSkin("player") ~= nil then
-            -- Modify Player UnitFrame for vehicles
-            modifyVehicleUI()
-        end
-        if event == "UNIT_EXITED_VEHICLE" and ... == "player" then
-            -- Restore UnitFrame modifications upon vehicle exit
-            modifyPlayerFrameUI()
-        end
-        if event == "GROUP_ROSTER_UPDATE" then
-            -- Modify Group Indicator text when group roster is updated
-            modifyGroupIndicator()
-        end
+function PlayerFrameModule:eventHandler(event, ...)
+    if event == "PLAYER_ENTERING_WORLD" then
+        modifyPlayerFrameUI()
+        -- Modify PlayerFrame position
+        ModifyFrameFixed(PlayerFrame, "CENTER", nil, -265, -150, 1.3)
+    end
+    if event == "UNIT_ENTERED_VEHICLE" and UnitVehicleSkin("player") ~= nil then
+        -- Modify Player UnitFrame for vehicles
+        modifyVehicleUI()
+    end
+    if event == "UNIT_EXITED_VEHICLE" and ... == "player" then
+        -- Restore UnitFrame modifications upon vehicle exit
+        modifyPlayerFrameUI()
+    end
+    if event == "GROUP_ROSTER_UPDATE" then
+        -- Modify Group Indicator text when group roster is updated
+        modifyGroupIndicator()
     end
 end

@@ -53,5 +53,9 @@ function Module:getEvents()
 end
 
 function Module:getEventHandler()
+    return self.eventHandler
+end
+
+function Module:eventHandler(self, event, ...)
     error("Generic Method. This should be implemented by a subclass of Module!")
 end

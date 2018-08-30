@@ -159,23 +159,21 @@ function ActionBarModule:init()
     })
 end
 
-function ActionBarModule:getEventHandler()
-    return function(self, event, ...)
-        if event == "ADDON_LOADED" then
-            ModifyFrameFixed(ExtraActionBarFrame, "BOTTOM", UIParent, 0, 192, nil)
+function ActionBarModule:eventHandler(event, ...)
+    if event == "ADDON_LOADED" then
+        ModifyFrameFixed(ExtraActionBarFrame, "BOTTOM", UIParent, 0, 192, nil)
+    end
+    if event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_LOGIN" or event == "PLAYER_TALENT_UPDATE" or event == "ACTIVE_TALENT_GROUP_CHANGED" then
+        modifyActionBars(MultiBarBottomRight:IsShown())
+    end
+    if event == "UNIT_ENTERED_VEHICLE" and UnitVehicleSkin("player") ~= nil then
+        -- Set default key bindings for vehicle action buttons
+        for i = 1, 6 do
+            SetBinding(tostring(i), "ACTIONBUTTON"..i)
         end
-        if event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_LOGIN" or event == "PLAYER_TALENT_UPDATE" or event == "ACTIVE_TALENT_GROUP_CHANGED" then
-            modifyActionBars(MultiBarBottomRight:IsShown())
-        end
-        if event == "UNIT_ENTERED_VEHICLE" and UnitVehicleSkin("player") ~= nil then
-            -- Set default key bindings for vehicle action buttons
-            for i = 1, 6 do
-                SetBinding(tostring(i), "ACTIONBUTTON"..i)
-            end
-        end
-        if event == "UNIT_EXITED_VEHICLE" and ... == "player" then
-            -- Restore original keybinding upon vehicle exit
-            LoadBindings(GetCurrentBindingSet())
-        end
+    end
+    if event == "UNIT_EXITED_VEHICLE" and ... == "player" then
+        -- Restore original keybinding upon vehicle exit
+        LoadBindings(GetCurrentBindingSet())
     end
 end

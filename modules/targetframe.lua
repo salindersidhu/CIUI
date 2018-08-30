@@ -79,12 +79,10 @@ function TargetFrameModule:init()
     self:addEvent("PLAYER_ENTERING_WORLD")
 end
 
-function TargetFrameModule:getEventHandler()
-    return function (self, event, ...)
-        if event == "PLAYER_ENTERING_WORLD" then
-            modifyTargetFrameUI()
-            -- Modify TargetFrame position
-            ModifyFrameFixed(TargetFrame, "CENTER", nil, 265, -150, 1.3)
-        end
+function TargetFrameModule:eventHandler(event, ...)
+    if event == "PLAYER_ENTERING_WORLD" then
+        modifyTargetFrameUI()
+        -- Modify TargetFrame position
+        ModifyFrameFixed(TargetFrame, "CENTER", nil, 265, -150, 1.3)
     end
 end
