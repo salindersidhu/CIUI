@@ -2,27 +2,32 @@ Module = classes.class()
 
 local numModules = 0
 
-local function isEmpty(n)
-    return n == nil or #n == 0
+local function isEmpty(value)
+    return value == nil or #value == 0
 end
 
-local function isType(n, t)
-    return type(n) == t
+local function isNotType(aParam, aType)
+    return type(aParam) ~= aType
 end
 
-local function isNotType(n, t)
-    return type(n) ~= t
+local function checkParam(aParam, aType)
+    if isEmpty(aParam) then
+        error("Required parameter is nil or does not exist!")
+    end
+    if isNotType(aParam, aType) then
+        error("Required parameter 'name' is not of type '"..aType.."'!")
+    end
+end
+
+local function checkVar(aVar)
+    if isEmpty(aVar) then
+        error("Cannot get value of requested variable, nil or does not exist!")
+    end
 end
 
 function Module:init(name)
-    if isEmpty(name) then
-        error("Required parameter 'name' is not specified!")
-    end
-    if isNotType(name, "string") then
-        error("Required parameter 'name' is not of type 'string'!")
-    end
+    checkParam(name, "string")
     numModules = numModules + 1
-
     self.events = {}
     self.id = numModules
     self.name = name
@@ -33,29 +38,17 @@ function Module:getModuleId()
 end
 
 function Module:addEvent(event)
-    if isEmpty(event) then
-        error("Required parameter 'event' is not specified!")
-    end
-    if isNotType(event, "string") then
-        error("Required parameter 'event' is not of type 'string'!")
-    end
+    checkParam(event, "string")
     table.insert(self.events, event)
 end
 
 function Module:setEvents(events)
-    if isEmpty(events) then
-        error("Required parameter 'events' is not specified!")
-    end
-    if isNotType(events, "table") then
-        error("Required parameter 'events' is not of type 'table'!")
-    end
+    checkParam(events, "table")
     self.events = events
 end
 
 function Module:getEvents()
-    if isEmpty(self.events) then
-        error("Cannot return value of 'self.events' variable is not specified!")
-    end
+    checkVar(self.events)
     return self.events
 end
 

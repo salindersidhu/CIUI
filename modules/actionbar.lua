@@ -75,17 +75,17 @@ local function modifyActionBars(isShown)
         _, width, height = GetAtlasInfo("hud-MainMenuBar-small")
 
         MainMenuBar:SetMovable(true)
-        MainMenuBarArtFrame:SetMovable(true)
-        MainMenuBarArtFrameBackground:SetMovable(true)
-
         MainMenuBar:SetSize(width,height)
-        MainMenuBarArtFrame:SetSize(width,height)
-        MainMenuBarArtFrameBackground:SetSize(width, height)
-
         MainMenuBar:SetMovable(false)
-        MainMenuBarArtFrame:SetMovable(false)
-        MainMenuBarArtFrameBackground:SetMovable(false)
 
+        MainMenuBarArtFrame:SetMovable(true)
+        MainMenuBarArtFrame:SetSize(width,height)
+        MainMenuBarArtFrame:SetMovable(false)
+
+        MainMenuBarArtFrameBackground:SetMovable(true)
+        MainMenuBarArtFrameBackground:SetSize(width, height)
+        MainMenuBarArtFrameBackground:SetMovable(false)
+        
         MainMenuBarArtFrameBackground.BackgroundLarge:Hide()
         MainMenuBarArtFrameBackground.BackgroundSmall:Show()
         MainMenuBarArtFrame.PageNumber:ClearAllPoints()
@@ -93,33 +93,37 @@ local function modifyActionBars(isShown)
 
         -- Move the RightMultiBar and make it horizontal
         if (isShown) then
-            Utils.modifyFrameFixed(MultiBarBottomRight, "TOP", MainMenuBar, -142, 85, nil)
-            Utils.modifyFrameFixed(MultiBarBottomRightButton7, "RIGHT", MultiBarBottomRightButton6, 43, 0, nil)
+            ModifyFrameFixed(MultiBarBottomRight, "TOP", MainMenuBar, -142, 85, nil)
+
+            ModifyFrameFixed(MultiBarBottomRightButton7, "RIGHT", MultiBarBottomRightButton6, 43, 0, nil)
 
             -- Move talking head frame
             TalkingHeadFrame.ignoreFramePositionManager = true
             TalkingHeadFrame:ClearAllPoints()
             TalkingHeadFrame:SetPoint("BOTTOM", 0, 155)
         end
-    end
+        ModifyFrameFixed(MultiBarBottomLeft, "TOP", MainMenuBar, -16, 43, nil)
+   end
 end
 
 local function moveVehicleButton()
     -- Move vehicle exit button
-    Utils.modifyFrameFixed(MainMenuBarVehicleLeaveButton, "CENTER", nil, -300, 70, nil)
+    ModifyFrameFixed(MainMenuBarVehicleLeaveButton, "CENTER", nil, -300, 70, nil)
 end
 
 local function moveBarFrames()
     -- Move Pet and Stance Frames
-    if MultiBarBottomRight:IsShown() then
-        Utils.modifyFrameFixed(StanceBarFrame, "TOPLEFT", MainMenuBar, -4, 118, nil)
-        Utils.modifyFrameFixed(PetActionButton1, "TOP", MainMenuBar, -189, 120, nil)
-    elseif MultiBarBottomLeft:IsShown() then
-        Utils.modifyFrameFixed(StanceBarFrame, "TOPLEFT", MainMenuBar, -4, 75, nil)
-        Utils.modifyFrameFixed(PetActionButton1, "TOP", MainMenuBar, -189, 76, nil)
-    else
-        Utils.modifyFrameFixed(StanceBarFrame, "TOPLEFT", MainMenuBar, 0, 31, nil)
-        Utils.modifyFrameFixed(PetActionButton1, "TOP", MainMenuBar, -189, 31, nil)
+    if InCombatLockdown() == false then
+        if MultiBarBottomRight:IsShown() then
+            ModifyFrameFixed(StanceBarFrame, "TOPLEFT", MainMenuBar, -4, 118, nil)
+            ModifyFrameFixed(PetActionButton1, "TOP", MainMenuBar, -189, 120, nil)
+        elseif MultiBarBottomLeft:IsShown() then
+            ModifyFrameFixed(StanceBarFrame, "TOPLEFT", MainMenuBar, -4, 75, nil)
+            ModifyFrameFixed(PetActionButton1, "TOP", MainMenuBar, -189, 76, nil)
+        else
+            ModifyFrameFixed(StanceBarFrame, "TOPLEFT", MainMenuBar, 0, 31, nil)
+            ModifyFrameFixed(PetActionButton1, "TOP", MainMenuBar, -189, 31, nil)
+        end
     end
 end
 
@@ -158,7 +162,7 @@ end
 function ActionBarModule:getEventHandler()
     return function(self, event, ...)
         if event == "ADDON_LOADED" then
-            Utils.modifyFrameFixed(ExtraActionBarFrame, "BOTTOM", UIParent, 0, 192, nil)
+            ModifyFrameFixed(ExtraActionBarFrame, "BOTTOM", UIParent, 0, 192, nil)
         end
         if event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_LOGIN" or event == "PLAYER_TALENT_UPDATE" or event == "ACTIVE_TALENT_GROUP_CHANGED" then
             modifyActionBars(MultiBarBottomRight:IsShown())

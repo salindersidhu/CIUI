@@ -46,12 +46,12 @@ end
 
 local function modifyPlayerFrameUI()
     -- Modify Player's name and texture
-    Utils.modifyFont(PlayerName, nil, 11, "OUTLINE")
-    PlayerName:SetPoint("CENTER", PlayerFrame, "CENTER", 50, 36)
-    PlayerFrameTexture:SetTexture(Const.UI_TARGET_FRAME)
+    ModifyFont(PlayerName, nil, 11, "OUTLINE")
+    PlayerName:SetPoint("CENTER", PlayerFrame, "CENTER", 50, 37)
+    PlayerFrameTexture:SetTexture(UI_TARGET_FRAME)
 
     -- Update Player's raid group indicator
-    Utils.modifyFont(PlayerFrameGroupIndicatorText, nil, nil, "OUTLINE")
+    ModifyFont(PlayerFrameGroupIndicatorText, nil, nil, "OUTLINE")
     PlayerFrameGroupIndicatorLeft:SetTexture(nil)
     PlayerFrameGroupIndicatorRight:SetTexture(nil)
     PlayerFrameGroupIndicatorMiddle:SetTexture(nil)
@@ -118,7 +118,7 @@ function PlayerFrameModule:getEventHandler()
         if event == "PLAYER_ENTERING_WORLD" then
             modifyPlayerFrameUI()
             -- Modify PlayerFrame position
-            Utils.modifyFrameFixed(PlayerFrame, "CENTER", nil, -265, -150, 1.3)
+            ModifyFrameFixed(PlayerFrame, "CENTER", nil, -265, -150, 1.3)
         end
         if event == "UNIT_ENTERED_VEHICLE" and UnitVehicleSkin("player") ~= nil then
             -- Modify Player UnitFrame for vehicles

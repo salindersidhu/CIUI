@@ -8,10 +8,9 @@
 core\classes.lua
 
 modules\system\module.lua
-modules\system\loader.lua
 
-modules\shared\const.lua
-modules\shared\utils.lua
+modules\shared\constants.lua
+modules\shared\frameutils.lua
 
 modules\actionbar.lua
 modules\bagbar.lua

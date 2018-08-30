@@ -4,13 +4,13 @@ local function modifyTargetFrameUI()
 
     -- Update Target's name
     TargetFrame.nameBackground:Hide()
-    Utils.modifyFont(TargetFrame.name, nil, 11, "OUTLINE")
-    TargetFrame.name:SetPoint("LEFT", TargetFrame, 15, 36)
+    ModifyFont(TargetFrame.name, nil, 11, "OUTLINE")
+    TargetFrame.name:SetPoint("LEFT", TargetFrame, 15, 38)
 
     -- Update Target's background
     TargetFrameBackground:SetSize(119, 42)
     TargetFrame.Background:SetSize(119, 42)
-    TargetFrame.Background:SetPoint("BOTTOMLEFT", TargetFrame, "BOTTOMLEFT", 7, 35)
+    TargetFrame.Background:SetPoint("BOTTOMLEFT", TargetFrame, "BOTTOMLEFT", 7, 37)
 
     -- Update Target's "dead" text
     TargetFrame.deadText:ClearAllPoints()
@@ -38,20 +38,20 @@ local function modifyTargetFrameUI()
 
     -- Set texture based on target's unit classification type
     if targetType == "minus" then
-        TargetFrame.borderTexture:SetTexture(Const.UI_TARGET_FRAME)
+        TargetFrame.borderTexture:SetTexture(UI_TARGET_FRAME)
     elseif targetType == "worldboss" or targetType == "elite" then
-        TargetFrame.borderTexture:SetTexture(Const.UI_TARGET_FRAME_ELITE)
+        TargetFrame.borderTexture:SetTexture(UI_TARGET_FRAME_ELITE)
     elseif targetType == "rareelite"  then
-        TargetFrame.borderTexture:SetTexture(Const.UI_TARGET_FRAME_RARE_ELITE)
+        TargetFrame.borderTexture:SetTexture(UI_TARGET_FRAME_RARE_ELITE)
     elseif targetType == "rare" then
-        TargetFrame.borderTexture:SetTexture(Const.UI_TARGET_FRAME_RARE)
+        TargetFrame.borderTexture:SetTexture(UI_TARGET_FRAME_RARE)
     else
-        TargetFrame.borderTexture:SetTexture(Const.UI_TARGET_FRAME)
+        TargetFrame.borderTexture:SetTexture(UI_TARGET_FRAME)
     end
 
     --  Set threat indicator for the "minus" classification type
     if TargetFrame.threatIndicator and targetType == "minus" then
-        TargetFrame.threatIndicator:SetTexture(Const.UI_TARGET_FRAME_FLASH)
+        TargetFrame.threatIndicator:SetTexture(UI_TARGET_FRAME_FLASH)
         TargetFrame.threatIndicator:SetTexCoord(0, 0.95, 0, 0.18)
         TargetFrame.threatIndicator:SetWidth(242)
         TargetFrame.threatIndicator:SetHeight(93)
@@ -84,7 +84,7 @@ function TargetFrameModule:getEventHandler()
         if event == "PLAYER_ENTERING_WORLD" then
             modifyTargetFrameUI()
             -- Modify TargetFrame position
-            Utils.modifyFrameFixed(TargetFrame, "CENTER", nil, 265, -150, 1.3)
+            ModifyFrameFixed(TargetFrame, "CENTER", nil, 265, -150, 1.3)
         end
     end
 end
