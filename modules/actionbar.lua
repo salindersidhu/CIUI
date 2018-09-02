@@ -166,14 +166,4 @@ function ActionBarModule:eventHandler(event, ...)
     if event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_LOGIN" or event == "PLAYER_TALENT_UPDATE" or event == "ACTIVE_TALENT_GROUP_CHANGED" then
         modifyActionBars(MultiBarBottomRight:IsShown())
     end
-    if event == "UNIT_ENTERED_VEHICLE" and UnitVehicleSkin("player") ~= nil then
-        -- Set default key bindings for vehicle action buttons
-        for i = 1, 6 do
-            SetBinding(tostring(i), "ACTIONBUTTON"..i)
-        end
-    end
-    if event == "UNIT_EXITED_VEHICLE" and ... == "player" then
-        -- Restore original keybinding upon vehicle exit
-        LoadBindings(GetCurrentBindingSet())
-    end
 end
