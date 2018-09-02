@@ -9,8 +9,8 @@ core\classes.lua
 
 modules\system\module.lua
 
-modules\shared\constants.lua
-modules\shared\frameutils.lua
+modules\shared\const.lua
+modules\shared\utils.lua
 
 modules\actionbar.lua
 modules\bagbar.lua

@@ -15,6 +15,6 @@ function PartyFrameModule:eventHandler(event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
         modifyPartyFrameUI()
         -- Modify PartyFrame position
-        ModifyFrameFixed(PartyMemberFrame1, "LEFT", nil, 175, 125, nil)
+        Utils.ModifyFrameFixed(PartyMemberFrame1, "LEFT", nil, 175, 125, nil)
     end
 end

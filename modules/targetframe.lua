@@ -4,7 +4,7 @@ local function modifyTargetFrameUI()
 
     -- Update Target's name
     TargetFrame.nameBackground:Hide()
-    ModifyFont(TargetFrame.name, nil, 11, "OUTLINE")
+    Utils.ModifyFrameFont(TargetFrame.name, nil, 11, "OUTLINE")
     TargetFrame.name:SetPoint("LEFT", TargetFrame, 15, 38)
 
     -- Update Target's background
@@ -83,6 +83,6 @@ function TargetFrameModule:eventHandler(event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
         modifyTargetFrameUI()
         -- Modify TargetFrame position
-        ModifyFrameFixed(TargetFrame, "CENTER", nil, 265, -150, 1.3)
+        Utils.ModifyFrameFixed(TargetFrame, "CENTER", nil, 265, -150, 1.3)
     end
 end

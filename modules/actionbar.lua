@@ -93,36 +93,36 @@ local function modifyActionBars(isShown)
 
         -- Move the RightMultiBar and make it horizontal
         if (isShown) then
-            ModifyFrameFixed(MultiBarBottomRight, "TOP", MainMenuBar, -142, 85, nil)
+            Utils.ModifyFrameFixed(MultiBarBottomRight, "TOP", MainMenuBar, -142, 85, nil)
 
-            ModifyFrameFixed(MultiBarBottomRightButton7, "RIGHT", MultiBarBottomRightButton6, 43, 0, nil)
+            Utils.ModifyFrameFixed(MultiBarBottomRightButton7, "RIGHT", MultiBarBottomRightButton6, 43, 0, nil)
 
             -- Move talking head frame
             TalkingHeadFrame.ignoreFramePositionManager = true
             TalkingHeadFrame:ClearAllPoints()
             TalkingHeadFrame:SetPoint("BOTTOM", 0, 155)
         end
-        ModifyFrameFixed(MultiBarBottomLeft, "TOP", MainMenuBar, -16, 43, nil)
+        Utils.ModifyFrameFixed(MultiBarBottomLeft, "TOP", MainMenuBar, -16, 43, nil)
    end
 end
 
 local function moveVehicleButton()
     -- Move vehicle exit button
-    ModifyFrameFixed(MainMenuBarVehicleLeaveButton, "CENTER", nil, -300, 70, nil)
+    Utils.ModifyFrameFixed(MainMenuBarVehicleLeaveButton, "CENTER", nil, -300, 70, nil)
 end
 
 local function moveBarFrames()
     -- Move Pet and Stance Frames
     if InCombatLockdown() == false then
         if MultiBarBottomRight:IsShown() then
-            ModifyFrameFixed(StanceBarFrame, "TOPLEFT", MainMenuBar, -4, 118, nil)
-            ModifyFrameFixed(PetActionButton1, "TOP", MainMenuBar, -189, 120, nil)
+            Utils.ModifyFrameFixed(StanceBarFrame, "TOPLEFT", MainMenuBar, -4, 118, nil)
+            Utils.ModifyFrameFixed(PetActionButton1, "TOP", MainMenuBar, -189, 120, nil)
         elseif MultiBarBottomLeft:IsShown() then
-            ModifyFrameFixed(StanceBarFrame, "TOPLEFT", MainMenuBar, -4, 75, nil)
-            ModifyFrameFixed(PetActionButton1, "TOP", MainMenuBar, -189, 76, nil)
+            Utils.ModifyFrameFixed(StanceBarFrame, "TOPLEFT", MainMenuBar, -4, 75, nil)
+            Utils.ModifyFrameFixed(PetActionButton1, "TOP", MainMenuBar, -189, 76, nil)
         else
-            ModifyFrameFixed(StanceBarFrame, "TOPLEFT", MainMenuBar, 0, 31, nil)
-            ModifyFrameFixed(PetActionButton1, "TOP", MainMenuBar, -189, 31, nil)
+            Utils.ModifyFrameFixed(StanceBarFrame, "TOPLEFT", MainMenuBar, 0, 31, nil)
+            Utils.ModifyFrameFixed(PetActionButton1, "TOP", MainMenuBar, -189, 31, nil)
         end
     end
 end
@@ -161,7 +161,7 @@ end
 
 function ActionBarModule:eventHandler(event, ...)
     if event == "ADDON_LOADED" then
-        ModifyFrameFixed(ExtraActionBarFrame, "BOTTOM", UIParent, 0, 192, nil)
+        Utils.ModifyFrameFixed(ExtraActionBarFrame, "BOTTOM", UIParent, 0, 192, nil)
     end
     if event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_LOGIN" or event == "PLAYER_TALENT_UPDATE" or event == "ACTIVE_TALENT_GROUP_CHANGED" then
         modifyActionBars(MultiBarBottomRight:IsShown())
