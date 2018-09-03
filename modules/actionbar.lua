@@ -1,3 +1,5 @@
+ActionBarModule = classes.class(Module)
+
 local function actionButtonUpdateHotkeys(self, bT)
     -- Obtain button text and hotkey
     local name = self:GetName()
@@ -144,10 +146,8 @@ hooksecurefunc("MultiActionBar_Update", moveBarFrames)
 hooksecurefunc("MainMenuBarVehicleLeaveButton_Update", moveVehicleButton)
 hooksecurefunc(MainMenuBar, "ChangeMenuBarSizeAndPosition", hookChangeMenuBarSizeAndPosition)
 
-ActionBarModule = classes.class(Module)
-
 function ActionBarModule:init()
-    self.super:init("ActionBar")
+    self.super:init()
     self:setEvents({
         "ADDON_LOADED",
         "PLAYER_LOGIN",

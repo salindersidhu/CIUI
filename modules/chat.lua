@@ -1,3 +1,5 @@
+ChatModule = classes.class(Module)
+
 local function modifyChatWindowTab(tabID, tabName)
     -- Obtain details on the chat window
     local window = _G["ChatFrame"..tabID]:GetName()
@@ -86,10 +88,8 @@ local function modifyChatStrings()
     CHAT_INSTANCE_CHAT_LEADER_GET = "|Hchannel:Battleground|h[IL]|h %s: "
 end
 
-ChatModule = classes.class(Module)
-
 function ChatModule:init()
-    self.super:init("Chat")
+    self.super:init()
     self:setEvents({"ADDON_LOADED", "PET_BATTLE_OPENING_START"})
 end
 

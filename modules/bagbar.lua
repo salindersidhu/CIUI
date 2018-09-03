@@ -1,7 +1,7 @@
 BagBarModule = classes.class(Module)
 
 function BagBarModule:init()
-    self.super:init("BagBar")
+    self.super:init()
     self:addEvent("ADDON_LOADED")
 end
 

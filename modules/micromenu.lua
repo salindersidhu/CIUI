@@ -1,3 +1,5 @@
+MicroMenuModule = classes.class(Module)
+
 local function hookmoveMicroButtons(a, aT, rT, x, y, stacked)
     if HasOverrideActionBar() or HasVehicleActionBar() then
         MoveMicroButtons(rT, aT, rT, x, y, stacked)
@@ -8,10 +10,8 @@ end
 
 hooksecurefunc("MoveMicroButtons", hookmoveMicroButtons)
 
-MicroMenuModule = classes.class(Module)
-
 function MicroMenuModule:init()
-    self.super:init("MicroMenu")
+    self.super:init()
     self:addEvent("PLAYER_ENTERING_WORLD")
 end
 

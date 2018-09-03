@@ -1,6 +1,6 @@
 Module = classes.class()
 
-local numModules = 0
+local id = 0
 
 local function isEmpty(value)
     return value == nil or #value == 0
@@ -25,16 +25,14 @@ local function checkVar(aVar)
     end
 end
 
-function Module:init(name)
-    checkParam(name, "string")
-    numModules = numModules + 1
+function Module:init()
+    id = id + 1
+    self.id = id
     self.events = {}
-    self.id = numModules
-    self.name = name
 end
 
 function Module:getModuleId()
-    return "Module<id:"..self.id..",name:"..self.name..">"
+    return "Module<id:"..self.id..">"
 end
 
 function Module:addEvent(event)

@@ -1,3 +1,5 @@
+MinimapModule = classes.class(Module)
+
 local function mapOnMouseWheel(self, delta)
     if delta > 0 then
         Minimap_ZoomIn()
@@ -16,10 +18,8 @@ local function modifymap()
     Minimap:SetScript("OnMouseWheel", mapOnMouseWheel)
 end
 
-MinimapModule = classes.class(Module)
-
 function MinimapModule:init()
-    self.super:init("MiniMap")
+    self.super:init()
     self:addEvent("ADDON_LOADED")
 end
 

@@ -1,3 +1,5 @@
+PlayerFrameModule = classes.class(Module)
+
 local function healthBarOnValueChanged(self, value, smooth)
     local min, max = self:GetMinMaxValues()
     if (not value) or (value < min) or (value > max) then
@@ -98,10 +100,8 @@ end
 hooksecurefunc("HealthBar_OnValueChanged", healthBarOnValueChanged)
 hooksecurefunc("PlayerFrame_Update", modifyPlayerFrameUI)
 
-PlayerFrameModule = classes.class(Module)
-
 function PlayerFrameModule:init()
-    self.super:init("PlayerFrame")
+    self.super:init()
     self:setEvents({
         "PLAYER_ENTERING_WORLD",
         "UNIT_ENTERED_VEHICLE",

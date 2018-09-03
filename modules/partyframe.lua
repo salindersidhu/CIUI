@@ -1,13 +1,13 @@
+PartyFrameModule = classes.class(Module)
+
 local function modifyPartyFrameUI()
     for i = 1, 4 do
         _G["PartyMemberFrame"..i]:SetScale(1.6)
     end
 end
 
-PartyFrameModule = classes.class(Module)
-
 function PartyFrameModule:init()
-    self.super:init("PartyFrame")
+    self.super:init()
     self:addEvent("PLAYER_ENTERING_WORLD")
 end
 

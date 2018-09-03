@@ -1,3 +1,5 @@
+TargetFrameModule = classes.class(Module)
+
 local function modifyTargetFrameUI()
     -- Obtain target's unit classification type
     local targetType = UnitClassification(TargetFrame.unit)
@@ -72,10 +74,8 @@ hooksecurefunc("TargetFrame_CheckFaction", modifyTargetFrameUI)
 hooksecurefunc("TargetFrame_CheckClassification", modifyTargetFrameUI)
 hooksecurefunc("TargetofTarget_Update", modifyTargetFrameUI)
 
-TargetFrameModule = classes.class(Module)
-
 function TargetFrameModule:init()
-    self.super:init("TargetFrame")
+    self.super:init()
     self:addEvent("PLAYER_ENTERING_WORLD")
 end
 
