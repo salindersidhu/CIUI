@@ -1,8 +1,4 @@
-local UI_TARGET_FRAME = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame"
-local UI_TARGET_FRAME_FLASH = "Interface\\TargetingFrame\\UI-TargetingFrame-Flash"
-local UI_TARGET_FRAME_RARE = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame-Rare"
-local UI_TARGET_FRAME_ELITE = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame-Elite"
-local UI_TARGET_FRAME_RARE_ELITE = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame-Rare-Elite"
+TargetFrameModule = classes.class(Module)
 
 local function modifyTargetFrameUI()
     -- Obtain target's unit classification type
@@ -10,13 +6,13 @@ local function modifyTargetFrameUI()
 
     -- Update Target's name
     TargetFrame.nameBackground:Hide()
-    Utils.modifyFont(TargetFrame.name, nil, 11, "OUTLINE")
-    TargetFrame.name:SetPoint("LEFT", TargetFrame, 15, 36)
+    Utils.ModifyFrameFont(TargetFrame.name, nil, 11, "OUTLINE")
+    TargetFrame.name:SetPoint("LEFT", TargetFrame, 15, 38)
 
     -- Update Target's background
     TargetFrameBackground:SetSize(119, 42)
     TargetFrame.Background:SetSize(119, 42)
-    TargetFrame.Background:SetPoint("BOTTOMLEFT", TargetFrame, "BOTTOMLEFT", 7, 35)
+    TargetFrame.Background:SetPoint("BOTTOMLEFT", TargetFrame, "BOTTOMLEFT", 7, 37)
 
     -- Update Target's "dead" text
     TargetFrame.deadText:ClearAllPoints()
@@ -78,19 +74,15 @@ hooksecurefunc("TargetFrame_CheckFaction", modifyTargetFrameUI)
 hooksecurefunc("TargetFrame_CheckClassification", modifyTargetFrameUI)
 hooksecurefunc("TargetofTarget_Update", modifyTargetFrameUI)
 
-TargetFrameModule = classes.class(Module)
-
 function TargetFrameModule:init()
-    self.super:init("TargetFrame")
+    self.super:init()
     self:addEvent("PLAYER_ENTERING_WORLD")
 end
 
-function TargetFrameModule:getEventHandler()
-    return function (self, event, ...)
-        if event == "PLAYER_ENTERING_WORLD" then
-            modifyTargetFrameUI()
-            -- Modify TargetFrame position
-            Utils.modifyFrameFixed(TargetFrame, "CENTER", nil, 265, -150, 1.3)
-        end
+function TargetFrameModule:eventHandler(event, ...)
+    if event == "PLAYER_ENTERING_WORLD" then
+        modifyTargetFrameUI()
+        -- Modify TargetFrame position
+        Utils.ModifyFrameFixed(TargetFrame, "CENTER", nil, 265, -150, 1.3)
     end
 end

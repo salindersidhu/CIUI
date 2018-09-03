@@ -7,8 +7,10 @@
 
 core\classes.lua
 
-modules\system\utils.lua
 modules\system\module.lua
+
+modules\shared\const.lua
+modules\shared\utils.lua
 
 modules\actionbar.lua
 modules\bagbar.lua

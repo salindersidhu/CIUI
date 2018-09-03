@@ -1,6 +1,6 @@
 NAME=CIUI
 SRC=*.toc *.lua media modules core
-HASH?="DEV_$(shell git rev-parse HEAD | cut -c 1-10 | tr a-z A-Z)"
+HASH="DEV ($(shell git rev-parse HEAD | cut -c 1-5 | tr a-z A-Z))"
 FOLDER:="C:/Program Files/World of Warcraft/Interface/AddOns/$(NAME)"
 
 # Build the project

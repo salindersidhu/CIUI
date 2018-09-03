@@ -1,16 +1,13 @@
-local UI_TARGET_FRAME = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame"
+PlayerFrameModule = classes.class(Module)
 
 local function healthBarOnValueChanged(self, value, smooth)
     local min, max = self:GetMinMaxValues()
-
     if (not value) or (value < min) or (value > max) then
         return
     end
-
     -- Set value to range from 0 to 1 in proportation to max/min
     diff = max - min
     value = diff > 0 and ((value - min) / diff) or 0
-
     -- Change health bar from default green to yellow or red depending on value
     if value > 0.5 then
         self:SetStatusBarColor((1 - value) * 2, 1, 0)
@@ -48,12 +45,12 @@ end
 
 local function modifyPlayerFrameUI()
     -- Modify Player's name and texture
-    Utils.modifyFont(PlayerName, nil, 11, "OUTLINE")
-    PlayerName:SetPoint("CENTER", PlayerFrame, "CENTER", 50, 36)
+    Utils.ModifyFrameFont(PlayerName, nil, 11, "OUTLINE")
+    PlayerName:SetPoint("CENTER", PlayerFrame, "CENTER", 50, 37)
     PlayerFrameTexture:SetTexture(UI_TARGET_FRAME)
 
     -- Update Player's raid group indicator
-    Utils.modifyFont(PlayerFrameGroupIndicatorText, nil, nil, "OUTLINE")
+    Utils.ModifyFrameFont(PlayerFrameGroupIndicatorText, nil, nil, "OUTLINE")
     PlayerFrameGroupIndicatorLeft:SetTexture(nil)
     PlayerFrameGroupIndicatorRight:SetTexture(nil)
     PlayerFrameGroupIndicatorMiddle:SetTexture(nil)
@@ -103,10 +100,8 @@ end
 hooksecurefunc("HealthBar_OnValueChanged", healthBarOnValueChanged)
 hooksecurefunc("PlayerFrame_Update", modifyPlayerFrameUI)
 
-PlayerFrameModule = classes.class(Module)
-
 function PlayerFrameModule:init()
-    self.super:init("PlayerFrame")
+    self.super:init()
     self:setEvents({
         "PLAYER_ENTERING_WORLD",
         "UNIT_ENTERED_VEHICLE",
@@ -115,24 +110,22 @@ function PlayerFrameModule:init()
     })
 end
 
-function PlayerFrameModule:getEventHandler()
-    return function (self, event, ...)
-        if event == "PLAYER_ENTERING_WORLD" then
-            modifyPlayerFrameUI()
-            -- Modify PlayerFrame position
-            Utils.modifyFrameFixed(PlayerFrame, "CENTER", nil, -265, -150, 1.3)
-        end
-        if event == "UNIT_ENTERED_VEHICLE" and UnitVehicleSkin("player") ~= nil then
-            -- Modify Player UnitFrame for vehicles
-            modifyVehicleUI()
-        end
-        if event == "UNIT_EXITED_VEHICLE" and ... == "player" then
-            -- Restore UnitFrame modifications upon vehicle exit
-            modifyPlayerFrameUI()
-        end
-        if event == "GROUP_ROSTER_UPDATE" then
-            -- Modify Group Indicator text when group roster is updated
-            modifyGroupIndicator()
-        end
+function PlayerFrameModule:eventHandler(event, ...)
+    if event == "PLAYER_ENTERING_WORLD" then
+        modifyPlayerFrameUI()
+        -- Modify PlayerFrame position
+        Utils.ModifyFrameFixed(PlayerFrame, "CENTER", nil, -265, -150, 1.3)
+    end
+    if event == "UNIT_ENTERED_VEHICLE" and Utils.UnitHasVehicleFrame("player") then
+        -- Modify Player UnitFrame for vehicles
+        modifyVehicleUI()
+    end
+    if event == "UNIT_EXITED_VEHICLE" and ... == "player" then
+        -- Restore UnitFrame modifications upon vehicle exit
+        modifyPlayerFrameUI()
+    end
+    if event == "GROUP_ROSTER_UPDATE" then
+        -- Modify Group Indicator text when group roster is updated
+        modifyGroupIndicator()
     end
 end

@@ -1,3 +1,9 @@
 ## Changelog
 
-- Code Architecture Updates
+- Code:
+    - Modified module.lua class
+	- Updated project structure
+- Bug Fixes:
+	- Fix player unit frame bars when using [Flight Master's Whistle]
+- Functionality:
+	- Removed dynamic vehicle keybinds

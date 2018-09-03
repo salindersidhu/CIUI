@@ -1,3 +1,5 @@
+ChatModule = classes.class(Module)
+
 local function modifyChatWindowTab(tabID, tabName)
     -- Obtain details on the chat window
     local window = _G["ChatFrame"..tabID]:GetName()
@@ -14,7 +16,7 @@ local function modifyChatWindowTab(tabID, tabName)
 
     -- Modify chat tab font
     local tabFont = tab:GetFontString()
-    Utils.modifyFont(tabFont, nil, 12, "THINOUTLINE")
+    Utils.ModifyFrameFont(tabFont, nil, 12, "THINOUTLINE")
     tabFont:SetShadowOffset(1, -1)
     tabFont:SetShadowColor(0, 0, 0, 0.6)
 
@@ -42,7 +44,7 @@ local function modifyChatWindowTab(tabID, tabName)
     _G[window.."EditBox"]:SetPoint("BOTTOM", _G[window], "TOP", 0, window == "ChatFrame2" and 44 or 22)
 
     -- Modify chat font
-    Utils.modifyFont(_G[window], nil, size, "THINOUTLINE")
+    Utils.ModifyFrameFont(_G[window], nil, size, "THINOUTLINE")
     _G[window]:SetShadowOffset(1, -1)
     _G[window]:SetShadowColor(0, 0, 0, 0.6)
 end
@@ -56,7 +58,7 @@ local function modifyChatUI()
     BNToastFrame:SetClampRectInsets(-15, 15, 15, -15)
 
     -- Modify edit box font
-    Utils.modifyFont(ChatFontNormal, nil, 16, "THINOUTLINE")
+    Utils.ModifyFrameFont(ChatFontNormal, nil, 16, "THINOUTLINE")
     ChatFontNormal:SetShadowOffset(1, -1)
     ChatFontNormal:SetShadowColor(0, 0, 0, 0.6)
 
@@ -86,21 +88,17 @@ local function modifyChatStrings()
     CHAT_INSTANCE_CHAT_LEADER_GET = "|Hchannel:Battleground|h[IL]|h %s: "
 end
 
-ChatModule = classes.class(Module)
-
 function ChatModule:init()
-    self.super:init("Chat")
+    self.super:init()
     self:setEvents({"ADDON_LOADED", "PET_BATTLE_OPENING_START"})
 end
 
-function ChatModule:getEventHandler()
-    return function(self, event, ...)
-        if event == "ADDON_LOADED" then
-            modifyChatUI()
-            modifyChatStrings()
-        end
-        if event == "PET_BATTLE_OPENING_START" then
-            modifyChatWindowTab(11, "Pet Log")
-        end
+function ChatModule:eventHandler(event, ...)
+    if event == "ADDON_LOADED" then
+        modifyChatUI()
+        modifyChatStrings()
+    end
+    if event == "PET_BATTLE_OPENING_START" then
+        modifyChatWindowTab(11, "Pet Log")
     end
 end
