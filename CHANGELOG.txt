@@ -1,9 +1,3 @@
 ## Changelog
 
-- Code:
-    - Modified module.lua class
-	- Updated project structure
-- Bug Fixes:
-	- Fix player unit frame bars when using [Flight Master's Whistle]
-- Functionality:
-	- Removed dynamic vehicle keybinds
+- Interface Version Update for 8.1
