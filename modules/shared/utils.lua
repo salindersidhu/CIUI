@@ -17,7 +17,7 @@ function Utils.ModifyFrameFont(frame, file, size, flags)
     -- Obtain the frame's default file size and flags
     local dFile, dSize, dFlags = frame:GetFont()
     -- Apply changes to font if parameters exist otherwise use default
-    frame:SetFont(file and file or dFile, size and size or dSize, flags and flags or dFlags)
+    frame:SetFont(file and file or dFile, size and max(size, dSize) or dSize, flags and flags or dFlags)
 end
 
 function Utils.ModifyFrame(frame, anchor, parent, x, y, scale)

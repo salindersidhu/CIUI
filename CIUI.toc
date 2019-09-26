@@ -1,4 +1,4 @@
-## Interface: 80200
+## Interface: 80205
 ## Title: CIUI
 ## Author: Salinder Sidhu
 ## Version: @project-version@
@@ -15,7 +15,6 @@ modules\shared\utils.lua
 modules\actionbar.lua
 modules\bagbar.lua
 modules\chat.lua
-modules\micromenu.lua
 modules\minimap.lua
 modules\partyframe.lua
 modules\playerframe.lua

@@ -1,3 +1,4 @@
 ## Changelog
 
-- Interface Version Update for 8.2
+- Interface Version Update for 8.2.5
+- Disabled MicroMenuBar Module to fix LUA errors

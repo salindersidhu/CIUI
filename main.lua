@@ -3,7 +3,6 @@ local modules = {
     BagBarModule,
     ChatModule,
     MinimapModule,
-    MicroMenuModule,
     PartyFrameModule,
     PlayerFrameModule,
     TargetFrameModule
