@@ -5,6 +5,8 @@ local function actionButtonUpdateHotkeys(self, bT)
     local name = self:GetName()
     local hotkey = _G[name.."HotKey"]
 
+    print(bT)
+
     -- Determine button type if current button type does not exist
     if not bT then
         if name and not string.match(name, "Stance") then
@@ -17,6 +19,10 @@ local function actionButtonUpdateHotkeys(self, bT)
 
     -- Modify HotKey text if text exists
     if text and text ~= "" then
+
+
+        print(text)
+
         -- Remove hypens
         text = string.gsub(text, "%-", "")
         -- change common key text
@@ -54,19 +60,17 @@ local function actionButtonUpdateHotkeys(self, bT)
     end
 end
 
-local function actionButtonOnUpdate(self, elapsed)
-    if self.rangeTimer == TOOLTIP_UPDATE_TIME then
-        -- If action is not within range set action bar icon color to red
-        if IsActionInRange(self.action) == false then
-            self.icon:SetVertexColor(1.0, 0.0, 0.0)
+local function actionButtonOnUpdate(self)
+    -- If action is not within range set action bar icon color to red
+    if IsActionInRange(self.action) == false then
+        self.icon:SetVertexColor(1.0, 0.0, 0.0)
+    else
+        if IsUsableAction(self.action) then
+            -- If action is within range and usable set icon color to white
+            self.icon:SetVertexColor(1.0, 1.0, 1.0)
         else
-            if IsUsableAction(self.action) then
-                -- If action is within range and usable set icon color to white
-                self.icon:SetVertexColor(1.0, 1.0, 1.0)
-            else
-                -- If action is within range and unsable set icon color to grey
-                self.icon:SetVertexColor(0.4, 0.4, 0.4)
-            end
+            -- If action is within range and unsable set icon color to grey
+            self.icon:SetVertexColor(0.4, 0.4, 0.4)
         end
     end
 end
@@ -74,7 +78,9 @@ end
 local function modifyActionBars(isShown)
     if (InCombatLockdown() == false) then
         -- Force the MainMenuBar artwork to be the small version
-        _, width, height = GetAtlasInfo("hud-MainMenuBar-small")
+        local MainMenuBarDims = C_Texture.GetAtlasInfo("hud-MainMenuBar-small")
+        width = MainMenuBarDims['width']
+        height = MainMenuBarDims['height']
 
         MainMenuBar:SetMovable(true)
         MainMenuBar:SetSize(width,height)
@@ -139,9 +145,9 @@ local function actionButtonOnEvent(self, event, ...)
     end
 end
 
-hooksecurefunc("ActionButton_UpdateHotkeys", actionButtonUpdateHotkeys)
-hooksecurefunc("ActionButton_OnUpdate", actionButtonOnUpdate)
-hooksecurefunc("ActionButton_OnEvent", actionButtonOnEvent)
+--hooksecurefunc(ActionBarActionButtonMixin, "UpdateHotkeys", actionButtonUpdateHotkeys)
+hooksecurefunc("ActionButton_UpdateRangeIndicator", actionButtonOnUpdate)
+--hooksecurefunc("ActionButton_OnEvent", actionButtonOnEvent)
 hooksecurefunc("MultiActionBar_Update", moveBarFrames)
 hooksecurefunc("MainMenuBarVehicleLeaveButton_Update", moveVehicleButton)
 hooksecurefunc(MainMenuBar, "ChangeMenuBarSizeAndPosition", hookChangeMenuBarSizeAndPosition)
