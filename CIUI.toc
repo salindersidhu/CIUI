@@ -13,7 +13,6 @@ modules\shared\const.lua
 modules\shared\utils.lua
 
 modules\actionbar.lua
-modules\bagbar.lua
 modules\chat.lua
 modules\minimap.lua
 modules\partyframe.lua

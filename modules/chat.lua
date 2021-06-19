@@ -1,5 +1,7 @@
 ChatModule = classes.class(Module)
 
+local numTotalChatTabs = NUM_CHAT_WINDOWS
+
 local function modifyChatWindowTab(tabID, tabName)
     -- Obtain details on the chat window
     local window = _G["ChatFrame"..tabID]:GetName()
@@ -29,19 +31,8 @@ local function modifyChatWindowTab(tabID, tabName)
     _G[window.."TabSelectedRight"]:SetTexture(nil)
     tab:SetAlpha(1.0)
 
-    -- Remove border around edit box
-    _G[window.."EditBoxLeft"]:Hide()
-    _G[window.."EditBoxMid"]:Hide()
-    _G[window.."EditBoxRight"]:Hide()
-
     -- Enable arrow keys in edit box
     _G[window.."EditBox"]:SetAltArrowKeyMode(false)
-
-    -- Modify edit box position
-    _G[window.."EditBox"]:ClearAllPoints()
-    _G[window.."EditBox"]:SetPoint("LEFT", _G[window], -5, 0)
-    _G[window.."EditBox"]:SetPoint("RIGHT", _G[window], 10, 0)
-    _G[window.."EditBox"]:SetPoint("BOTTOM", _G[window], "TOP", 0, window == "ChatFrame2" and 44 or 22)
 
     -- Modify chat font
     Utils.ModifyFrameFont(_G[window], nil, size, "THINOUTLINE")
@@ -50,20 +41,13 @@ local function modifyChatWindowTab(tabID, tabName)
 end
 
 local function modifyChatUI()
-    -- Hide Battle.net social button and toast
-    local button = QuickJoinToastButton or FriendsMicroButton
-    button:HookScript("OnShow", button.Hide)
-    button:Hide()
-    BNToastFrame:SetClampedToScreen(true)
-    BNToastFrame:SetClampRectInsets(-15, 15, 15, -15)
-
     -- Modify edit box font
     Utils.ModifyFrameFont(ChatFontNormal, nil, 16, "THINOUTLINE")
     ChatFontNormal:SetShadowOffset(1, -1)
     ChatFontNormal:SetShadowColor(0, 0, 0, 0.6)
 
     -- Apply changes to every chat window tab
-    for i = 1, NUM_CHAT_WINDOWS do
+    for i = 1, numTotalChatTabs do
         modifyChatWindowTab(i, nil)
     end
 end
@@ -88,9 +72,22 @@ local function modifyChatStrings()
     CHAT_INSTANCE_CHAT_LEADER_GET = "|Hchannel:Battleground|h[IL]|h %s: "
 end
 
+function onCloseChatTab()
+    -- Remove chat window from total when they are closed
+    if numTotalChatTabs > NUM_CHAT_WINDOWS then
+        numTotalChatTabs = numTotalChatTabs - 1
+    end
+end
+
+hooksecurefunc("FCF_Close", onCloseChatTab)
+
 function ChatModule:init()
     self.super:init()
-    self:setEvents({"ADDON_LOADED", "PET_BATTLE_OPENING_START"})
+    self:setEvents({
+        "ADDON_LOADED",
+        "CHAT_MSG_WHISPER",
+        "PET_BATTLE_OPENING_START"
+    })
 end
 
 function ChatModule:eventHandler(event, ...)
@@ -98,7 +95,10 @@ function ChatModule:eventHandler(event, ...)
         modifyChatUI()
         modifyChatStrings()
     end
-    if event == "PET_BATTLE_OPENING_START" then
-        modifyChatWindowTab(11, "Pet Log")
+    if event == "CHAT_MSG_WHISPER" or event == "PET_BATTLE_OPENING_START" then
+        -- Increment total number of chat tabs
+        numTotalChatTabs = numTotalChatTabs + 1
+        -- Modify Chat UI
+        modifyChatUI()
     end
 end

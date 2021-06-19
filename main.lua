@@ -1,6 +1,5 @@
 local modules = {
     ActionBarModule,
-    BagBarModule,
     ChatModule,
     MinimapModule,
     PartyFrameModule,

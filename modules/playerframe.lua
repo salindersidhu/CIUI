@@ -36,13 +36,6 @@ local function modifyVehicleUI()
     PlayerFrameManaBarText:SetPoint("CENTER", PlayerFrameManaBar, "CENTER", 0, 0)
 end
 
-local function modifyGroupIndicator()
-    -- Replace "Group" in group indicator text with "G"
-    local text = PlayerFrameGroupIndicatorText:GetText()
-    text = string.gsub(text, "Group ", "G")
-    PlayerFrameGroupIndicatorText:SetText(text)
-end
-
 local function modifyPlayerFrameUI()
     -- Modify Player's name and texture
     Utils.ModifyFrameFont(PlayerName, nil, 11, "OUTLINE")
@@ -123,9 +116,5 @@ function PlayerFrameModule:eventHandler(event, ...)
     if event == "UNIT_EXITED_VEHICLE" and ... == "player" then
         -- Restore UnitFrame modifications upon vehicle exit
         modifyPlayerFrameUI()
-    end
-    if event == "GROUP_ROSTER_UPDATE" then
-        -- Modify Group Indicator text when group roster is updated
-        modifyGroupIndicator()
     end
 end
