@@ -5,13 +5,8 @@ local function actionButtonOnUpdate(self)
     if IsActionInRange(self.action) == false then
         self.icon:SetVertexColor(1.0, 0.0, 0.0)
     else
-        if IsUsableAction(self.action) then
-            -- If action is within range and usable set icon color to white
-            self.icon:SetVertexColor(1.0, 1.0, 1.0)
-        else
-            -- If action is within range and unsable set icon color to grey
-            self.icon:SetVertexColor(0.4, 0.4, 0.4)
-        end
+        -- If action is within range and usable set icon color to white
+        self.icon:SetVertexColor(1.0, 1.0, 1.0)
     end
 end
 
