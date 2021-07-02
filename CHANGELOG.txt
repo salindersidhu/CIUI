@@ -1,6 +1,3 @@
 ## Changelog
 
-- Added Blizzard Micromenu and Bag UI
-- Fixed group indicator bug on player frame when in a party
-- Fixed chat UI for whisper tabs and pet battle tab
-- Removed unused code
+- Version bump for 9.1.0
