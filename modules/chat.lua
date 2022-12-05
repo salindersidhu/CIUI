@@ -7,33 +7,6 @@ local function modifyChatWindowTab(tabID, tabName)
     local window = _G["ChatFrame"..tabID]:GetName()
     local _, size, _, _, _, _, _, _, _ = GetChatWindowInfo(tabID)
 
-    -- Remove screen clamping
-    _G[window]:SetClampRectInsets(0, 0, 0, 0)
-    _G[window]:SetMinResize(100, 50)
-    _G[window]:SetMaxResize(UIParent:GetWidth(), UIParent:GetHeight())
-
-    -- Modify chat tab
-    local tab = _G[window.."Tab"]
-    tab:SetText(tabName and tabName or tab:GetText())
-
-    -- Modify chat tab font
-    local tabFont = tab:GetFontString()
-    Utils.ModifyFrameFont(tabFont, nil, 12, "THINOUTLINE")
-    tabFont:SetShadowOffset(1, -1)
-    tabFont:SetShadowColor(0, 0, 0, 0.6)
-
-    -- Remove tab backgrounds
-    _G[window.."TabLeft"]:SetTexture(nil)
-    _G[window.."TabMiddle"]:SetTexture(nil)
-    _G[window.."TabRight"]:SetTexture(nil)
-    _G[window.."TabSelectedLeft"]:SetTexture(nil)
-    _G[window.."TabSelectedMiddle"]:SetTexture(nil)
-    _G[window.."TabSelectedRight"]:SetTexture(nil)
-    tab:SetAlpha(1.0)
-
-    -- Enable arrow keys in edit box
-    _G[window.."EditBox"]:SetAltArrowKeyMode(false)
-
     -- Modify chat font
     Utils.ModifyFrameFont(_G[window], nil, size, "THINOUTLINE")
     _G[window]:SetShadowOffset(1, -1)

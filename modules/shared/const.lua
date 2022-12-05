@@ -1,5 +1,0 @@
-UI_TARGET_FRAME = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame"
-UI_TARGET_FRAME_FLASH = "Interface\\TargetingFrame\\UI-TargetingFrame-Flash"
-UI_TARGET_FRAME_RARE = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame-Rare"
-UI_TARGET_FRAME_ELITE = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame-Elite"
-UI_TARGET_FRAME_RARE_ELITE = "Interface\\Addons\\CIUI\\media\\UI-TargetingFrame-Rare-Elite"

@@ -1,22 +1,16 @@
-## Interface: 90100
+## Interface: 100002
 ## Title: CIUI
 ## Author: Salinder Sidhu
 ## Version: @project-version@
 ## Notes: An improved version of the standard Blizzard UI.
-## Dependencies: Blizzard_TalkingHeadUI
 
 core\classes.lua
 
 modules\system\module.lua
 
-modules\shared\const.lua
 modules\shared\utils.lua
 
 modules\actionbar.lua
 modules\chat.lua
-modules\minimap.lua
-modules\partyframe.lua
-modules\playerframe.lua
-modules\targetframe.lua
 
 main.lua

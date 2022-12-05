@@ -1,10 +1,6 @@
 local modules = {
     ActionBarModule,
-    ChatModule,
-    MinimapModule,
-    PartyFrameModule,
-    PlayerFrameModule,
-    TargetFrameModule
+    ChatModule
 }
 
 local function loadModules(modules)
